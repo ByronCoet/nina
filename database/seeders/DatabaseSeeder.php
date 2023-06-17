@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Company::factory(3)
             ->has(\App\Models\User::factory(5))            
+            ->has(\App\Models\Campaign::factory(3))            
             ->create();
     }
 }

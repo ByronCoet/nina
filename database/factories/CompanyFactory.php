@@ -16,9 +16,10 @@ class CompanyFactory extends Factory
      */
     public function definition()
     {
+        $a = ['Wiilards', 'Nestle', 'Netflix', 'GSE', 'Microsoft'];
         return [
-            'name' => $this->faker->name(),
+            // 'name' => $this->faker->company(),
+            'name' => $a[array_rand($a)]
         ];
     }        
-
 }
