@@ -2,7 +2,7 @@
 $customizerHidden = 'customizer-hide';
 @endphp
 
-@extends('layouts/layoutMaster')
+@extends('layouts/blankLayout')
 
 @section('title', 'Login Basic - Pages')
 
@@ -52,6 +52,16 @@ $customizerHidden = 'customizer-hide';
               <label for="email" class="form-label">Email or Username</label>
               <input type="text" class="form-control" id="email" name="email-username" placeholder="Enter your email or username" autofocus>
             </div>
+
+            <div class="mb-3">
+              <label for="select2Basic" class="form-label">Company</label>
+              <select id="select2Basic" class="select2 form-select" data-allow-clear="true">
+                @foreach($companies as $c)
+                  <option value="{{$c->id}}">{{$c->name}}</option>
+                @endforeach                
+              </select>
+            </div>
+
             <div class="mb-3 form-password-toggle">
               <div class="d-flex justify-content-between">
                 <label class="form-label" for="password">Password</label>

@@ -84,13 +84,8 @@ $containerNav = $containerNav ?? 'container-fluid';
                 <span class="align-middle">My Profile</span>
               </a>
             </li>
-            @if (Auth::check() && Laravel\Jetstream\Jetstream::hasApiFeatures())
-            <li>
-              <a class="dropdown-item" href="{{ route('api-tokens.index') }}">
-                <i class='bx bx-key me-2'></i>
-                <span class="align-middle">API Tokens</span>
-              </a>
-            </li>
+            @if (Auth::check() )
+            
             @endif
             <li>
               <a class="dropdown-item" href="javascript:void(0);">
@@ -98,7 +93,7 @@ $containerNav = $containerNav ?? 'container-fluid';
                 <span class="align-middle">Billing</span>
               </a>
             </li>
-            @if (Auth::User() && Laravel\Jetstream\Jetstream::hasTeamFeatures())
+            @if (Auth::User())
             <li>
               <div class="dropdown-divider"></div>
             </li>
@@ -108,20 +103,7 @@ $containerNav = $containerNav ?? 'container-fluid';
             <li>
               <div class="dropdown-divider"></div>
             </li>
-            <li>
-              <a class="dropdown-item" href="{{ Auth::user() ? route('teams.show', Auth::user()->currentTeam->id) : 'javascript:void(0)' }}">
-                <i class='bx bx-cog me-2'></i>
-                <span class="align-middle">Team Settings</span>
-              </a>
-            </li>
-            @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-            <li>
-              <a class="dropdown-item" href="{{ route('teams.create') }}">
-                <i class='bx bx-user me-2'></i>
-                <span class="align-middle">Create New Team</span>
-              </a>
-            </li>
-            @endcan
+            
             <li>
               <div class="dropdown-divider"></div>
             </li>
@@ -132,11 +114,7 @@ $containerNav = $containerNav ?? 'container-fluid';
               <div class="dropdown-divider"></div>
             </li>
             @if (Auth::user())
-            @foreach (Auth::user()->allTeams() as $team)
-            {{-- Below commented code read by artisan command while installing jetstream. !! Do not remove if you want to use jetstream. --}}
-
-            {{-- <x-jet-switchable-team :team="$team" /> --}}
-            @endforeach
+            
             @endif
             @endif
             <li>
@@ -144,21 +122,21 @@ $containerNav = $containerNav ?? 'container-fluid';
             </li>
             @if (Auth::check())
             <li>
-              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+              <!--<a class="dropdown-item" href="{{-- route('logout') --}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class='bx bx-power-off me-2'></i>
                 <span class="align-middle">Logout</span>
               </a>
-            </li>
-            <form method="POST" id="logout-form" action="{{ route('logout') }}">
+            </li>-->
+            <form method="POST" id="logout-form" action="{{-- route('logout') --}}">
               @csrf
             </form>
             @else
-            <li>
+             <!-- <li>
               <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : 'javascript:void(0)' }}">
                 <i class='bx bx-log-in me-2'></i>
                 <span class="align-middle">Login</span>
               </a>
-            </li>
+            </li> -->
             @endif
           </ul>
         </li>

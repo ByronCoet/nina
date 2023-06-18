@@ -1,4 +1,4 @@
-{
+{  
   "menu": [
     {
       "url": "/",
@@ -11,6 +11,19 @@
       "icon": "menu-icon tf-icons bx bx-file",
       "name": "Page 2",
       "slug": "pages-page-2"
+    }
+    ,
+    {
+      "name": "Users",
+      "icon": "menu-icon tf-icons bx bx-user",
+      "slug": "app-user",
+      "submenu": [
+        {
+          "url": "/app/user/list",
+          "name": "List",
+          "slug": "app-user-list"
+        }
+      ]
     },
     {
       "url": "/pages/misc-error",

@@ -43,18 +43,29 @@ $customizerHidden = 'customizer-hide';
             </a>
           </div>
           <!-- /Logo -->
-          <h4 class="mb-2">Adventure starts here 🚀</h4>
-          <p class="mb-4">Make your app management easy and fun!</p>
+          <h4 class="mb-2">Register here 🚀</h4>
+          <p class="mb-4">! Enter the correct company</p>
 
-          <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
+          <form id="formAuthentication" class="mb-3" action="{{url('/auth/register-store')}}" method="POST">
+            @csrf
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" autofocus>
+              <input type="text" class="form-control" id="username" name="name" placeholder="Enter your username" autofocus>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
               <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email">
             </div>
+
+            <div class="mb-3">
+              <label for="select2Basic" class="form-label">Company</label>
+              <select id="select2Basic" name='company_id' class="select2 form-select" data-allow-clear="true">
+                @foreach($companies as $c)
+                  <option value="{{$c->id}}">{{$c->name}}</option>
+                @endforeach                
+              </select>
+            </div>
+
             <div class="mb-3 form-password-toggle">
               <label class="form-label" for="password">Password</label>
               <div class="input-group input-group-merge">
@@ -72,7 +83,7 @@ $customizerHidden = 'customizer-hide';
                 </label>
               </div>
             </div>
-            <button class="btn btn-primary d-grid w-100">
+            <button class="btn btn-primary d-grid w-100" type='submit'>
               Sign up
             </button>
           </form>
