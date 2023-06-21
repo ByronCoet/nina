@@ -122,21 +122,21 @@ $containerNav = $containerNav ?? 'container-fluid';
             </li>
             @if (Auth::check())
             <li>
-              <!--<a class="dropdown-item" href="{{-- route('logout') --}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+              <a class="dropdown-item" href="{{ route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class='bx bx-power-off me-2'></i>
                 <span class="align-middle">Logout</span>
               </a>
-            </li>-->
-            <form method="POST" id="logout-form" action="{{-- route('logout') --}}">
+            </li>
+            <form method="POST" id="logout-form" action="{{route('logout')}}">
               @csrf
             </form>
             @else
-             <!-- <li>
+             <li>
               <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : 'javascript:void(0)' }}">
                 <i class='bx bx-log-in me-2'></i>
                 <span class="align-middle">Login</span>
               </a>
-            </li> -->
+            </li>
             @endif
           </ul>
         </li>

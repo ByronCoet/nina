@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\apps\UserManagement;
+use App\Http\Controllers\authentications\LoginBasic;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,15 +26,13 @@ Route::get('/pages/misc-error', $controller_path . '\pages\MiscError@index')->na
 
 // authentication
 Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
+Route::controller(LoginBasic::class)->group(function() {
+    Route::post('/authenticate', 'authenticate')->name('authenticate');
+    Route::post('/logout', 'logout')->name('logout');
+});
 
 Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name('auth-register-basic');
 Route::post('auth/register-store', $controller_path . '\authentications\RegisterBasic@store')->name('auth-register-store');
-
-// Route::get('/app/user/list', $controller_path . '\apps\UserList@index')->name('app-user-list');
-// Route::get('/user-management', [UserManagement::class, '\apps\UserManagement'])->name('laravel-example-user-management');
-// Route::get('/user-management', [UserManagement::class, '\apps\UserManagement'])->name('user-management');
-// Route::resource('/app/user-list', UserManagement::class);
-// Route::resource('/user-list', UserManagement::class);
 
 Route::get('/app/user-management', [UserManagement::class, 'UserManagement'])->name('app-user-management');
 Route::resource('/user-list', UserManagement::class);

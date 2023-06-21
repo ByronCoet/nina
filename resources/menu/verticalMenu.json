@@ -11,8 +11,7 @@
       "icon": "menu-icon tf-icons bx bx-file",
       "name": "Page 2",
       "slug": "pages-page-2"
-    }
-    ,
+    },
     {
       "url": "/app/user-management",
       "name": "Users",
@@ -24,20 +23,6 @@
       "name": "Error",
       "icon": "menu-icon tf-icons bx bx-error",
       "slug": "pages-misc-error",
-      "target": "_blank"
-    },
-    {
-      "url": "/auth/login-basic",
-      "name": "Login",
-      "icon": "menu-icon tf-icons bx bx-log-in",
-      "slug": "auth-login-basic",
-      "target": "_blank"
-    },
-    {
-      "url": "/auth/register-basic",
-      "name": "Register",
-      "icon": "menu-icon tf-icons bx bx-user",
-      "slug": "auth-register-basic",
       "target": "_blank"
     }
   ]
