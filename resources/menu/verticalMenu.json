@@ -14,16 +14,10 @@
     }
     ,
     {
+      "url": "/app/user-management",
       "name": "Users",
       "icon": "menu-icon tf-icons bx bx-user",
-      "slug": "app-user",
-      "submenu": [
-        {
-          "url": "/app/user/list",
-          "name": "List",
-          "slug": "app-user-list"
-        }
-      ]
+      "slug": "app-user"
     },
     {
       "url": "/pages/misc-error",

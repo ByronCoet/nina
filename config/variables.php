@@ -1,8 +1,8 @@
 <?php
   // Variables
   return [
-    "creatorName" => "PIXINVENT",
-    "creatorUrl" => "https://pixinvent.com",
+    "creatorName" => "WEB-GUY",
+    "creatorUrl" => "https://web-guy.net",
     "templateName" => "Frest",
     "templateSuffix" => "Bootstrap Admin Template",
     "templateVersion" => "1.0.0",
