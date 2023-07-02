@@ -40,7 +40,8 @@ $(function () {
         { data: '' },
         { data: 'id' },
         { data: 'name' },
-        { data: 'email' },
+        { data: 'company' },
+        { data: 'email' },        
         { data: 'email_verified_at' },
         { data: 'action' }
       ],
@@ -101,17 +102,24 @@ $(function () {
           }
         },
         {
-          // User email
+          // company
           targets: 3,
           render: function (data, type, full, meta) {
+            var $company = full['company'];
+            return '<span class="text-body text-truncate">' + $company + '</span>';
+          }
+        },
+        {
+          // emial
+          targets: 4,
+          render: function (data, type, full, meta) {
             var $email = full['email'];
-
             return '<span class="user-email">' + $email + '</span>';
           }
         },
         {
           // email verify
-          targets: 4,
+          targets: 5,
           className: 'text-center',
           render: function (data, type, full, meta) {
             var $verified = full['email_verified_at'];

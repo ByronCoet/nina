@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->integer('company_id');
+            $table->foreignId('company_id')->constrained('companies');
             $table->string('name');
             $table->string('role')->default('user');
             $table->string('email')->unique();
@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            
         });
     }
 

@@ -40,8 +40,9 @@ class UserManagement extends Controller
     $columns = [
       1 => 'id',
       2 => 'name',
-      3 => 'email',
-      4 => 'email_verified_at',
+      3 => 'company',
+      4 => 'email',
+      5 => 'email_verified_at',
     ];
 
     $search = [];
@@ -87,7 +88,8 @@ class UserManagement extends Controller
         $nestedData['id'] = $user->id;
         $nestedData['fake_id'] = ++$ids;
         $nestedData['name'] = $user->name;
-        $nestedData['email'] = $user->email;
+        $nestedData['company'] = $user->company->name;
+        $nestedData['email'] = $user->email;        
         $nestedData['email_verified_at'] = $user->email_verified_at;
 
         $data[] = $nestedData;

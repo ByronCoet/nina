@@ -24,6 +24,12 @@
       "icon": "menu-icon tf-icons bx bx-error",
       "slug": "pages-misc-error",
       "target": "_blank"
+    },
+    {
+      "url": "/logout",
+      "name": "Log out",
+      "icon": "menu-icon tf-icons bx bx-power-off",
+      "slug": "logout"      
     }
   ]
 }

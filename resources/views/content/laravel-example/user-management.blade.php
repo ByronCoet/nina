@@ -120,7 +120,8 @@
           <th></th>
           <th>Id</th>
           <th>User</th>
-          <th>Email</th>
+          <th>Company</th>
+          <th>Email</th>          
           <th>Verified</th>
           <th>Actions</th>
         </tr>

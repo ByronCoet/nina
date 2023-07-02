@@ -29,13 +29,14 @@ Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@
 Route::controller(LoginBasic::class)->group(function() {
     Route::post('/authenticate', 'authenticate')->name('authenticate');
     Route::post('/logout', 'logout')->name('logout');
+    Route::get('/logout', 'logout')->name('logout');
 });
 
 Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name('auth-register-basic');
 Route::post('auth/register-store', $controller_path . '\authentications\RegisterBasic@store')->name('auth-register-store');
 
-Route::get('/app/user-management', [UserManagement::class, 'UserManagement'])->name('app-user-management');
-Route::resource('/user-list', UserManagement::class);
+Route::get('/app/user-management', [UserManagement::class, 'UserManagement'])->name('app-user-management')->middleware('auth');;
+Route::resource('/user-list', UserManagement::class)->middleware('auth');;
 
 
 // apps
