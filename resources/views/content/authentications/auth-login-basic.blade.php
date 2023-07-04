@@ -44,7 +44,7 @@ $customizerHidden = 'customizer-hide';
             </a>
           </div>
           <!-- /Logo -->
-          <h4 class="mb-2">Welcome to {{config('variables.templateName')}}! 👋</h4>
+          <h4 class="mb-2">Welcome to BloodDrive! 👋</h4>
           <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
           <form id="formAuthentication" class="mb-3" action="{{url('authenticate')}}" method="POST">
@@ -54,14 +54,16 @@ $customizerHidden = 'customizer-hide';
               <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email or username" autofocus>
             </div>
 
+            <!--
             <div class="mb-3">
               <label for="select2Basic" class="form-label">Company</label>
               <select id="select2Basic" class="select2 form-select" data-allow-clear="true">
-                @foreach($companies as $c)
-                  <option value="{{$c->id}}">{{$c->name}}</option>
-                @endforeach                
+                @-- foreach($companies as $c)
+                  <option value="{{--$c->id--}}">{{--$c->name--}}</option>
+                @--endforeach                
               </select>
             </div>
+            -->
 
             <div class="mb-3 form-password-toggle">
               <div class="d-flex justify-content-between">

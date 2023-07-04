@@ -44,7 +44,7 @@ $customizerHidden = 'customizer-hide';
           </div>
           <!-- /Logo -->
           <h4 class="mb-2">Register here 🚀</h4>
-          <p class="mb-4">! Enter the correct company</p>
+          <p class="mb-4">Enter the correct company!</p>
 
           <form id="formAuthentication" class="mb-3" action="{{url('/auth/register-store')}}" method="POST">
             @csrf
@@ -63,7 +63,7 @@ $customizerHidden = 'customizer-hide';
               <label for="select2Basic" class="form-label">Company</label>
               <select id="select2Basic" name='company_id' class="select2 form-select" data-allow-clear="true">
                 @foreach($companies as $c)
-                  <option value="{{$c->id}}">{{$c->name}}</option>
+                  <option value="{{$c->id}}">{{$c->company_name}}</option>
                 @endforeach                
               </select>
             </div>

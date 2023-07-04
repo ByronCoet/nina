@@ -5,7 +5,9 @@ namespace App\Http\Controllers\apps;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Company;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class UserManagement extends Controller
 {
@@ -54,27 +56,68 @@ class UserManagement extends Controller
     $limit = $request->input('length');
     $start = $request->input('start');
     $order = $columns[$request->input('order.0.column')];
+    
+    Log::info('Order: ' . $order);
     $dir = $request->input('order.0.dir');
 
+    Log::info('Dir: ' . $dir);    
+
+    /*
+    Product::with('validStock')
+    ->join('stocks', 'stocks.product_id', '=', 'products.id')
+    ->select('products.*') // Avoid selecting everything from the stocks table
+    ->orderBy('stocks.created_at', 'DESC')
+    ->get();
+    */
+
     if (empty($request->input('search.value'))) {
-      $users = User::offset($start)
-        ->limit($limit)
-        ->orderBy($order, $dir)
-        ->get();
+      if ($order == "company")
+      { 
+        $users = User::offset($start)
+          ->limit($limit)
+          ->join('companies', 'users.company_id', '=', 'companies.id')
+          ->orderBy('companies.company_name', $dir)
+          ->get();     
+      }
+      else{
+        $users = User::offset($start)
+          ->limit($limit)
+          ->orderBy($order, $dir)
+          ->get();
+      }
     } else {
       $search = $request->input('search.value');
+      if ($order == "company")
+        { 
+          $users = User::where('users.id', 'LIKE', "%{$search}%")
+          ->orWhere('users.name', 'LIKE', "%{$search}%")
+          ->orWhere('users.email', 'LIKE', "%{$search}%")
+          ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
+          ->offset($start)
+          ->limit($limit)
+          ->join('companies', 'users.company_id', '=', 'companies.id')
+          ->orderBy('companies.company_name', $dir)          
+          ->get();          
+        }
+        else
+        {
 
-      $users = User::where('id', 'LIKE', "%{$search}%")
+        $users = User::where('users.id', 'LIKE', "%{$search}%")          
+          ->orWhere('name', 'LIKE', "%{$search}%")
+          ->orWhere('email', 'LIKE', "%{$search}%")
+          ->orWhere('company_name', 'LIKE', "%{$search}%")
+          ->offset($start)
+          ->limit($limit)
+          ->join('companies', 'users.company_id', '=', 'companies.id')
+          ->orderBy($order, $dir)
+          ->get();
+        }
+
+      $totalFiltered = User::where('users.id', 'LIKE', "%{$search}%")
         ->orWhere('name', 'LIKE', "%{$search}%")
         ->orWhere('email', 'LIKE', "%{$search}%")
-        ->offset($start)
-        ->limit($limit)
-        ->orderBy($order, $dir)
-        ->get();
-
-      $totalFiltered = User::where('id', 'LIKE', "%{$search}%")
-        ->orWhere('name', 'LIKE', "%{$search}%")
-        ->orWhere('email', 'LIKE', "%{$search}%")
+        ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
+        ->join('companies', 'users.company_id', '=', 'companies.id')
         ->count();
     }
 
@@ -88,7 +131,7 @@ class UserManagement extends Controller
         $nestedData['id'] = $user->id;
         $nestedData['fake_id'] = ++$ids;
         $nestedData['name'] = $user->name;
-        $nestedData['company'] = $user->company->name;
+        $nestedData['company'] = $user->company->company_name;
         $nestedData['email'] = $user->email;        
         $nestedData['email_verified_at'] = $user->email_verified_at;
 

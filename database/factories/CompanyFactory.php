@@ -19,7 +19,7 @@ class CompanyFactory extends Factory
         $a = ['Wiilards', 'Nestle', 'Netflix', 'GSE', 'Microsoft'];
         return [
             // 'name' => $this->faker->company(),
-            'name' => $a[array_rand($a)]
+            'company_name' => $a[array_rand($a)]
         ];
     }        
 }
