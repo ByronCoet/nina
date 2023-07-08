@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained('companies');
             $table->string('name');
+            $table->string('surname');
+            $table->string('mobile');
             $table->string('role')->default('user');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

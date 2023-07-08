@@ -18,6 +18,7 @@ class UserManagement extends Controller
   public function UserManagement()
   {
     $users = User::all();
+    $companies = Company::all();
     $userCount = $users->count();
     $verified = User::whereNotNull('email_verified_at')->get()->count();
     $notVerified = User::whereNull('email_verified_at')->get()->count();
@@ -29,6 +30,7 @@ class UserManagement extends Controller
       'verified' => $verified,
       'notVerified' => $notVerified,
       'userDuplicates' => $userDuplicates,
+      'companies' => $companies,
     ]);
   }
 
@@ -42,9 +44,10 @@ class UserManagement extends Controller
     $columns = [
       1 => 'id',
       2 => 'name',
-      3 => 'company',
-      4 => 'email',
-      5 => 'email_verified_at',
+      3 => 'surname',
+      4 => 'company',
+      5 => 'email',
+      6 => 'email_verified_at',
     ];
 
     $search = [];
@@ -57,18 +60,10 @@ class UserManagement extends Controller
     $start = $request->input('start');
     $order = $columns[$request->input('order.0.column')];
     
-    Log::info('Order: ' . $order);
+    // Log::info('Order: ' . $order);
     $dir = $request->input('order.0.dir');
 
-    Log::info('Dir: ' . $dir);    
-
-    /*
-    Product::with('validStock')
-    ->join('stocks', 'stocks.product_id', '=', 'products.id')
-    ->select('products.*') // Avoid selecting everything from the stocks table
-    ->orderBy('stocks.created_at', 'DESC')
-    ->get();
-    */
+    // Log::info('Dir: ' . $dir);        
 
     if (empty($request->input('search.value'))) {
       if ($order == "company")
@@ -91,6 +86,7 @@ class UserManagement extends Controller
         { 
           $users = User::where('users.id', 'LIKE', "%{$search}%")
           ->orWhere('users.name', 'LIKE', "%{$search}%")
+          ->orWhere('users.surname', 'LIKE', "%{$search}%")
           ->orWhere('users.email', 'LIKE', "%{$search}%")
           ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
           ->offset($start)
@@ -104,6 +100,7 @@ class UserManagement extends Controller
 
         $users = User::where('users.id', 'LIKE', "%{$search}%")          
           ->orWhere('name', 'LIKE', "%{$search}%")
+          ->orWhere('surname', 'LIKE', "%{$search}%")
           ->orWhere('email', 'LIKE', "%{$search}%")
           ->orWhere('company_name', 'LIKE', "%{$search}%")
           ->offset($start)
@@ -115,6 +112,7 @@ class UserManagement extends Controller
 
       $totalFiltered = User::where('users.id', 'LIKE', "%{$search}%")
         ->orWhere('name', 'LIKE', "%{$search}%")
+        ->orWhere('surname', 'LIKE', "%{$search}%")
         ->orWhere('email', 'LIKE', "%{$search}%")
         ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
         ->join('companies', 'users.company_id', '=', 'companies.id')
@@ -131,6 +129,7 @@ class UserManagement extends Controller
         $nestedData['id'] = $user->id;
         $nestedData['fake_id'] = ++$ids;
         $nestedData['name'] = $user->name;
+        $nestedData['surname'] = $user->surname;
         $nestedData['company'] = $user->company->company_name;
         $nestedData['email'] = $user->email;        
         $nestedData['email_verified_at'] = $user->email_verified_at;
@@ -174,13 +173,22 @@ class UserManagement extends Controller
    */
   public function store(Request $request)
   {
+
+    Log::info('Store called: ' );
+
+
     $userID = $request->id;
 
     if ($userID) {
       // update the value
       $users = User::updateOrCreate(
         ['id' => $userID],
-        ['name' => $request->name, 'email' => $request->email]
+        [
+          'name' => $request->name, 
+          'surname' => $request->surname, 
+          'email' => $request->email, 
+          'mobile' => $request->email, 
+          'company_id' => $request->company_id]
       );
 
       // user updated
@@ -192,7 +200,11 @@ class UserManagement extends Controller
       if (empty($userEmail)) {
         $users = User::updateOrCreate(
           ['id' => $userID],
-          ['name' => $request->name, 'email' => $request->email, 'password' => bcrypt(Str::random(10))]
+          ['name' => $request->name,
+          'surname' => $request->surname,
+          'company_id' => $request->company_id,
+          'email' => $request->email,
+          'password' => bcrypt(Str::random(10))]
         );
 
         // user created
@@ -227,7 +239,9 @@ class UserManagement extends Controller
 
     $users = User::where($where)->first();
 
-    return response()->json($users);
+    $companies = Company::all();
+
+    return response()->json(['users' => $users, 'companies' => $companies]);
   }
 
   /**

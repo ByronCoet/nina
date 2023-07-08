@@ -19,26 +19,25 @@ class LoginBasic extends Controller
     return view('content.authentications.auth-login-basic', ['pageConfigs' => $pageConfigs, 'companies' => $c]);
   }
 
-
   public function authenticate(Request $request)
   {
-      Log::info('authenticate in');
+      //Log::info('authenticate in');
       $credentials = $request->validate([
           'email' => 'required|email',
           'password' => 'required',          
       ]);
 
 
-      Log::info('authenticate about to try auth');
+      //Log::info('authenticate about to try auth');
 
       if(Auth::attempt($credentials))
       {
-          Log::info('authenticate ok');
+          // Log::info('authenticate ok');
           $request->session()->regenerate();
           return redirect()->route('pages-page-2')->withSuccess('You have successfully logged in!');
       }
 
-      Log::info('authenticate error');
+      //Log::info('authenticate error');
 
       return back()->withErrors([
           'email' => 'Your provided credentials do not match in our records.',

@@ -40,6 +40,7 @@ $(function () {
         { data: '' },
         { data: 'id' },
         { data: 'name' },
+        { data: 'surname' },
         { data: 'company' },
         { data: 'email' },        
         { data: 'email_verified_at' },
@@ -101,9 +102,16 @@ $(function () {
             return $row_output;
           }
         },
+        {          
+          targets: 3,
+          render: function (data, type, full, meta) {
+            var $surname = full['surname'];
+            return '<span class="text-body text-truncate">' + $surname + '</span>';
+          }
+        },
         {
           // company
-          targets: 3,
+          targets: 4,
           render: function (data, type, full, meta) {
             var $company = full['company'];
             return '<span class="text-body text-truncate">' + $company + '</span>';
@@ -111,7 +119,7 @@ $(function () {
         },
         {
           // emial
-          targets: 4,
+          targets: 5,
           render: function (data, type, full, meta) {
             var $email = full['email'];
             return '<span class="user-email">' + $email + '</span>';
@@ -423,9 +431,31 @@ $(function () {
 
     // get data
     $.get(`${baseUrl}user-list\/${user_id}\/edit`, function (data) {
-      $('#user_id').val(data.id);
-      $('#add-user-fullname').val(data.name);
-      $('#add-user-email').val(data.email);
+      $('#user_id').val(data.users.id);
+      $('#add-user-name').val(data.users.name);
+      $('#add-user-surname').val(data.users.surname);
+      $('#add-user-contact').val(data.users.mobile);
+      $('#add-user-email').val(data.users.email);
+
+      var model = $('#company-id');
+      model.empty();
+      $.each(data.companies, function(index, element) {
+        var option = document.createElement("option");
+        option.value = element.id;
+        option.text = element.company_name;
+
+        console.log(element.id);
+        console.log(data.users.company_id);
+
+        if (element.id === data.users.company_id)
+        {
+          option.selected = true;
+
+        }
+          model.append(option);
+      });      
+
+      // $('#add-user-company-id').val(data.company_id);
     });
   });
 
@@ -451,7 +481,21 @@ $(function () {
       name: {
         validators: {
           notEmpty: {
-            message: 'Please enter fullname'
+            message: 'Please enter first name'
+          }
+        }
+      },
+      surname: {
+        validators: {
+          notEmpty: {
+            message: 'Please enter surname'
+          }
+        }
+      },
+      mobile: {
+        validators: {
+          notEmpty: {
+            message: 'Please enter valid mobile number'
           }
         }
       },

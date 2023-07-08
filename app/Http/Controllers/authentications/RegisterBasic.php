@@ -14,7 +14,7 @@ class RegisterBasic extends Controller
 {
   public function index()
   {
-    Log::info('register index');
+    // Log::info('register index');
     $c = DB::table('companies')->get();
     $pageConfigs = ['myLayout' => 'blank'];
     return view('content.authentications.auth-register-basic', ['pageConfigs' => $pageConfigs, 'companies' => $c]);
@@ -22,18 +22,22 @@ class RegisterBasic extends Controller
 
   public function store(Request $request)
   {
-      Log::info('register store');
+      // Log::info('register store');
     
       $this->validate(request(), [          
           'name' => 'required',
+          'surname' => 'required',
           'email' => 'required|email',
+          'mobile' => 'required|string|size:10',
           'company_id' => 'required',
           'password' => 'required'
       ]);
 
       User::create([
         'name' => $request->name,
+        'surname' => $request->surname,
         'email' => $request->email,
+        'mobile' => $request->mobile,
         'company_id' => $request->company_id,
         'password' => Hash::make($request->password)
     ]);

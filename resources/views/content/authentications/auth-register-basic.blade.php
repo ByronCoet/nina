@@ -50,13 +50,23 @@ $customizerHidden = 'customizer-hide';
             @csrf
             
             <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" name="name" placeholder="Enter your username" autofocus>
+              <label for="name" class="form-label">First name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter your first name" autofocus>
+            </div>
+
+            <div class="mb-3">
+              <label for="surname" class="form-label">Surname</label>
+              <input type="text" class="form-control" id="surname" name="surname" placeholder="Enter your surname" autofocus>
             </div>
             
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
               <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email">
+            </div>
+
+            <div class="mb-3">
+              <label for="mobile" class="form-label">Mobile number</label>
+              <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile number">
             </div>
 
             <div class="mb-3">
