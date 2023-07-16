@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'User Management - Crud App')
+@section('title', 'Company Management')
 
 @section('vendor-style')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -25,7 +25,7 @@
 @endsection
 
 @section('page-script')
-<script src="{{asset('js/laravel-user-management.js')}}"></script>
+<script src="{{asset('js/laravel-company-management.js')}}"></script>
 @endsection
 
 @section('content')
@@ -36,7 +36,7 @@
       <div class="card-body">
         <div class="d-flex align-items-start justify-content-between">
           <div class="content-left">
-            <span>Users</span>
+            <span>Companies</span>
             <div class="d-flex align-items-end mt-2">
               <h3 class="mb-0 me-2">{{$totalUser}}</h3>
               <small class="text-success">(100%)</small>
@@ -114,17 +114,12 @@
     <h5 class="card-title mb-0">Search Filter</h5>
   </div>
   <div class="card-datatable table-responsive">
-    <table class="datatables-users table border-top">
+    <table class="datatables-companies table border-top">
       <thead>
         <tr>
           <th></th>
           <th>Id</th>
-          <th>Name</th>
-          <th>Surname</th>
-          <th>Company</th>
-          <th>Email</th>          
-          <th>Verified</th>
-          <th>Actions</th>
+          <th>Company Name</th>          
         </tr>
       </thead>
     </table>
@@ -139,49 +134,10 @@
       <form class="add-new-user pt-0" id="addNewUserForm">
         <input type="hidden" name="id" id="user_id">
         <div class="mb-3">
-          <label class="form-label" for="add-user-name">First Name</label>
+          <label class="form-label" for="add-user-name">Company Name</label>
           <input type="text" class="form-control" id="add-user-name" placeholder="John" name="name" aria-label="John" />
         </div>
 
-        <div class="mb-3">
-          <label class="form-label" for="add-user-surname">Surname</label>
-          <input type="text" class="form-control" id="add-user-surname" placeholder="Doe" name="surname" aria-label="Doe" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="add-user-email">Email</label>
-          <input type="text" id="add-user-email" class="form-control" placeholder="john.doe@example.com" aria-label="john.doe@example.com" name="email" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="add-user-contact">Contact</label>
-          <input type="text" id="add-user-contact" class="form-control phone-mask" placeholder="0712345678" name="mobile" aria-label="0712345678" />
-        </div>        
-
-        <div class="mb-3">
-          <label class="form-label" for="add-user-company-id">Company</label>
-          <select id="company-id" name="company_id" class="select2 form-select">            
-            
-          </select>
-        </div>
-        
-        <div class="mb-3">
-          <label class="form-label" for="user-role">User Role</label>
-          <select id="user-role" class="form-select" name="role">
-            
-          </select>
-        </div>
-        <!--
-        <div class="mb-4">
-          <label class="form-label" for="user-plan">Select Plan</label>
-          <select id="user-plan" class="form-select">
-            <option value="basic">Basic</option>
-            <option value="enterprise">Enterprise</option>
-            <option value="company">Company</option>
-            <option value="team">Team</option>
-          </select>
-        </div>
-        -->
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
       </form>

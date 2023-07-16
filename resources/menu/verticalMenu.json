@@ -13,6 +13,12 @@
       "slug": "pages-page-2"
     },
     {
+      "url": "/app/company-management",
+      "name": "Companies",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "slug": "app-company"
+    },
+    {
       "url": "/app/user-management",
       "name": "Users",
       "icon": "menu-icon tf-icons bx bx-user",

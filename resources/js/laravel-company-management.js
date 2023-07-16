@@ -1,5 +1,5 @@
 /**
- * Page User List
+ * Page Company List
  */
 
 'use strict';
@@ -7,19 +7,12 @@
 // Datatable (jquery)
 $(function () {
   // Variable declaration for table
-  var dt_user_table = $('.datatables-users'),
+  var dt_company_table = $('.datatables-companies'),
     select2 = $('.select2'),
-    userView = baseUrl + 'app/user/view/account',
-    offCanvasForm = $('#offcanvasAddUser');
+    companyView = baseUrl + 'app/company/view/account',
+    offCanvasForm = $('#offcanvasAddCompany');
 
-  if (select2.length) {
-    var $this = select2;
-    $this.wrap('<div class="position-relative"></div>').select2({
-      placeholder: 'Select Country',
-      dropdownParent: $this.parent()
-    });
-  }
-
+  
   // ajax setup
   $.ajaxSetup({
     headers: {
@@ -27,23 +20,19 @@ $(function () {
     }
   });
 
-  // Users datatable
-  if (dt_user_table.length) {
-    var dt_user = dt_user_table.DataTable({
+  // companies datatable
+  if (dt_company_table.length) {
+    var dt_company = dt_company_table.DataTable({
       processing: true,
       serverSide: true,
       ajax: {
-        url: baseUrl + 'user-list'
+        url: baseUrl + 'company-list'
       },
       columns: [
         // columns according to JSON
         { data: '' },
         { data: 'id' },
         { data: 'name' },
-        { data: 'surname' },
-        { data: 'company' },
-        { data: 'email' },        
-        { data: 'email_verified_at' },
         { data: 'action' }
       ],
       columnDefs: [
@@ -66,76 +55,11 @@ $(function () {
             return `<span>${full.fake_id}</span>`;
           }
         },
-        {
-          // User full name
-          targets: 2,
-          responsivePriority: 4,
-          render: function (data, type, full, meta) {
-            var $name = full['name'];
-
-            // For Avatar badge
-            var stateNum = Math.floor(Math.random() * 6);
-            var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-            var $state = states[stateNum],
-              $name = full['name'],
-              $initials = $name.match(/\b\w/g) || [],
-              $output;
-            $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-            $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
-
-            // Creates full output for row
-            var $row_output =
-              '<div class="d-flex justify-content-start align-items-center user-name">' +
-              '<div class="avatar-wrapper">' +
-              '<div class="avatar avatar-sm me-3">' +
-              $output +
-              '</div>' +
-              '</div>' +
-              '<div class="d-flex flex-column">' +
-              '<a href="' +
-              userView +
-              '" class="text-body text-truncate"><span class="fw-semibold">' +
-              $name +
-              '</span></a>' +
-              '</div>' +
-              '</div>';
-            return $row_output;
-          }
-        },
         {          
-          targets: 3,
+          targets: 2,
           render: function (data, type, full, meta) {
-            var $surname = full['surname'];
-            return '<span class="text-body text-truncate">' + $surname + '</span>';
-          }
-        },
-        {
-          // company
-          targets: 4,
-          render: function (data, type, full, meta) {
-            var $company = full['company'];
-            return '<span class="text-body text-truncate">' + $company + '</span>';
-          }
-        },
-        {
-          // emial
-          targets: 5,
-          render: function (data, type, full, meta) {
-            var $email = full['email'];
-            return '<span class="user-email">' + $email + '</span>';
-          }
-        },
-        {
-          // email verify
-          targets: 5,
-          className: 'text-center',
-          render: function (data, type, full, meta) {
-            var $verified = full['email_verified_at'];
-            return `${
-              $verified
-                ? '<i class="bx fs-4 bx-check-shield text-success"></i>'
-                : '<i class="bx fs-4 bx-shield-x text-danger" ></i>'
-            }`;
+            var $company_name = full['company_name'];
+            return '<span class="text-body text-truncate">' + $company_name + '</span>';
           }
         },
         {
@@ -147,12 +71,12 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="bx bx-edit"></i></button>` +
+              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddCompany"><i class="bx bx-edit"></i></button>` +
               `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="bx bx-trash"></i></button>` +
               '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>' +
               '<div class="dropdown-menu dropdown-menu-end m-0">' +
               '<a href="' +
-              userView +
+              companyView +
               '" class="dropdown-item">View</a>' +
               '<a href="javascript:;" class="dropdown-item">Suspend</a>' +
               '</div>' +
@@ -185,7 +109,7 @@ $(function () {
           buttons: [
             {
               extend: 'print',
-              title: 'Users',
+              title: 'Companies',
               text: '<i class="bx bx-printer me-2" ></i>Print',
               className: 'dropdown-item',
               exportOptions: {
@@ -197,7 +121,7 @@ $(function () {
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList !== undefined && item.classList.contains('user-name')) {
+                      if (item.classList !== undefined && item.classList.contains('company-name')) {
                         result = result + item.lastChild.textContent;
                       } else result = result + item.innerText;
                     });
@@ -221,7 +145,7 @@ $(function () {
             },
             {
               extend: 'csv',
-              title: 'Users',
+              title: 'Companies',
               text: '<i class="bx bx-file me-2" ></i>Csv',
               className: 'dropdown-item',
               exportOptions: {
@@ -233,7 +157,7 @@ $(function () {
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
+                      if (item.classList.contains('company-name')) {
                         result = result + item.lastChild.textContent;
                       } else result = result + item.innerText;
                     });
@@ -244,7 +168,7 @@ $(function () {
             },
             {
               extend: 'excel',
-              title: 'Users',
+              title: 'Companies',
               text: '<i class="bx bxs-file-export me-2"></i>Excel',
               className: 'dropdown-item',
               exportOptions: {
@@ -256,7 +180,7 @@ $(function () {
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
+                      if (item.classList.contains('company-name')) {
                         result = result + item.lastChild.textContent;
                       } else result = result + item.innerText;
                     });
@@ -267,7 +191,7 @@ $(function () {
             },
             {
               extend: 'pdf',
-              title: 'Users',
+              title: 'companies',
               text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
               className: 'dropdown-item',
               exportOptions: {
@@ -279,7 +203,7 @@ $(function () {
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
+                      if (item.classList.contains('company-name')) {
                         result = result + item.lastChild.textContent;
                       } else result = result + item.innerText;
                     });
@@ -290,7 +214,7 @@ $(function () {
             },
             {
               extend: 'copy',
-              title: 'Users',
+              title: 'Companies',
               text: '<i class="bx bx-copy me-2" ></i>Copy',
               className: 'dropdown-item',
               exportOptions: {
@@ -302,7 +226,7 @@ $(function () {
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
+                      if (item.classList.contains('company-name')) {
                         result = result + item.lastChild.textContent;
                       } else result = result + item.innerText;
                     });
@@ -314,11 +238,11 @@ $(function () {
           ]
         },
         {
-          text: '<i class="bx bx-plus me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Add New User</span>',
+          text: '<i class="bx bx-plus me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Add New Company</span>',
           className: 'add-new btn btn-primary',
           attr: {
             'data-bs-toggle': 'offcanvas',
-            'data-bs-target': '#offcanvasAddUser'
+            'data-bs-target': '#offcanvasAddCompany'
           }
         }
       ],
@@ -360,7 +284,7 @@ $(function () {
 
   // Delete Record
   $(document).on('click', '.delete-record', function () {
-    var user_id = $(this).data('id'),
+    var company_id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
 
     // hide responsive modal in small screen
@@ -385,9 +309,9 @@ $(function () {
         // delete the data
         $.ajax({
           type: 'DELETE',
-          url: `${baseUrl}user-list/${user_id}`,
+          url: `${baseUrl}company-list/${company_id}`,
           success: function () {
-            dt_user.draw();
+            dt_company.draw();
           },
           error: function (error) {
             console.log(error);
@@ -398,7 +322,7 @@ $(function () {
         Swal.fire({
           icon: 'success',
           title: 'Deleted!',
-          text: 'The user has been deleted!',
+          text: 'The company has been deleted!',
           customClass: {
             confirmButton: 'btn btn-success'
           }
@@ -406,7 +330,7 @@ $(function () {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire({
           title: 'Cancelled',
-          text: 'The User is not deleted!',
+          text: 'The company is not deleted!',
           icon: 'error',
           customClass: {
             confirmButton: 'btn btn-success'
@@ -418,7 +342,7 @@ $(function () {
 
   // edit record
   $(document).on('click', '.edit-record', function () {
-    var user_id = $(this).data('id'),
+    var company_id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
 
     // hide responsive modal in small screen
@@ -427,90 +351,19 @@ $(function () {
     }
 
     // changing the title of offcanvas
-    $('#offcanvasAddUserLabel').html('Edit User');
+    $('#offcanvasAddCompanyLabel').html('Edit Company');
 
     // get data
-    $.get(`${baseUrl}user-list\/${user_id}\/edit`, function (data) {
-      $('#user_id').val(data.users.id);
-      $('#add-user-name').val(data.users.name);
-      $('#add-user-surname').val(data.users.surname);
-      $('#add-user-contact').val(data.users.mobile);
-      $('#add-user-email').val(data.users.email);
-      $('#add-user-role').val(data.users.role);
-
-      var model = $('#company-id');
-      model.empty();
-      $.each(data.companies, function(index, element) {
-        var option = document.createElement("option");
-        option.value = element.id;
-        option.text = element.company_name;
-
-        //console.log(element.id);
-        //aconsole.log(data.users.company_id);
-
-        if (element.id === data.users.company_id)
-        {
-          option.selected = true;
-        }
-        model.append(option);
-      });      
-
-      var model = $('#user-role');
-      model.empty();
-      console.log("roles");
-      $.each(data.roles, function(index, element) {
-        var option = document.createElement("option");
-        option.value = element.role_name;
-        option.text = element.role_name;
-
-        console.log(element.role_name);
-
-        if (element.role_name === data.users.role)
-        {
-          option.selected = true;
-        }
-        
-        model.append(option);
-      });
+    $.get(`${baseUrl}company-list\/${company_id}\/edit`, function (data) {
+      $('#company_id').val(data.company.id);
+      $('#add-company-name').val(data.company.company_name);      
     });
   });
 
   // changing the title and grabbing company details - this is for the admin
   $('.add-new').on('click', function () {
-    $('#user_id').val(''); //resetting input field
-    $('#offcanvasAddUserLabel').html('Add User');
-
-     console.log("get companies");
-     // get data
-     $.get(`${baseUrl}all-companies`, function (data) {      
-
-      var model = $('#company-id');
-      model.empty();
-      console.log("get companies 1");
-      $.each(data.companies, function(index, element) {
-        var option = document.createElement("option");
-        option.value = element.id;
-        option.text = element.company_name;
-
-        console.log(element.company_name);
-        
-        model.append(option);
-      });
-
-      var model = $('#user-role');
-      model.empty();
-      console.log("roles");
-      $.each(data.roles, function(index, element) {
-        var option = document.createElement("option");
-        option.value = element.role_name;
-        option.text = element.role_name;
-
-        console.log(element.role_name);
-        
-        model.append(option);
-      });
-      
-    });
+    $('#company_id').val(''); //resetting input field
+    $('#offcanvasAddCompanyLabel').html('Add dcCompany');
   });
 
   // Filter form control to default size
@@ -520,54 +373,16 @@ $(function () {
     $('.dataTables_length .form-select').removeClass('form-select-sm');
   }, 300);
 
-  // validating form and updating user's data
-  const addNewUserForm = document.getElementById('addNewUserForm');
+  // validating form and updating company's data
+  const addNewCompanyForm = document.getElementById('addNewCompanyForm');
 
-  // user form validation
-  const fv = FormValidation.formValidation(addNewUserForm, {
+  // company form validation
+  const fv = FormValidation.formValidation(addNewCompanyForm, {
     fields: {
       name: {
         validators: {
           notEmpty: {
-            message: 'Please enter first name'
-          }
-        }
-      },
-      surname: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter surname'
-          }
-        }
-      },
-      mobile: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter valid mobile number'
-          }
-        }
-      },
-      email: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your email'
-          },
-          emailAddress: {
-            message: 'The value is not a valid email address'
-          }
-        }
-      },
-      userContact: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your contact'
-          }
-        }
-      },
-      company: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your company'
+            message: 'Please enter company name'
           }
         }
       }
@@ -588,20 +403,20 @@ $(function () {
       autoFocus: new FormValidation.plugins.AutoFocus()
     }
   }).on('core.form.valid', function () {
-    // adding or updating user when form successfully validate
+    // adding or updating company when form successfully validate
     $.ajax({
-      data: $('#addNewUserForm').serialize(),
-      url: `${baseUrl}user-list`,
+      data: $('#addNewCompanyForm').serialize(),
+      url: `${baseUrl}company-list`,
       type: 'POST',
       success: function (status) {
-        dt_user.draw();
+        dt_company.draw();
         offCanvasForm.offcanvas('hide');
 
         // sweetalert
         Swal.fire({
           icon: 'success',
           title: `Successfully ${status}!`,
-          text: `User ${status} Successfully.`,
+          text: `Company ${status} Successfully.`,
           customClass: {
             confirmButton: 'btn btn-success'
           }

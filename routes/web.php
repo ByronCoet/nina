@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\apps\UserManagement;
+use App\Http\Controllers\apps\CompanyManagement;
 use App\Http\Controllers\authentications\LoginBasic;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,8 +37,14 @@ Route::controller(LoginBasic::class)->group(function() {
 Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name('auth-register-basic');
 Route::post('auth/register-store', $controller_path . '\authentications\RegisterBasic@store')->name('auth-register-store');
 
-Route::get('/app/user-management', [UserManagement::class, 'UserManagement'])->name('app-user-management')->middleware('auth');;
-Route::resource('/user-list', UserManagement::class)->middleware('auth');;
+Route::get('/app/user-management', [UserManagement::class, 'UserManagement'])->name('app-user-management')->middleware('auth');
+Route::resource('/user-list', UserManagement::class)->middleware('auth');
+
+Route::get('/all-companies', $controller_path . '\CompanyController@AllCompanies')->name('all-companies')->middleware('auth');
+
+
+Route::get('/app/company-management', [CompanyManagement::class, 'CompanyManagement'])->name('app-company-management')->middleware('auth');
+Route::resource('/company-list', CompanyManagement::class)->middleware('auth');
 
 
 // apps
