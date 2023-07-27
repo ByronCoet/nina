@@ -27,6 +27,8 @@ class CompanyManagement extends Controller
     $usersUnique = $users->unique(['email']);
     $userDuplicates = $users->diff($usersUnique)->count();
 
+    Log::info('Company lit called');        
+
     return view('content.laravel-example.company-management', [
       'totalUser' => $userCount,
       'verified' => $verified,
@@ -46,16 +48,14 @@ class CompanyManagement extends Controller
   {
     $columns = [
       1 => 'id',
-      2 => 'name',
-      3 => 'surname',
-      4 => 'company',
-      5 => 'email',
-      6 => 'email_verified_at',
+      2 => 'company_name', 
     ];
+
+    Log::info('Company index called');        
 
     $search = [];
 
-    $totalData = User::count();
+    $totalData = Company::count();
 
     $totalFiltered = $totalData;
 
@@ -71,14 +71,13 @@ class CompanyManagement extends Controller
     if (empty($request->input('search.value'))) {
       if ($order == "company")
       { 
-        $users = User::offset($start)
-          ->limit($limit)
-          ->join('companies', 'users.company_id', '=', 'companies.id')
-          ->orderBy('companies.company_name', $dir)
+        $companies = Company::offset($start)
+          ->limit($limit)          
+          ->orderBy('company_name', $dir)
           ->get();     
       }
       else{
-        $users = User::offset($start)
+        $companies =Company::offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
@@ -87,56 +86,38 @@ class CompanyManagement extends Controller
       $search = $request->input('search.value');
       if ($order == "company")
         { 
-          $users = User::where('users.id', 'LIKE', "%{$search}%")
-          ->orWhere('users.name', 'LIKE', "%{$search}%")
-          ->orWhere('users.surname', 'LIKE', "%{$search}%")
-          ->orWhere('users.email', 'LIKE', "%{$search}%")
-          ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
+          $companies = Company::where('id', 'LIKE', "%{$search}%")          
+          ->orWhere('company_name', 'LIKE', "%{$search}%")
           ->offset($start)
-          ->limit($limit)
-          ->join('companies', 'users.company_id', '=', 'companies.id')
-          ->orderBy('companies.company_name', $dir)          
+          ->limit($limit)          
+          ->orderBy('company_name', $dir)          
           ->get();          
         }
         else
         {
-
-        $users = User::where('users.id', 'LIKE', "%{$search}%")          
-          ->orWhere('name', 'LIKE', "%{$search}%")
-          ->orWhere('surname', 'LIKE', "%{$search}%")
-          ->orWhere('email', 'LIKE', "%{$search}%")
-          ->orWhere('company_name', 'LIKE', "%{$search}%")
-          ->offset($start)
-          ->limit($limit)
-          ->join('companies', 'users.company_id', '=', 'companies.id')
-          ->orderBy($order, $dir)
-          ->get();
+          $companies = Company::where('id', 'LIKE', "%{$search}%")          
+            ->orWhere('company_name', 'LIKE', "%{$search}%")            
+            ->offset($start)
+            ->limit($limit)            
+            ->orderBy($order, $dir)
+            ->get();
         }
 
-      $totalFiltered = User::where('users.id', 'LIKE', "%{$search}%")
-        ->orWhere('name', 'LIKE', "%{$search}%")
-        ->orWhere('surname', 'LIKE', "%{$search}%")
-        ->orWhere('email', 'LIKE', "%{$search}%")
-        ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
-        ->join('companies', 'users.company_id', '=', 'companies.id')
+      $totalFiltered = Company::where('id', 'LIKE', "%{$search}%")
+        ->orWhere('company_name', 'LIKE', "%{$search}%")        
         ->count();
     }
 
     $data = [];
 
-    if (!empty($users)) {
+    if (!empty($companies)) {
       // providing a dummy id instead of database ids
       $ids = $start;
 
-      foreach ($users as $user) {
-        $nestedData['id'] = $user->id;
+      foreach ($companies as $c) {
+        $nestedData['id'] = $c->id;
         $nestedData['fake_id'] = ++$ids;
-        $nestedData['name'] = $user->name;
-        $nestedData['surname'] = $user->surname;
-        $nestedData['company'] = $user->company->company_name;
-        $nestedData['email'] = $user->email;        
-        $nestedData['email_verified_at'] = $user->email_verified_at;
-
+        $nestedData['company_name'] = $c->company_name;
         $data[] = $nestedData;
       }
     }
@@ -177,49 +158,27 @@ class CompanyManagement extends Controller
   public function store(Request $request)
   {
 
-    Log::info('Store called: ' );
+    Log::info('Store company called: ');
 
 
-    $userID = $request->id;
+    $ID = $request->id;
 
-    if ($userID) {
+    if ($ID) {
       // update the value
-      $users = User::updateOrCreate(
-        ['id' => $userID],
-        [
-          'name' => $request->name, 
-          'surname' => $request->surname, 
-          'email' => $request->email, 
-          'mobile' => $request->mobile, 
-          'role' => $request->role,
-          'company_id' => $request->company_id]
+      Log::info('Update company called: ');
+      $company = Company::updateOrCreate(
+        ['id' => $ID],
+        ['company_name' => $request->company_name]
       );
 
-      // user updated
+      // company updated
       return response()->json('Updated');
     } else {
-      // create new one if email is unique
-      $userEmail = User::where('email', $request->email)->first();
-
-      if (empty($userEmail)) {
-
-        $users = User::updateOrCreate(
-          ['id' => $userID],
-          ['name' => $request->name,
-          'surname' => $request->surname,
-          'company_id' => $request->company_id,
-          'email' => $request->email,
-          'mobile' => $request->mobile,
-          'role' => $request->role,
-          'password' => bcrypt(Str::random(10))]
-        );
-
-        // user created
-        return response()->json('Created');
-      } else {
-        // user already exist
-        return response()->json(['message' => "already exits"], 422);
-      }
+      Log::info('Create company called: ');
+      $company = Company::updateOrCreate(        
+        ['company_name' => $request->company_name]
+      );
+      return response()->json('Created');      
     }
   }
 
@@ -243,13 +202,11 @@ class CompanyManagement extends Controller
   public function edit($id)
   {
     $where = ['id' => $id];
-
-    $users = User::where($where)->first();
-
-    $companies = Company::all();
+    
+    $companies = User::where($where)->first();
     $roles = Role::all();
 
-    return response()->json(['users' => $users, 'companies' => $companies, 'roles' => $roles]);
+    return response()->json(['companies' => $companies, 'roles' => $roles]);
   }
 
   /**

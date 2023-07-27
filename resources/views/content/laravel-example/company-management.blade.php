@@ -119,23 +119,24 @@
         <tr>
           <th></th>
           <th>Id</th>
-          <th>Company Name</th>          
+          <th>Company Name</th>         
+          <th>Actions</th> 
         </tr>
       </thead>
     </table>
   </div>
-  <!-- Offcanvas to add new user -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
+  <!-- Offcanvas to add new company -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddCompany" aria-labelledby="offcanvasAddCompanyLabel">
     <div class="offcanvas-header">
-      <h5 id="offcanvasAddUserLabel" class="offcanvas-title">Add User</h5>
+      <h5 id="offcanvasAddCompanyLabel" class="offcanvas-title">Add Company</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body mx-0 flex-grow-0">
-      <form class="add-new-user pt-0" id="addNewUserForm">
-        <input type="hidden" name="id" id="user_id">
+      <form class="add-new-company pt-0" id="addNewCompanyForm">
+        <input type="hidden" name="id" id="company_id">
         <div class="mb-3">
-          <label class="form-label" for="add-user-name">Company Name</label>
-          <input type="text" class="form-control" id="add-user-name" placeholder="John" name="name" aria-label="John" />
+          <label class="form-label" for="add-company-name">Company Name</label>
+          <input type="text" class="form-control" id="add-company-name" placeholder="Adcock" name="company_name" aria-label="Adcock" />
         </div>
 
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>

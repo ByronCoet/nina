@@ -8,7 +8,7 @@
 $(function () {
   // Variable declaration for table
   var dt_company_table = $('.datatables-companies'),
-    select2 = $('.select2'),
+    // select2 = $('.select2'),
     companyView = baseUrl + 'app/company/view/account',
     offCanvasForm = $('#offcanvasAddCompany');
 
@@ -32,7 +32,7 @@ $(function () {
         // columns according to JSON
         { data: '' },
         { data: 'id' },
-        { data: 'name' },
+        { data: 'company_name' },
         { data: 'action' }
       ],
       columnDefs: [
@@ -252,7 +252,7 @@ $(function () {
           display: $.fn.dataTable.Responsive.display.modal({
             header: function (row) {
               var data = row.data();
-              return 'Details of ' + data['name'];
+              return 'Details of ' + data['company_name'];
             }
           }),
           type: 'column',
@@ -355,15 +355,15 @@ $(function () {
 
     // get data
     $.get(`${baseUrl}company-list\/${company_id}\/edit`, function (data) {
-      $('#company_id').val(data.company.id);
-      $('#add-company-name').val(data.company.company_name);      
+      $('#company_id').val(data.companies.id);
+      $('#add-company-name').val(data.companies.company_name);      
     });
   });
 
   // changing the title and grabbing company details - this is for the admin
   $('.add-new').on('click', function () {
     $('#company_id').val(''); //resetting input field
-    $('#offcanvasAddCompanyLabel').html('Add dcCompany');
+    $('#offcanvasAddCompanyLabel').html('Add Company');
   });
 
   // Filter form control to default size
@@ -441,15 +441,5 @@ $(function () {
     fv.resetForm(true);
   });
 
-  const phoneMaskList = document.querySelectorAll('.phone-mask');
-
-  // Phone Number
-  if (phoneMaskList) {
-    phoneMaskList.forEach(function (phoneMask) {
-      new Cleave(phoneMask, {
-        phone: true,
-        phoneRegionCode: 'US'
-      });
-    });
-  }
+  
 });
