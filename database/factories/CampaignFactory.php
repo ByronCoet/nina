@@ -19,7 +19,7 @@ class CampaignFactory extends Factory
         $a = ['Red', 'Blue', 'Green', 'Orange', 'Green'];
         return [
             // 'name' => $this->faker->name(),            
-            'name' => $a[array_rand($a, 1)], 
+            'campaign_name' => $a[array_rand($a, 1)], 
         ];
     }
 }

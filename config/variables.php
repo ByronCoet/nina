@@ -3,7 +3,7 @@
   return [
     "creatorName" => "WEB-GUY",
     "creatorUrl" => "https://web-guy.net",
-    "templateName" => "Frest",
+    "templateName" => "Drive",
     "templateSuffix" => "Bootstrap Admin Template",
     "templateVersion" => "1.0.0",
     "templateFree" => false,
@@ -14,7 +14,7 @@
     "productPage" => "https://1.envato.market/frest_admin",
     "support" => "https://pixinvent.ticksy.com/",
     "moreThemes" => "https://1.envato.market/pixinvent_portfolio",
-    "documentation" => "https://pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/documentation-bs5/laravel-introduction.html",
+    "documentation" => "https://adcock.co.za/",
     "generator" => "https://pixinvent.com/tools/generator/frest",
     "changelog" => "https://pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/frest-changelog.html",
     "repository" => "https://github.com/pixinvent/frest-admin-dashboard-template-src",

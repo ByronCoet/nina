@@ -73,13 +73,6 @@ $(function () {
               '<div class="d-inline-block text-nowrap">' +
               `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddCompany"><i class="bx bx-edit"></i></button>` +
               `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="bx bx-trash"></i></button>` +
-              '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>' +
-              '<div class="dropdown-menu dropdown-menu-end m-0">' +
-              '<a href="' +
-              companyView +
-              '" class="dropdown-item">View</a>' +
-              '<a href="javascript:;" class="dropdown-item">Suspend</a>' +
-              '</div>' +
               '</div>'
             );
           }
@@ -284,7 +277,7 @@ $(function () {
 
   // Delete Record
   $(document).on('click', '.delete-record', function () {
-    var company_id = $(this).data('id'),
+    var companyid = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
 
     // hide responsive modal in small screen
@@ -309,7 +302,7 @@ $(function () {
         // delete the data
         $.ajax({
           type: 'DELETE',
-          url: `${baseUrl}company-list/${company_id}`,
+          url: `${baseUrl}company-list/${companyid}`,
           success: function () {
             dt_company.draw();
           },
@@ -355,14 +348,14 @@ $(function () {
 
     // get data
     $.get(`${baseUrl}company-list\/${company_id}\/edit`, function (data) {
-      $('#company_id').val(data.companies.id);
+      $('#company-id').val(data.companies.id);
       $('#add-company-name').val(data.companies.company_name);      
     });
   });
 
   // changing the title and grabbing company details - this is for the admin
   $('.add-new').on('click', function () {
-    $('#company_id').val(''); //resetting input field
+    $('#company-id').val(''); //resetting input field
     $('#offcanvasAddCompanyLabel').html('Add Company');
   });
 

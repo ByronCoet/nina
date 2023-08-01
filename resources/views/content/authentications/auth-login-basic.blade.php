@@ -45,7 +45,7 @@ $customizerHidden = 'customizer-hide';
           </div>
           <!-- /Logo -->
           <h4 class="mb-2">Welcome to BloodDrive! 👋</h4>
-          <p class="mb-4">Please sign-in to your account and start the adventure</p>
+          <p class="mb-4">Please sign-in to your account</p>
 
           <form id="formAuthentication" class="mb-3" action="{{url('authenticate')}}" method="POST">
            @csrf

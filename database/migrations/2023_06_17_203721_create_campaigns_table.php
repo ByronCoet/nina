@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
             $table->integer('company_id');
-            $table->string('name');
+            $table->string('campaign_name');
             $table->timestamps();
         });
     }

@@ -13,6 +13,12 @@
       "slug": "pages-page-2"
     },
     {
+      "url": "/app/campaign-management",
+      "name": "Campaigns",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "slug": "app-campaign"
+    },
+    {
       "url": "/app/company-management",
       "name": "Companies",
       "icon": "menu-icon tf-icons bx bx-file",

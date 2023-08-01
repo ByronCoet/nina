@@ -1,5 +1,5 @@
 /**
- * Page User List
+ * Page Campaign List
  */
 
 'use strict';
@@ -7,19 +7,12 @@
 // Datatable (jquery)
 $(function () {
   // Variable declaration for table
-  var dt_user_table = $('.datatables-users'),
-    select2 = $('.select2'),
-    userView = baseUrl + 'app/user/view/account',
-    offCanvasForm = $('#offcanvasAddUser');
+  var dt_campaign_table = $('.datatables-campaigns'),
+    // select2 = $('.select2'),
+    campaignView = baseUrl + 'app/campaign/view/account',
+    offCanvasForm = $('#offcanvasAddCampaign');
 
-  if (select2.length) {
-    var $this = select2;
-    $this.wrap('<div class="position-relative"></div>').select2({
-      placeholder: 'Select Country',
-      dropdownParent: $this.parent()
-    });
-  }
-
+  
   // ajax setup
   $.ajaxSetup({
     headers: {
@@ -27,23 +20,20 @@ $(function () {
     }
   });
 
-  // Users datatable
-  if (dt_user_table.length) {
-    var dt_user = dt_user_table.DataTable({
+  // campaign datatable
+  if (dt_campaign_table.length) {
+    var dt_campaign = dt_campaign_table.DataTable({
       processing: true,
       serverSide: true,
       ajax: {
-        url: baseUrl + 'user-list'
+        url: baseUrl + 'campaign-list'
       },
       columns: [
         // columns according to JSON
         { data: '' },
         { data: 'id' },
-        { data: 'name' },
-        { data: 'surname' },
         { data: 'company' },
-        { data: 'email' },        
-        { data: 'email_verified_at' },
+        { data: 'campaign_name' },        
         { data: 'action' }
       ],
       columnDefs: [
@@ -66,76 +56,19 @@ $(function () {
             return `<span>${full.fake_id}</span>`;
           }
         },
-        {
-          // User full name
-          targets: 2,
-          responsivePriority: 4,
-          render: function (data, type, full, meta) {
-            var $name = full['name'];
-
-            // For Avatar badge
-            var stateNum = Math.floor(Math.random() * 6);
-            var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-            var $state = states[stateNum],
-              $name = full['name'],
-              $initials = $name.match(/\b\w/g) || [],
-              $output;
-            $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-            $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
-
-            // Creates full output for row
-            var $row_output =
-              '<div class="d-flex justify-content-start align-items-center user-name">' +
-              '<div class="avatar-wrapper">' +
-              '<div class="avatar avatar-sm me-3">' +
-              $output +
-              '</div>' +
-              '</div>' +
-              '<div class="d-flex flex-column">' +
-              '<a href="' +
-              userView +
-              '" class="text-body text-truncate"><span class="fw-semibold">' +
-              $name +
-              '</span></a>' +
-              '</div>' +
-              '</div>';
-            return $row_output;
-          }
+        {          
+           // company
+           targets: 2,
+           render: function (data, type, full, meta) {
+             var $company = full['company'];
+             return '<span class="text-body text-truncate">' + $company + '</span>';
+           }
         },
         {          
           targets: 3,
           render: function (data, type, full, meta) {
-            var $surname = full['surname'];
-            return '<span class="text-body text-truncate">' + $surname + '</span>';
-          }
-        },
-        {
-          // company
-          targets: 4,
-          render: function (data, type, full, meta) {
-            var $company = full['company'];
-            return '<span class="text-body text-truncate">' + $company + '</span>';
-          }
-        },
-        {
-          // emial
-          targets: 5,
-          render: function (data, type, full, meta) {
-            var $email = full['email'];
-            return '<span class="user-email">' + $email + '</span>';
-          }
-        },
-        {
-          // email verify
-          targets: 5,
-          className: 'text-center',
-          render: function (data, type, full, meta) {
-            var $verified = full['email_verified_at'];
-            return `${
-              $verified
-                ? '<i class="bx fs-4 bx-check-shield text-success"></i>'
-                : '<i class="bx fs-4 bx-shield-x text-danger" ></i>'
-            }`;
+            var $campaign_name = full['campaign_name'];
+            return '<span class="text-body text-truncate">' + $campaign_name + '</span>';
           }
         },
         {
@@ -147,15 +80,8 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="bx bx-edit"></i></button>` +
+              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddCampaign"><i class="bx bx-edit"></i></button>` +
               `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="bx bx-trash"></i></button>` +
-              '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>' +
-              '<div class="dropdown-menu dropdown-menu-end m-0">' +
-              '<a href="' +
-              userView +
-              '" class="dropdown-item">View</a>' +
-              '<a href="javascript:;" class="dropdown-item">Suspend</a>' +
-              '</div>' +
               '</div>'
             );
           }
@@ -185,7 +111,7 @@ $(function () {
           buttons: [
             {
               extend: 'print',
-              title: 'Users',
+              title: 'Campaigns',
               text: '<i class="bx bx-printer me-2" ></i>Print',
               className: 'dropdown-item',
               exportOptions: {
@@ -197,7 +123,7 @@ $(function () {
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList !== undefined && item.classList.contains('user-name')) {
+                      if (item.classList !== undefined && item.classList.contains('campaign-name')) {
                         result = result + item.lastChild.textContent;
                       } else result = result + item.innerText;
                     });
@@ -221,7 +147,7 @@ $(function () {
             },
             {
               extend: 'csv',
-              title: 'Users',
+              title: 'Campaigns',
               text: '<i class="bx bx-file me-2" ></i>Csv',
               className: 'dropdown-item',
               exportOptions: {
@@ -233,7 +159,7 @@ $(function () {
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
+                      if (item.classList.contains('campaign-name')) {
                         result = result + item.lastChild.textContent;
                       } else result = result + item.innerText;
                     });
@@ -244,7 +170,7 @@ $(function () {
             },
             {
               extend: 'excel',
-              title: 'Users',
+              title: 'Campaigns',
               text: '<i class="bx bxs-file-export me-2"></i>Excel',
               className: 'dropdown-item',
               exportOptions: {
@@ -256,7 +182,7 @@ $(function () {
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
+                      if (item.classList.contains('campaign-name')) {
                         result = result + item.lastChild.textContent;
                       } else result = result + item.innerText;
                     });
@@ -267,7 +193,7 @@ $(function () {
             },
             {
               extend: 'pdf',
-              title: 'Users',
+              title: 'Campaigns',
               text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
               className: 'dropdown-item',
               exportOptions: {
@@ -279,7 +205,7 @@ $(function () {
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
+                      if (item.classList.contains('campaign-name')) {
                         result = result + item.lastChild.textContent;
                       } else result = result + item.innerText;
                     });
@@ -290,7 +216,7 @@ $(function () {
             },
             {
               extend: 'copy',
-              title: 'Users',
+              title: 'Campaigns',
               text: '<i class="bx bx-copy me-2" ></i>Copy',
               className: 'dropdown-item',
               exportOptions: {
@@ -302,7 +228,7 @@ $(function () {
                     var el = $.parseHTML(inner);
                     var result = '';
                     $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
+                      if (item.classList.contains('campaign-name')) {
                         result = result + item.lastChild.textContent;
                       } else result = result + item.innerText;
                     });
@@ -314,11 +240,11 @@ $(function () {
           ]
         },
         {
-          text: '<i class="bx bx-plus me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Add New User</span>',
+          text: '<i class="bx bx-plus me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Add New Campaign</span>',
           className: 'add-new btn btn-primary',
           attr: {
             'data-bs-toggle': 'offcanvas',
-            'data-bs-target': '#offcanvasAddUser'
+            'data-bs-target': '#offcanvasAddCampaign'
           }
         }
       ],
@@ -328,7 +254,7 @@ $(function () {
           display: $.fn.dataTable.Responsive.display.modal({
             header: function (row) {
               var data = row.data();
-              return 'Details of ' + data['name'];
+              return 'Details of ' + data['campaign_name'];
             }
           }),
           type: 'column',
@@ -360,7 +286,7 @@ $(function () {
 
   // Delete Record
   $(document).on('click', '.delete-record', function () {
-    var user_id = $(this).data('id'),
+    var campaignid = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
 
     // hide responsive modal in small screen
@@ -385,9 +311,9 @@ $(function () {
         // delete the data
         $.ajax({
           type: 'DELETE',
-          url: `${baseUrl}user-list/${user_id}`,
+          url: `${baseUrl}campaign-list/${campaignid}`,
           success: function () {
-            dt_user.draw();
+            dt_campaign.draw();
           },
           error: function (error) {
             console.log(error);
@@ -398,7 +324,7 @@ $(function () {
         Swal.fire({
           icon: 'success',
           title: 'Deleted!',
-          text: 'The user has been deleted!',
+          text: 'The campaign has been deleted!',
           customClass: {
             confirmButton: 'btn btn-success'
           }
@@ -406,7 +332,7 @@ $(function () {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire({
           title: 'Cancelled',
-          text: 'The User is not deleted!',
+          text: 'The campaign is not deleted!',
           icon: 'error',
           customClass: {
             confirmButton: 'btn btn-success'
@@ -418,7 +344,7 @@ $(function () {
 
   // edit record
   $(document).on('click', '.edit-record', function () {
-    var user_id = $(this).data('id'),
+    var campaign_id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
 
     // hide responsive modal in small screen
@@ -427,17 +353,13 @@ $(function () {
     }
 
     // changing the title of offcanvas
-    $('#offcanvasAddUserLabel').html('Edit User');
+    $('#offcanvasAddCampaignLabel').html('Edit Campaign');
 
     // get data
-    $.get(`${baseUrl}user-list\/${user_id}\/edit`, function (data) {
-      $('#user_id').val(data.users.id);
-      $('#add-user-name').val(data.users.name);
-      $('#add-user-surname').val(data.users.surname);
-      $('#add-user-contact').val(data.users.mobile);
-      $('#add-user-email').val(data.users.email);
-      $('#add-user-role').val(data.users.role);
-
+    $.get(`${baseUrl}campaign-list\/${campaign_id}\/edit`, function (data) {
+      $('#campaign-id').val(data.campaigns.id);
+      $('#add-campaign-name').val(data.campaigns.campaign_name);    
+      
       var model = $('#company-id');
       model.empty();
       $.each(data.companies, function(index, element) {
@@ -453,34 +375,16 @@ $(function () {
           option.selected = true;
         }
         model.append(option);
-      });      
-
-      var model = $('#user-role');
-      model.empty();
-      console.log("roles");
-      $.each(data.roles, function(index, element) {
-        var option = document.createElement("option");
-        option.value = element.role_name;
-        option.text = element.role_name;
-
-        console.log(element.role_name);
-
-        if (element.role_name === data.users.role)
-        {
-          option.selected = true;
-        }
-        
-        model.append(option);
-      });
+      });    
     });
   });
 
-  // changing the title and grabbing company details - this is for the admin
+  // changing the title and grabbing campaign details - this is for the admin
   $('.add-new').on('click', function () {
-    $('#user_id').val(''); //resetting input field
-    $('#offcanvasAddUserLabel').html('Add User');
+    $('#campaign-id').val(''); //resetting input field
+    $('#offcanvasAddCampaignLabel').html('Add Campaign');
 
-      console.log("get companies");
+    console.log("get companies");
       // get data
       $.get(`${baseUrl}all-companies`, function (data) {      
 
@@ -496,20 +400,6 @@ $(function () {
           
           model.append(option);
         });
-
-        var model = $('#user-role');
-        model.empty();
-        console.log("roles");
-        $.each(data.roles, function(index, element) {
-          var option = document.createElement("option");
-          option.value = element.role_name;
-          option.text = element.role_name;
-
-          console.log(element.role_name);
-          
-          model.append(option);
-        });
-        
       });
   });
 
@@ -520,47 +410,16 @@ $(function () {
     $('.dataTables_length .form-select').removeClass('form-select-sm');
   }, 300);
 
-  // validating form and updating user's data
-  const addNewUserForm = document.getElementById('addNewUserForm');
+  // validating form and updating campaign's data
+  const addNewCampaignForm = document.getElementById('addNewCampaignForm');
 
-  // user form validation
-  const fv = FormValidation.formValidation(addNewUserForm, {
+  // campaign form validation
+  const fv = FormValidation.formValidation(addNewCampaignForm, {
     fields: {
       name: {
         validators: {
           notEmpty: {
-            message: 'Please enter first name'
-          }
-        }
-      },
-      surname: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter surname'
-          }
-        }
-      },
-      mobile: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter valid mobile number'
-          }
-        }
-      },
-      email: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your email'
-          },
-          emailAddress: {
-            message: 'The value is not a valid email address'
-          }
-        }
-      },
-      userContact: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your contact'
+            message: 'Please enter campaign name'
           }
         }
       },
@@ -588,20 +447,20 @@ $(function () {
       autoFocus: new FormValidation.plugins.AutoFocus()
     }
   }).on('core.form.valid', function () {
-    // adding or updating user when form successfully validate
+    // adding or updating campaign when form successfully validate
     $.ajax({
-      data: $('#addNewUserForm').serialize(),
-      url: `${baseUrl}user-list`,
+      data: $('#addNewCampaignForm').serialize(),
+      url: `${baseUrl}campaign-list`,
       type: 'POST',
       success: function (status) {
-        dt_user.draw();
+        dt_campaign.draw();
         offCanvasForm.offcanvas('hide');
 
         // sweetalert
         Swal.fire({
           icon: 'success',
           title: `Successfully ${status}!`,
-          text: `User ${status} Successfully.`,
+          text: `Campaign ${status} Successfully.`,
           customClass: {
             confirmButton: 'btn btn-success'
           }
@@ -626,15 +485,5 @@ $(function () {
     fv.resetForm(true);
   });
 
-  const phoneMaskList = document.querySelectorAll('.phone-mask');
-
-  // Phone Number
-  if (phoneMaskList) {
-    phoneMaskList.forEach(function (phoneMask) {
-      new Cleave(phoneMask, {
-        phone: true,
-        phoneRegionCode: 'US'
-      });
-    });
-  }
+  
 });

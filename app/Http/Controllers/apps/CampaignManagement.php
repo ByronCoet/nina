@@ -5,27 +5,29 @@ namespace App\Http\Controllers\apps;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Campaign;
 use App\Models\Company;
 use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
-class CompanyManagement extends Controller
+class CampaignManagement extends Controller
 {
   /**
-   * Redirect to company-management view.
+   * Redirect to campaign-management view.
    *
    */
-  public function CompanyManagement()
+  public function CampaignManagement()
   {
-    
     $companies = Company::all();
+    $campaigns = Campaign::all();
     $roles = Role::all();
-    $companyCount = $companies->count();
-    Log::info('Company lit called');        
+    $campaignCount = $campaigns->count();
+    Log::info('campaign list called');        
 
-    return view('content.laravel-example.company-management', [
-      'totalCompany' => $companyCount,    
+    return view('content.laravel-example.campaign-management', [
+      'totalCampaign' => $campaignCount,    
+      'campaigns' => $campaigns,
       'companies' => $companies,
       'roles' => $roles,
     ]);
@@ -40,14 +42,15 @@ class CompanyManagement extends Controller
   {
     $columns = [
       1 => 'id',
-      2 => 'company_name', 
+      2 => 'company_name',
+      3 => 'campaign_name', 
     ];
 
-    Log::info('Company index called');        
+    Log::info('campaign index called');        
 
     $search = [];
 
-    $totalData = Company::count();
+    $totalData = Campaign::count();
 
     $totalFiltered = $totalData;
 
@@ -61,55 +64,71 @@ class CompanyManagement extends Controller
     // Log::info('Dir: ' . $dir);        
 
     if (empty($request->input('search.value'))) {
-      if ($order == "company")
+      if ($order == "company_name")
       { 
-        $companies = Company::offset($start)
-          ->limit($limit)          
+        Log::info('2');
+        $campaigns = Campaign::offset($start)
+          ->limit($limit) 
+          ->join('companies', 'campaigns.company_id', '=', 'companies.id')         
           ->orderBy('company_name', $dir)
           ->get();     
       }
       else{
-        $companies =Company::offset($start)
+        Log::info('1');
+        $campaigns =Campaign::offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
       }
     } else {
       $search = $request->input('search.value');
-      if ($order == "company")
+      if ($order == "campaign")
         { 
-          $companies = Company::where('id', 'LIKE', "%{$search}%")          
-          ->orWhere('company_name', 'LIKE', "%{$search}%")
+          Log::info('3');
+          $campaigns = Campaign::where('campaigns.id', 'LIKE', "%{$search}%")          
+          ->orWhere('campaign_name', 'LIKE', "%{$search}%")
+          ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
           ->offset($start)
           ->limit($limit)          
-          ->orderBy('company_name', $dir)          
+          ->join('companies', 'campaigns.company_id', '=', 'companies.id')
+          ->orderBy('campaign_name', $dir)          
           ->get();          
         }
         else
         {
-          $companies = Company::where('id', 'LIKE', "%{$search}%")          
+          Log::info('4');
+          $campaigns = Campaign::where('campaigns.id', 'LIKE', "%{$search}%")          
+            ->orWhere('campaign_name', 'LIKE', "%{$search}%")
             ->orWhere('company_name', 'LIKE', "%{$search}%")            
             ->offset($start)
-            ->limit($limit)            
+            ->limit($limit)
+            ->join('companies', 'campaigns.company_id', '=', 'companies.id')
             ->orderBy($order, $dir)
             ->get();
         }
 
-      $totalFiltered = Company::where('id', 'LIKE', "%{$search}%")
-        ->orWhere('company_name', 'LIKE', "%{$search}%")        
+      Log::info('5');
+
+      $totalFiltered = Campaign::where('campaigns.id', 'LIKE', "%{$search}%")
+        ->join('companies', 'campaigns.company_id', '=', 'companies.id')
+        ->orWhere('campaign_name', 'LIKE', "%{$search}%")
+        ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
         ->count();
     }
 
     $data = [];
 
-    if (!empty($companies)) {
+    if (!empty($campaigns)) {
       // providing a dummy id instead of database ids
       $ids = $start;
 
-      foreach ($companies as $c) {
+      Log::info('6');
+
+      foreach ($campaigns as $c) {
         $nestedData['id'] = $c->id;
         $nestedData['fake_id'] = ++$ids;
-        $nestedData['company_name'] = $c->company_name;
+        $nestedData['campaign_name'] = $c->campaign_name;
+        $nestedData['company'] = $c->company->company_name;
         $data[] = $nestedData;
       }
     }
@@ -150,25 +169,27 @@ class CompanyManagement extends Controller
   public function store(Request $request)
   {
 
-    Log::info('Store company called: ');
-
+    Log::info('Store campaign called: ');
 
     $ID = $request->id;
 
-    if ($ID) {
+    if ($ID) 
+    {
       // update the value
-      Log::info('Update company called: ');
-      $company = Company::updateOrCreate(
+      Log::info('Update campaign called: ');
+      $campaign = Campaign::updateOrCreate(
         ['id' => $ID],
-        ['company_name' => $request->company_name]
+        ['campaign_name' => $request->campaign_name, 'company_id' => $request->company_id]        
       );
 
-      // company updated
+      // campaign updated
       return response()->json('Updated');
-    } else {
-      Log::info('Create company called: ');
-      $company = Company::updateOrCreate(        
-        ['company_name' => $request->company_name]
+    } 
+    else 
+    {
+      Log::info('Create campaign called: ');
+      $campaign = Campaign::updateOrCreate(        
+        ['campaign_name' => $request->campaign_name, 'company_id' => $request->company_id,]
       );
       return response()->json('Created');      
     }
@@ -192,13 +213,14 @@ class CompanyManagement extends Controller
    * @return \Illuminate\Http\Response
    */
   public function edit($id)
-  {Log::info('edit company called: ');
+  {Log::info('edit campaign called: ');
     $where = ['id' => $id];
     
-    $companies = Company::where($where)->first();
+    $campaigns = Campaign::where($where)->first();
     $roles = Role::all();
+    $companies = Company::all();
 
-    return response()->json(['companies' => $companies, 'roles' => $roles]);
+    return response()->json(['campaigns' => $campaigns, 'companies' => $companies, 'roles' => $roles]);
   }
 
   /**
@@ -220,6 +242,6 @@ class CompanyManagement extends Controller
    */
   public function destroy($id)
   {
-    $c = Company::where('id', $id)->delete();
+    $c = Campaign::where('id', $id)->delete();
   }
 }

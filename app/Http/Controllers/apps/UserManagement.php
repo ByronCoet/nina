@@ -101,16 +101,16 @@ class UserManagement extends Controller
         else
         {
 
-        $users = User::where('users.id', 'LIKE', "%{$search}%")          
-          ->orWhere('name', 'LIKE', "%{$search}%")
-          ->orWhere('surname', 'LIKE', "%{$search}%")
-          ->orWhere('email', 'LIKE', "%{$search}%")
-          ->orWhere('company_name', 'LIKE', "%{$search}%")
-          ->offset($start)
-          ->limit($limit)
-          ->join('companies', 'users.company_id', '=', 'companies.id')
-          ->orderBy($order, $dir)
-          ->get();
+          $users = User::where('users.id', 'LIKE', "%{$search}%")          
+            ->orWhere('name', 'LIKE', "%{$search}%")
+            ->orWhere('surname', 'LIKE', "%{$search}%")
+            ->orWhere('email', 'LIKE', "%{$search}%")
+            ->orWhere('company_name', 'LIKE', "%{$search}%")
+            ->offset($start)
+            ->limit($limit)
+            ->join('companies', 'users.company_id', '=', 'companies.id')
+            ->orderBy($order, $dir)
+            ->get();
         }
 
       $totalFiltered = User::where('users.id', 'LIKE', "%{$search}%")

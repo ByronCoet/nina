@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Company Management')
+@section('title', 'Campaign Management')
 
 @section('vendor-style')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
@@ -25,7 +25,7 @@
 @endsection
 
 @section('page-script')
-<script src="{{asset('js/laravel-company-management.js')}}"></script>
+<script src="{{asset('js/laravel-campaign-management.js')}}"></script>
 @endsection
 
 @section('content')
@@ -36,12 +36,12 @@
       <div class="card-body">
         <div class="d-flex align-items-start justify-content-between">
           <div class="content-left">
-            <span>Companies</span>
+            <span>Campaigns</span>
             <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{$totalCompany}}</h3>
+              <h3 class="mb-0 me-2">{{$totalCampaign}}</h3>
               <small class="text-success">(100%)</small>
             </div>
-            <small>Total Companies</small>
+            <small>Total Campaigns</small>
           </div>
           <span class="badge bg-label-primary rounded p-2">
             <i class="bx bx-user bx-sm"></i>
@@ -51,8 +51,6 @@
     </div>
   </div>
   
-  
-  
 </div>
 <!-- Users List Table -->
 <div class="card">
@@ -60,29 +58,37 @@
     <h5 class="card-title mb-0">Search Filter</h5>
   </div>
   <div class="card-datatable table-responsive">
-    <table class="datatables-companies table border-top">
+    <table class="datatables-campaigns table border-top">
       <thead>
         <tr>
           <th></th>
           <th>Id</th>
-          <th>Company Name</th>         
+          <th>Company</th>
+          <th>Campaign Name</th>         
           <th>Actions</th> 
         </tr>
       </thead>
     </table>
   </div>
-  <!-- Offcanvas to add new company -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddCompany" aria-labelledby="offcanvasAddCompanyLabel">
+  <!-- Offcanvas to add new campaign -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddCampaign" aria-labelledby="offcanvasAddCampaignLabel">
     <div class="offcanvas-header">
-      <h5 id="offcanvasAddCompanyLabel" class="offcanvas-title">Add Company</h5>
+      <h5 id="offcanvasAddCampaignLabel" class="offcanvas-title">Add Campaign</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body mx-0 flex-grow-0">
-      <form class="add-new-company pt-0" id="addNewCompanyForm">
-        <input type="hidden" name="id" id="company-id">
+      <form class="add-new-campaign pt-0" id="addNewCampaignForm">
+        <input type="hidden" name="id" id="campaign-id">
+
         <div class="mb-3">
-          <label class="form-label" for="add-company-name">Company Name</label>
-          <input type="text" class="form-control" id="add-company-name" placeholder="Adcock" name="company_name" aria-label="Adcock" />
+          <label class="form-label" for="add-campaign-name">Campaign Name</label>
+          <input type="text" class="form-control" id="add-campaign-name" placeholder="Adcock" name="campaign_name" aria-label="Adcock" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="add-user-company-id">Company</label>
+          <select id="company-id" name="company_id" class="select2 form-select">                        
+          </select>
         </div>
 
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>

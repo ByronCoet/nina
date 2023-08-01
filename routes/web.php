@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\apps\UserManagement;
 use App\Http\Controllers\apps\CompanyManagement;
+use App\Http\Controllers\apps\CampaignManagement;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\CompanyController;
 
@@ -45,6 +46,10 @@ Route::get('/all-companies', $controller_path . '\CompanyController@AllCompanies
 
 Route::get('/app/company-management', [CompanyManagement::class, 'CompanyManagement'])->name('app-company-management')->middleware('auth');
 Route::resource('/company-list', CompanyManagement::class)->middleware('auth');
+
+
+Route::get('/app/campaign-management', [CampaignManagement::class, 'CampaignManagement'])->name('app-campaign-management')->middleware('auth');
+Route::resource('/campaign-list', CampaignManagement::class)->middleware('auth');
 
 
 // apps
