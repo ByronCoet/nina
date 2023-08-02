@@ -52,7 +52,7 @@
   </div>
   
 </div>
-<!-- Users List Table -->
+<!-- camapaigns List Table -->
 <div class="card">
   <div class="card-header">
     <h5 class="card-title mb-0">Search Filter</h5>
@@ -86,7 +86,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="add-user-company-id">Company</label>
+          <label class="form-label" for="add-campaign-company-id">Company</label>
           <select id="company-id" name="company_id" class="select2 form-select">                        
           </select>
         </div>

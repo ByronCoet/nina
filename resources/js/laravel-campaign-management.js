@@ -31,7 +31,7 @@ $(function () {
       columns: [
         // columns according to JSON
         { data: '' },
-        { data: 'id' },
+        { data: 'comp_id' },
         { data: 'company' },
         { data: 'campaign_name' },        
         { data: 'action' }
@@ -80,8 +80,8 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddCampaign"><i class="bx bx-edit"></i></button>` +
-              `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="bx bx-trash"></i></button>` +
+              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['comp_id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddCampaign"><i class="bx bx-edit"></i>${full['comp_id']} </button>` +
+              `<button class="btn btn-sm btn-icon delete-record" data-id="${full['comp_id']}"><i class="bx bx-trash"></i></button>` +
               '</div>'
             );
           }
@@ -346,6 +346,8 @@ $(function () {
   $(document).on('click', '.edit-record', function () {
     var campaign_id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
+    
+    console.log("campaign id: " + campaign_id);
 
     // hide responsive modal in small screen
     if (dtrModal.length) {
@@ -357,6 +359,7 @@ $(function () {
 
     // get data
     $.get(`${baseUrl}campaign-list\/${campaign_id}\/edit`, function (data) {
+      console.log(data);
       $('#campaign-id').val(data.campaigns.id);
       $('#add-campaign-name').val(data.campaigns.campaign_name);    
       
@@ -368,9 +371,9 @@ $(function () {
         option.text = element.company_name;
 
         //console.log(element.id);
-        //aconsole.log(data.users.company_id);
+        //aconsole.log(data.campaigns.company_id);
 
-        if (element.id === data.users.company_id)
+        if (element.id === data.campaigns.company_id)
         {
           option.selected = true;
         }

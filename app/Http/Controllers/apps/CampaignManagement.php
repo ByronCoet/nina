@@ -68,8 +68,9 @@ class CampaignManagement extends Controller
       { 
         Log::info('2');
         $campaigns = Campaign::offset($start)
-          ->limit($limit) 
+          ->limit($limit)           
           ->join('companies', 'campaigns.company_id', '=', 'companies.id')         
+          ->select('campaigns.*', 'companies.company_name' )
           ->orderBy('company_name', $dir)
           ->get();     
       }
@@ -91,6 +92,7 @@ class CampaignManagement extends Controller
           ->offset($start)
           ->limit($limit)          
           ->join('companies', 'campaigns.company_id', '=', 'companies.id')
+          ->select('campaigns.*', 'companies.company_name' )
           ->orderBy('campaign_name', $dir)          
           ->get();          
         }
@@ -103,6 +105,7 @@ class CampaignManagement extends Controller
             ->offset($start)
             ->limit($limit)
             ->join('companies', 'campaigns.company_id', '=', 'companies.id')
+            ->select('campaigns.*', 'companies.company_name' )
             ->orderBy($order, $dir)
             ->get();
         }
@@ -111,6 +114,7 @@ class CampaignManagement extends Controller
 
       $totalFiltered = Campaign::where('campaigns.id', 'LIKE', "%{$search}%")
         ->join('companies', 'campaigns.company_id', '=', 'companies.id')
+        ->select('campaigns.*', 'companies.company_name' )
         ->orWhere('campaign_name', 'LIKE', "%{$search}%")
         ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
         ->count();
@@ -125,10 +129,11 @@ class CampaignManagement extends Controller
       Log::info('6');
 
       foreach ($campaigns as $c) {
-        $nestedData['id'] = $c->id;
+        Log::info('c id: ' . $c);
+        $nestedData['comp_id'] = $c->id;
         $nestedData['fake_id'] = ++$ids;
-        $nestedData['campaign_name'] = $c->campaign_name;
         $nestedData['company'] = $c->company->company_name;
+        $nestedData['campaign_name'] = $c->campaign_name;        
         $data[] = $nestedData;
       }
     }
@@ -213,8 +218,11 @@ class CampaignManagement extends Controller
    * @return \Illuminate\Http\Response
    */
   public function edit($id)
-  {Log::info('edit campaign called: ');
+  {
+    Log::info('edit campaign called: ');
     $where = ['id' => $id];
+
+    Log::info('edit campaign called with id: ' . $id);
     
     $campaigns = Campaign::where($where)->first();
     $roles = Role::all();
