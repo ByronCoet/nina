@@ -30,9 +30,13 @@ $container = ($container ?? 'container-xxl');
 @section('layoutContent')
 <div class="layout-wrapper layout-content-navbar {{ $isMenu ? '' : 'layout-without-menu' }}">
   <div class="layout-container">
-
-    @if ($isMenu)
-    @include('layouts/sections/menu/verticalMenu')
+   
+    @if ($isMenu)     
+      @if (Auth::user()->role === "client")        
+        @include('layouts/sections/menu/verticalClientMenu')
+      @else      
+        @include('layouts/sections/menu/verticalMenu')
+      @endif
     @endif
 
 

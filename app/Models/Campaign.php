@@ -12,7 +12,9 @@ class Campaign extends Model
 
     protected $fillable = [
         'campaign_name',
-        'company_id'
+        'company_id',
+        'campaign_start',
+        'campaign_end'
     ];
 
     public function company(): BelongsTo

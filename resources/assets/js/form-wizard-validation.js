@@ -15,8 +15,7 @@
     // Wizard form
     const wizardValidationForm = wizardValidation.querySelector('#wizard-validation-form');
     // Wizard steps
-    const wizardValidationFormStep1 = wizardValidationForm.querySelector('#account-details-validation');
-    const wizardValidationFormStep2 = wizardValidationForm.querySelector('#personal-info-validation');
+    const wizardValidationFormStep1 = wizardValidationForm.querySelector('#account-details-validation');    
     const wizardValidationFormStep3 = wizardValidationForm.querySelector('#social-links-validation');
     // Wizard next prev button
     const wizardValidationNext = [].slice.call(wizardValidationForm.querySelectorAll('.btn-next'));
@@ -101,6 +100,7 @@
     });
 
     // Personal info
+    /*
     const FormValidation2 = FormValidation.formValidation(wizardValidationFormStep2, {
       fields: {
         formValidationFirstName: {
@@ -175,6 +175,8 @@
       });
     }
 
+    */
+
     // Social links
     const FormValidation3 = FormValidation.formValidation(wizardValidationFormStep3, {
       fields: {
@@ -246,11 +248,11 @@
             FormValidation1.validate();
             break;
 
-          case 1:
-            FormValidation2.validate();
-            break;
+          //case 1:
+          //  FormValidation2.validate();
+          //  break;
 
-          case 2:
+          case 1:
             FormValidation3.validate();
             break;
 

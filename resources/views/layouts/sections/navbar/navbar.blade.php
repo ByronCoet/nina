@@ -106,18 +106,18 @@ $containerNav = $containerNav ?? 'container-fluid';
             <li>
               <div class="dropdown-divider"></div>
             </li>
-            <li>
+            <!-- <li>
               <h6 class="dropdown-header">Manage Team</h6>
-            </li>
+            </li> 
             <li>
               <div class="dropdown-divider"></div>
             </li>
             
             <li>
               <div class="dropdown-divider"></div>
-            </li>
+            </li> -->
             <lI>
-              <h6 class="dropdown-header">Switch Teams</h6>
+              <h6 class="dropdown-header">Switch Company</h6>
             </lI>
             <li>
               <div class="dropdown-divider"></div>

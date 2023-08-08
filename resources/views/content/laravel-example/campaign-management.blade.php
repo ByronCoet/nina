@@ -4,12 +4,14 @@
 
 @section('vendor-style')
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/flatpickr/flatpickr.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/animate-css/animate.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/pickr/pickr-themes.css')}}" />
 @endsection
 
 @section('vendor-script')
@@ -22,10 +24,14 @@
 <script src="{{asset('assets/vendor/libs/cleavejs/cleave.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
+
 @endsection
 
 @section('page-script')
 <script src="{{asset('js/laravel-campaign-management.js')}}"></script>
+<script src="{{asset('js/forms-pickers.js')}}"></script>
 @endsection
 
 @section('content')
@@ -54,8 +60,13 @@
 </div>
 <!-- camapaigns List Table -->
 <div class="card">
-  <div class="card-header">
-    <h5 class="card-title mb-0">Search Filter</h5>
+  
+
+  <div class="card-header border-bottom">
+    <h5 class="card-title">Search Filter</h5>
+    <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">      
+      <div class="col-md-4 campaign_company"></div>
+    </div>
   </div>
   <div class="card-datatable table-responsive">
     <table class="datatables-campaigns table border-top">
@@ -64,8 +75,10 @@
           <th></th>
           <th>Id</th>
           <th>Company</th>
-          <th>Campaign Name</th>         
-          <th>Actions</th> 
+          <th>Campaign Name</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Actions</th>
         </tr>
       </thead>
     </table>
@@ -88,6 +101,18 @@
         <div class="mb-3">
           <label class="form-label" for="add-campaign-company-id">Company</label>
           <select id="company-id" name="company_id" class="select2 form-select">                        
+          </select>
+        </div>
+        
+        <div class="mb-3">
+          <label class="form-label" for="add-campaign-start">Start date</label>          
+          <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="add-campaign-start" name="campaign_start" />
+          </select>
+        </div>
+        
+        <div class="mb-3">
+          <label class="form-label" for="add-campaign-end">End date</label>          
+          <input type="text" class="form-control" placeholder="YYYY-MM-DD"  id="add-campaign-end" name="campaign_end" />
           </select>
         </div>
 

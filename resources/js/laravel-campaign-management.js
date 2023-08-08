@@ -8,7 +8,7 @@
 $(function () {
   // Variable declaration for table
   var dt_campaign_table = $('.datatables-campaigns'),
-    // select2 = $('.select2'),
+    select2 = $('.select2'),
     campaignView = baseUrl + 'app/campaign/view/account',
     offCanvasForm = $('#offcanvasAddCampaign');
 
@@ -19,6 +19,7 @@ $(function () {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
+  
 
   // campaign datatable
   if (dt_campaign_table.length) {
@@ -26,14 +27,19 @@ $(function () {
       processing: true,
       serverSide: true,
       ajax: {
-        url: baseUrl + 'campaign-list'
-      },
+        url: baseUrl + 'campaign-list',
+        data: function(d){          
+          d.extra_search = $('#campaigncompany').val();
+        }
+      },      
       columns: [
         // columns according to JSON
         { data: '' },
         { data: 'comp_id' },
         { data: 'company' },
-        { data: 'campaign_name' },        
+        { data: 'campaign_name' },
+        { data: 'campaign_start' },
+        { data: 'campaign_end' },
         { data: 'action' }
       ],
       columnDefs: [
@@ -58,7 +64,7 @@ $(function () {
         },
         {          
            // company
-           targets: 2,
+           targets: 2,           
            render: function (data, type, full, meta) {
              var $company = full['company'];
              return '<span class="text-body text-truncate">' + $company + '</span>';
@@ -71,6 +77,20 @@ $(function () {
             return '<span class="text-body text-truncate">' + $campaign_name + '</span>';
           }
         },
+        {          
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var $campaign_start = full['campaign_start'];
+            return '<span class="text-body text-truncate">' + $campaign_start + '</span>';
+          }
+        },
+        {          
+          targets: 5,
+          render: function (data, type, full, meta) {
+            var $campaign_end = full['campaign_end'];
+            return '<span class="text-body text-truncate">' + $campaign_end + '</span>';
+          }
+        },
         {
           // Actions
           targets: -1,
@@ -80,7 +100,7 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['comp_id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddCampaign"><i class="bx bx-edit"></i>${full['comp_id']} </button>` +
+              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['comp_id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddCampaign"><i class="bx bx-edit"></i></button>` +
               `<button class="btn btn-sm btn-icon delete-record" data-id="${full['comp_id']}"><i class="bx bx-trash"></i></button>` +
               '</div>'
             );
@@ -100,7 +120,7 @@ $(function () {
       language: {
         sLengthMenu: '_MENU_',
         search: '',
-        searchPlaceholder: 'Search..'
+        searchPlaceholder: 'Searchhh..'
       },
       // Buttons with Dropdown
       buttons: [
@@ -280,6 +300,37 @@ $(function () {
             return data ? $('<table class="table"/><tbody />').append(data) : false;
           }
         }
+      },
+      initComplete: function () {
+        // Adding company filter once table initialized
+        
+        this.api()
+          .columns(2)
+          .every(function () {
+            var column = this;
+            var select = $(
+              '<select id="campaigncompany" class="form-select text-capitalize"><option value=""> Select Company </option></select>'
+            )
+              .appendTo('.campaign_company')
+              .on('change', function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                console.log("got here : " + val);
+                
+                column.search(val ? '^' + val + '$' : '', true, false).draw();
+                //column.search(val ? val  : '').draw();
+                // $('#datatables-campaigns').DataTable().search(val).draw();
+
+                // this.search(val);
+              });
+
+            column
+              .data()
+              .unique()
+              .sort()
+              .each(function (d, j) {
+                select.append('<option value="' + d + '">' + d + '</option>');
+              });
+          });
       }
     });
   }
@@ -362,6 +413,8 @@ $(function () {
       console.log(data);
       $('#campaign-id').val(data.campaigns.id);
       $('#add-campaign-name').val(data.campaigns.campaign_name);    
+      $('#add-campaign-start').val(data.campaigns.campaign_start);    
+      $('#add-campaign-end').val(data.campaigns.campaign_end);    
       
       var model = $('#company-id');
       model.empty();
@@ -433,6 +486,22 @@ $(function () {
           }
         }
       }
+      ,
+      company_start: {
+        validators: {
+          notEmpty: {
+            message: 'Please enter start date'
+          }
+        }
+      }
+      ,
+      company_end: {
+        validators: {
+          notEmpty: {
+            message: 'Please enter end date'
+          }
+        }
+      }
     },
     plugins: {
       trigger: new FormValidation.plugins.Trigger(),
@@ -481,7 +550,17 @@ $(function () {
         });
       }
     });
+
+    
+    
   });
+
+ /* $('#campaigncompany').on('change', function(){
+    console.log(" *** " + this.value);
+    // dt_campaign_table.search(this.value).draw();   
+  }); */
+
+
 
   // clearing form data when offcanvas hidden
   offCanvasForm.on('hidden.bs.offcanvas', function () {

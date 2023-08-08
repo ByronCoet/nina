@@ -7,27 +7,9 @@
       "slug": "pages-home"
     },
     {
-      "url": "/setcurrentcampaign",
-      "icon": "menu-icon tf-icons bx bx-file",
-      "name": "Set current campaign",
-      "slug": "setcurrentcampaign-page"
-    },
-    {
-      "url": "/capture",
-      "icon": "menu-icon tf-icons bx bx-file",
-      "name": "Capture - New User",
-      "slug": "capture-page"
-    },
-    {
-      "url": "/capture",
-      "icon": "menu-icon tf-icons bx bx-file",
-      "name": "Capture - Existing User",
-      "slug": "capture-page"
-    },
-    {
       "url": "/page-2",
       "icon": "menu-icon tf-icons bx bx-file",
-      "name": "Leader Board",
+      "name": "Leader Board Client",
       "slug": "pages-page-2"
     },
     {

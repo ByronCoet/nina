@@ -44,6 +44,8 @@ class CampaignManagement extends Controller
       1 => 'id',
       2 => 'company_name',
       3 => 'campaign_name', 
+      4 => 'campaign_start', 
+      5 => 'campaign_end', 
     ];
 
     Log::info('campaign index called');        
@@ -57,22 +59,32 @@ class CampaignManagement extends Controller
     $limit = $request->input('length');
     $start = $request->input('start');
     $order = $columns[$request->input('order.0.column')];
+
+    $comp_search = $request->get('extra_search');
+
+    Log::info('EXTRAAAA: ' . $comp_search);     
     
     // Log::info('Order: ' . $order);
     $dir = $request->input('order.0.dir');
 
-    // Log::info('Dir: ' . $dir);        
+    Log::info('Dir: ' . $dir);        
+    Log::info('search val: ' . $request->input('search.value')) ;        
 
     if (empty($request->input('search.value'))) {
       if ($order == "company_name")
       { 
         Log::info('2');
-        $campaigns = Campaign::offset($start)
+        $query = Campaign::offset($start)
           ->limit($limit)           
-          ->join('companies', 'campaigns.company_id', '=', 'companies.id')         
+          ->join('companies', 'campaigns.company_id', '=', 'companies.id')             
           ->select('campaigns.*', 'companies.company_name' )
-          ->orderBy('company_name', $dir)
-          ->get();     
+          ->orderBy('company_name', $dir);
+
+          if (!empty($comp_search)) {
+            $query->where('company_name', 'LIKE', "%{$comp_search}%");
+          }
+
+        $campaigns = $query->get();     
       }
       else{
         Log::info('1');
@@ -86,38 +98,58 @@ class CampaignManagement extends Controller
       if ($order == "campaign")
         { 
           Log::info('3');
-          $campaigns = Campaign::where('campaigns.id', 'LIKE', "%{$search}%")          
-          ->orWhere('campaign_name', 'LIKE', "%{$search}%")
-          ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
+          $query = Campaign::where(function ($q) use ($search) {
+            $q->where('campaign_name', 'LIKE', "%{$search}%");
+            $q->orWhere('company_name', 'LIKE', "%{$search}%");
+            $q->orWhere('campaigns.id', 'LIKE', "%{$search}%");  
+          })
           ->offset($start)
           ->limit($limit)          
           ->join('companies', 'campaigns.company_id', '=', 'companies.id')
           ->select('campaigns.*', 'companies.company_name' )
-          ->orderBy('campaign_name', $dir)          
-          ->get();          
+          ->orderBy('campaign_name', $dir);
+
+          if (!empty($comp_search)) {
+            $query->where('company_name', 'LIKE', "%{$comp_search}%");
+          }
+
+          $campaigns = $query->get();          
         }
         else
         {
           Log::info('4');
-          $campaigns = Campaign::where('campaigns.id', 'LIKE', "%{$search}%")          
-            ->orWhere('campaign_name', 'LIKE', "%{$search}%")
-            ->orWhere('company_name', 'LIKE', "%{$search}%")            
+          $query = Campaign::where(function ($q) use ($search) {
+                $q->where('campaign_name', 'LIKE', "%{$search}%");
+                $q->orWhere('company_name', 'LIKE', "%{$search}%");
+                $q->orWhere('campaigns.id', 'LIKE', "%{$search}%");  
+              })
             ->offset($start)
             ->limit($limit)
             ->join('companies', 'campaigns.company_id', '=', 'companies.id')
             ->select('campaigns.*', 'companies.company_name' )
-            ->orderBy($order, $dir)
-            ->get();
+            ->orderBy($order, $dir);
+
+            if (!empty($comp_search)) {
+              $query->where('company_name', '=', "{$comp_search}");
+            }
+
+            $campaigns = $query->get();
         }
 
       Log::info('5');
 
-      $totalFiltered = Campaign::where('campaigns.id', 'LIKE', "%{$search}%")
-        ->join('companies', 'campaigns.company_id', '=', 'companies.id')
-        ->select('campaigns.*', 'companies.company_name' )
-        ->orWhere('campaign_name', 'LIKE', "%{$search}%")
-        ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
-        ->count();
+      $query = Campaign::where(function ($q) use ($search) {
+              $q->where('campaign_name', 'LIKE', "%{$search}%");
+              $q->orWhere('company_name', 'LIKE', "%{$search}%");
+              $q->orWhere('campaigns.id', 'LIKE', "%{$search}%");  
+            })
+            ->join('companies', 'campaigns.company_id', '=', 'companies.id')
+            ->select('campaigns.*', 'companies.company_name' );
+            if (!empty($comp_search)) {
+              $query->where('company_name', '=', "{$comp_search}");
+            }
+
+        $totalFiltered = $query->count();
     }
 
     $data = [];
@@ -129,11 +161,13 @@ class CampaignManagement extends Controller
       Log::info('6');
 
       foreach ($campaigns as $c) {
-        Log::info('c id: ' . $c);
+        // Log::info('c id: ' . $c);
         $nestedData['comp_id'] = $c->id;
         $nestedData['fake_id'] = ++$ids;
         $nestedData['company'] = $c->company->company_name;
-        $nestedData['campaign_name'] = $c->campaign_name;        
+        $nestedData['campaign_name'] = $c->campaign_name;
+        $nestedData['campaign_start'] = $c->campaign_start;
+        $nestedData['campaign_end'] = $c->campaign_end;
         $data[] = $nestedData;
       }
     }
@@ -184,7 +218,11 @@ class CampaignManagement extends Controller
       Log::info('Update campaign called: ');
       $campaign = Campaign::updateOrCreate(
         ['id' => $ID],
-        ['campaign_name' => $request->campaign_name, 'company_id' => $request->company_id]        
+        ['campaign_name' => $request->campaign_name, 
+         'company_id' => $request->company_id,
+         'campaign_start' => $request->campaign_start,  
+         'campaign_end' => $request->campaign_end,  
+         ]        
       );
 
       // campaign updated
@@ -194,7 +232,10 @@ class CampaignManagement extends Controller
     {
       Log::info('Create campaign called: ');
       $campaign = Campaign::updateOrCreate(        
-        ['campaign_name' => $request->campaign_name, 'company_id' => $request->company_id,]
+        ['campaign_name' => $request->campaign_name, 
+        'company_id' => $request->company_id,
+        'campaign_start' => $request->campaign_start,  
+        'campaign_end' => $request->campaign_end,  ]
       );
       return response()->json('Created');      
     }

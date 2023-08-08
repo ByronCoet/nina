@@ -3,6 +3,32 @@
  */
 'use strict';
 
+$(document).ready(function() {
+  $('#formValidationCompany').on('change', function(e) {
+      // console.log("company selected");
+      var comp_id = e.target.value;
+      $.ajax({
+          // url: "{{ route('subcamp') }}",
+          url: baseUrl + 'subcamp',
+          type: "POST",
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          data: {
+              comp_id: comp_id
+          },
+          success: function(data) {
+              $('#formValidationCampaign').empty();
+              // console.log(data);
+              $.each(data.camps, function(index,camp) {
+                  $('#formValidationCampaign').append('<option value="' + camp
+                      .id + '">' + camp.campaign_name + '</option>');
+              })
+          }
+      })
+  });
+});
+
 (function () {
   const phoneMaskList = document.querySelectorAll('.phone-mask'),
     creditCardMask = document.querySelector('.credit-card-mask'),

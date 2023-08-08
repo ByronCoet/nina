@@ -1,0 +1,161 @@
+@php
+$configData = Helper::appClasses();
+@endphp
+
+@extends('layouts/layoutMaster')
+
+@section('title', 'LeaderBoard')
+
+@section('vendor-style')
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/bs-stepper/bs-stepper.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css')}}" />
+@endsection
+
+@section('vendor-script')
+<script src="{{asset('assets/vendor/libs/bs-stepper/bs-stepper.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js')}}"></script>
+@endsection
+
+@section('page-script')
+
+<script src="{{asset('assets/js/form-wizard-validation.js')}}"></script>
+@endsection
+
+@section('content')
+<h2 style="color:#00264F; font-style: italic;">We save lives</h2>
+<h4 style="color:#CBDA3B; font-style: italic;">One bag at a time</h4>
+
+<!-- Default -->
+<div class="row">
+  <!-- <div class="col-12">
+    <h5>Default</h5>
+  </div> -->
+
+  <!-- Validation Wizard -->
+  <div class="col-12 mb-4">    
+    <div id="wizard-validation" class="bs-stepper mt-2">
+    
+      <div class="bs-stepper-header">
+        <div class="step" data-target="#account-details-validation">
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">1</span>
+            <span class="bs-stepper-label">Account</span>
+          </button>
+        </div>        
+        <div class="line"></div>
+        <div class="step" data-target="#social-links-validation">
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">2</span>
+            <span class="bs-stepper-label">Donation</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="bs-stepper-content">
+        <form id="wizard-validation-form" onSubmit="return false">
+          <!-- Account Details -->
+          <div id="account-details-validation" class="content">
+            <!-- <div class="content-header mb-3">
+              <h6 class="mb-0">Account Details</h6>
+              <small>Enter Your Account Details.</small>
+            </div> -->
+            <div class="row g-3">              
+            
+              <!--
+              <div class="mb-sm-6">                
+                <div class="form-check mb-2">
+                  <input type="radio" id="bs-validation-radio-new" name="bs-validation-radio" class="form-check-input" required />
+                  <label class="form-check-label" for="bs-validation-radio-new">New user</label>
+                </div>
+                <div class="form-check">
+                  <input type="radio" id="bs-validation-radio-exist" name="bs-validation-radio" class="form-check-input" required />
+                  <label class="form-check-label" for="bs-validation-radio-exist">Existing user</label>
+                </div>
+              </div>
+              -->
+
+              <div class="col-sm-6">
+                <label class="form-label" for="formValidationFirstname">First name</label>
+                <input type="text" name="formValidationFirstname" id="formValidationFirstname" class="form-control" placeholder="John" />
+              </div>
+
+              <div class="col-sm-6">
+                <label class="form-label" for="formValidationSurname">Surname</label>
+                <input type="text" name="formValidationSurname" id="formValidationSurname" class="form-control" placeholder="Doe" />
+              </div>
+
+              <div class="col-sm-6">
+                <label class="form-label" for="formValidationMobile">Mobile number</label>
+                <input type="text" name="formValidationMobile" id="formValidationMobile" class="form-control" placeholder="0711234567" />
+              </div>
+
+              <div class="col-sm-6">
+                <label class="form-label" for="formValidationCompany">Company</label>
+                <select id="formValidationCompany" name="formValidationCompany" class="select2 form-select">
+                  @foreach($companies as $c)
+                    <option value="{{ $c->id }}">{{ $c->company_name }}</option>
+                  @endforeach
+                </select>
+              </div>
+
+              <!--<div class="col-sm-6">
+                <label class="form-label" for="formValidationEmail">Email</label>
+                <input type="email" name="formValidationEmail" id="formValidationEmail" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+              </div>-->
+              
+              <div class="col-12 d-flex justify-content-between">
+                <button class="btn btn-label-secondary btn-prev" disabled> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                  <span class="d-sm-inline-block d-none">Previous</span>
+                </button>
+                <button class="btn btn-primary btn-next"> <span class="d-sm-inline-block d-none me-sm-1">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Social Links -->
+          <div id="social-links-validation" class="content">
+            <div class="content-header mb-3">
+              <h6 class="mb-0">Social Links</h6>
+              <small>Enter Your Social Links.</small>
+            </div>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label" for="formValidationTwitter">Twitter</label>
+                <input type="text" name="formValidationTwitter" id="formValidationTwitter" class="form-control" placeholder="https://twitter.com/abc" />
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label" for="formValidationFacebook">Facebook</label>
+                <input type="text" name="formValidationFacebook" id="formValidationFacebook" class="form-control" placeholder="https://facebook.com/abc" />
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label" for="formValidationGoogle">Google+</label>
+                <input type="text" name="formValidationGoogle" id="formValidationGoogle" class="form-control" placeholder="https://plus.google.com/abc" />
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label" for="formValidationLinkedIn">LinkedIn</label>
+                <input type="text" name="formValidationLinkedIn" id="formValidationLinkedIn" class="form-control" placeholder="https://linkedin.com/abc" />
+              </div>
+              <div class="col-12 d-flex justify-content-between">
+                <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                  <span class="d-sm-inline-block d-none">Previous</span>
+                </button>
+                <button class="btn btn-success btn-next btn-submit">Submit</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- /Validation Wizard -->
+
+
+</div>
+
+@endsection
