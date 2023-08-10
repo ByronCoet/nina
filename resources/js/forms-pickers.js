@@ -11,7 +11,11 @@
     flatpickrTime = document.querySelector('#flatpickr-time'),
 
     cstart = document.querySelector('#add-campaign-start'),
-    cend = document.querySelector('#add-campaign-end'),    
+    cend = document.querySelector('#add-campaign-end'),  
+
+    eventdate = document.querySelector('#add-event-date'),  
+    
+    
     
     flatpickrDateTime = document.querySelector('#flatpickr-datetime'),
     flatpickrMulti = document.querySelector('#flatpickr-multi'),
@@ -37,6 +41,13 @@
   // Date
   if (cend) {
     cend.flatpickr({
+      monthSelectorType: 'static'
+    });
+  }
+
+  // Date
+  if (eventdate) {
+    eventdate.flatpickr({
       monthSelectorType: 'static'
     });
   }

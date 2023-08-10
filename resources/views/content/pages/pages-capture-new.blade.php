@@ -20,19 +20,21 @@ $configData = Helper::appClasses();
 <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
 @endsection
 
 @section('page-script')
-
 <script src="{{asset('assets/js/form-wizard-validation.js')}}"></script>
+<script src="{{asset('js/forms-pickers.js')}}"></script>
 @endsection
 
 @section('content')
 <h2 style="color:#00264F; font-style: italic;">We save lives</h2>
-<h4 style="color:#CBDA3B; font-style: italic;">One bag at a time</h4>
+<h4 style="color:#CBDA3B; font-style: italic; margin-top:-15px;">One bag at a time</h4>
 
 <!-- Default -->
-<div class="row">
+<div class="row" >
   <!-- <div class="col-12">
     <h5>Default</h5>
   </div> -->
@@ -41,7 +43,7 @@ $configData = Helper::appClasses();
   <div class="col-12 mb-4">    
     <div id="wizard-validation" class="bs-stepper mt-2">
     
-      <div class="bs-stepper-header">
+      <div class="bs-stepper-header" style="background-color:#00B3DC;">
         <div class="step" data-target="#account-details-validation">
           <button type="button" class="step-trigger">
             <span class="bs-stepper-circle">1</span>
@@ -57,7 +59,7 @@ $configData = Helper::appClasses();
         </div>
       </div>
 
-      <div class="bs-stepper-content">
+      <div class="bs-stepper-content"  style="background-color:#00B3DC;">
         <form id="wizard-validation-form" onSubmit="return false">
           <!-- Account Details -->
           <div id="account-details-validation" class="content">
@@ -104,6 +106,24 @@ $configData = Helper::appClasses();
                 </select>
               </div>
 
+              <div class="col-12">
+                <label class="switch">
+                  
+                  <input type="checkbox" class="switch-input" >
+                  <span class="switch-toggle-slider">
+                    <span class="switch-on">
+                      <i class="bx bx-check"></i>
+                    </span>
+                    <span class="switch-off">
+                      <i class="bx bx-x"></i>
+                    </span>
+                  </span>
+                  <span class="switch-label">Do you give consent for your information to be used for the duration of the campaign to receive
+                  leaderboard information?</span>
+                  
+                </label>
+              </div>
+
               <!--<div class="col-sm-6">
                 <label class="form-label" for="formValidationEmail">Email</label>
                 <input type="email" name="formValidationEmail" id="formValidationEmail" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
@@ -119,28 +139,60 @@ $configData = Helper::appClasses();
           </div>
           
           <!-- Social Links -->
-          <div id="social-links-validation" class="content">
-            <div class="content-header mb-3">
-              <h6 class="mb-0">Social Links</h6>
-              <small>Enter Your Social Links.</small>
-            </div>
+          <div id="social-links-validation" class="content">            
             <div class="row g-3">
+
               <div class="col-sm-6">
-                <label class="form-label" for="formValidationTwitter">Twitter</label>
-                <input type="text" name="formValidationTwitter" id="formValidationTwitter" class="form-control" placeholder="https://twitter.com/abc" />
+                <label class="form-label" for="add-event-date">Event date</label>          
+                <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="add-event-date" name="add-event-date" />
+                </select>
               </div>
-              <div class="col-sm-6">
-                <label class="form-label" for="formValidationFacebook">Facebook</label>
-                <input type="text" name="formValidationFacebook" id="formValidationFacebook" class="form-control" placeholder="https://facebook.com/abc" />
+
+              <div class="col-12">
+                <label class="switch">                  
+                  <input type="checkbox" class="switch-input" >
+                  <span class="switch-toggle-slider">
+                    <span class="switch-on">
+                      <i class="bx bx-check"></i>
+                    </span>
+                    <span class="switch-off">
+                      <i class="bx bx-x"></i>
+                    </span>
+                  </span>
+                  <span class="switch-label">Were you able to donate?</span>                  
+                </label>
               </div>
-              <div class="col-sm-6">
-                <label class="form-label" for="formValidationGoogle">Google+</label>
-                <input type="text" name="formValidationGoogle" id="formValidationGoogle" class="form-control" placeholder="https://plus.google.com/abc" />
+
+              <div class="col-12">
+                <label class="switch">                  
+                  <input type="checkbox" class="switch-input" >
+                  <span class="switch-toggle-slider">
+                    <span class="switch-on">
+                      <i class="bx bx-check"></i>
+                    </span>
+                    <span class="switch-off">
+                      <i class="bx bx-x"></i>
+                    </span>
+                  </span>
+                  <span class="switch-label">Did you convert a colleague?</span>                  
+                </label>
               </div>
-              <div class="col-sm-6">
-                <label class="form-label" for="formValidationLinkedIn">LinkedIn</label>
-                <input type="text" name="formValidationLinkedIn" id="formValidationLinkedIn" class="form-control" placeholder="https://linkedin.com/abc" />
+
+              <div class="col-12">
+                <label class="switch">                  
+                  <input type="checkbox" class="switch-input" >
+                  <span class="switch-toggle-slider">
+                    <span class="switch-on">
+                      <i class="bx bx-check"></i>
+                    </span>
+                    <span class="switch-off">
+                      <i class="bx bx-x"></i>
+                    </span>
+                  </span>
+                  <span class="switch-label">Did you support a colleague?</span>                  
+                </label>
               </div>
+
               <div class="col-12 d-flex justify-content-between">
                 <button class="btn btn-primary btn-prev"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                   <span class="d-sm-inline-block d-none">Previous</span>

@@ -3,6 +3,10 @@
 * File include item demo only specific css only
 ******************************************************************************/
 
+.bs-body-color {
+  color: red;
+}
+
 .light-style .menu .app-brand.demo {
   height: 64px;
 }

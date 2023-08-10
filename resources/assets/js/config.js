@@ -21,7 +21,7 @@ let config = {
     white: '#fff',
     cardColor: '#fff',
     bodyBg: '#f2f2f6',
-    bodyColor: '#677788',
+    bodyColor: '#f7270c',
     headingColor: '#516377',
     textMuted: '#a8b1bb',
     borderColor: '#e9ecee'
@@ -43,10 +43,10 @@ let config = {
     textMuted: '#8295ba',
     borderColor: '#36445d'
   },
-  enableMenuLocalStorage: true // Enable menu state with local storage support
+  enableMenuLocalStorage: false // Enable menu state with local storage support
 };
 
 let assetsPath = document.documentElement.getAttribute('data-assets-path'),
   baseUrl = document.documentElement.getAttribute('data-base-url') + '/',
   templateName = document.documentElement.getAttribute('data-template'),
-  rtlSupport = true; // set true for rtl support (rtl + ltr), false for ltr only.
+  rtlSupport = false; // set true for rtl support (rtl + ltr), false for ltr only.

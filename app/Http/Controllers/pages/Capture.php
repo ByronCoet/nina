@@ -8,9 +8,15 @@ use App\Models\Company;
 
 class Capture extends Controller
 {
-  public function index()
+  public function capturenew()
   {
     $companies = Company::all();
-    return view('content.pages.pages-capture', ['companies' => $companies]);
+    return view('content.pages.pages-capture-new', ['companies' => $companies]);
+  }
+
+  public function captureexisting()
+  {
+    $companies = Company::all();
+    return view('content.pages.pages-capture-existing', ['companies' => $companies]);
   }
 }

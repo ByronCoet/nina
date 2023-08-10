@@ -13,17 +13,17 @@
       "slug": "setcurrentcampaign-page"
     },
     {
-      "url": "/capture",
+      "url": "/capturenew",
       "icon": "menu-icon tf-icons bx bx-file",
       "name": "Capture - New User",
-      "slug": "capture-page"
+      "slug": "capture-page-new"
     },
     {
-      "url": "/capture",
+      "url": "/captureexisting",
       "icon": "menu-icon tf-icons bx bx-file",
-      "name": "Capture - Existing User",
-      "slug": "capture-page"
-    },
+      "name": "Capture - Existing user",
+      "slug": "capture-page-existing"
+    },    
     {
       "url": "/page-2",
       "icon": "menu-icon tf-icons bx bx-file",
@@ -32,8 +32,8 @@
     },
     {
       "url": "/app/campaign-management",
-      "name": "Campaigns",
       "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Campaigns",      
       "slug": "app-campaign"
     },
     {

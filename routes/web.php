@@ -26,13 +26,14 @@ Route::get('/', $controller_path . '\pages\HomePage@index')->name('pages-home');
 Route::get('/page-2', $controller_path . '\pages\Page2@index')->name('pages-page-2');
 
 
-Route::get('/setcurrentcampaign', $controller_path . '\SiteSettingsController@setcampaign')->name('setcurrentcampaign');
+Route::get('/setcurrentcampaign', $controller_path . '\SiteSettingsController@setcampaign')->name('setcurrentcampaign-page');
 Route::post('/subcamp', $controller_path . '\SiteSettingsController@subcamp')->name('subcamp');
 Route::post('/storecampaign', $controller_path . '\SiteSettingsController@storecampaign')->name('storecampaign');
 
 
 
-Route::get('/capture', $controller_path . '\pages\Capture@index')->name('pages-capture');
+Route::get('/capturenew', $controller_path . '\pages\Capture@capturenew')->name('capture-page-new');
+Route::get('/captureexisting', $controller_path . '\pages\Capture@captureexisting')->name('capture-page-existing');
 
 // pages
 Route::get('/pages/misc-error', $controller_path . '\pages\MiscError@index')->name('pages-misc-error');
@@ -48,17 +49,17 @@ Route::controller(LoginBasic::class)->group(function() {
 Route::get('/auth/register-basic', $controller_path . '\authentications\RegisterBasic@index')->name('auth-register-basic');
 Route::post('auth/register-store', $controller_path . '\authentications\RegisterBasic@store')->name('auth-register-store');
 
-Route::get('/app/user-management', [UserManagement::class, 'UserManagement'])->name('app-user-management')->middleware('auth');
+Route::get('/app/user-management', [UserManagement::class, 'UserManagement'])->name('app-user')->middleware('auth');
 Route::resource('/user-list', UserManagement::class)->middleware('auth');
 
 Route::get('/all-companies', $controller_path . '\CompanyController@AllCompanies')->name('all-companies')->middleware('auth');
 
 
-Route::get('/app/company-management', [CompanyManagement::class, 'CompanyManagement'])->name('app-company-management')->middleware('auth');
+Route::get('/app/company-management', [CompanyManagement::class, 'CompanyManagement'])->name('app-company')->middleware('auth');
 Route::resource('/company-list', CompanyManagement::class)->middleware('auth');
 
 
-Route::get('/app/campaign-management', [CampaignManagement::class, 'CampaignManagement'])->name('app-campaign-management')->middleware('auth');
+Route::get('/app/campaign-management', [CampaignManagement::class, 'CampaignManagement'])->name('app-campaign')->middleware('auth');
 Route::resource('/campaign-list', CampaignManagement::class)->middleware('auth');
 
 
