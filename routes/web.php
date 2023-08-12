@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\apps\UserManagement;
 use App\Http\Controllers\apps\CompanyManagement;
 use App\Http\Controllers\apps\CampaignManagement;
+use App\Http\Controllers\apps\DonationManagement;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\SiteSettingsController;
@@ -30,9 +31,9 @@ Route::get('/setcurrentcampaign', $controller_path . '\SiteSettingsController@se
 Route::post('/subcamp', $controller_path . '\SiteSettingsController@subcamp')->name('subcamp');
 Route::post('/storecampaign', $controller_path . '\SiteSettingsController@storecampaign')->name('storecampaign');
 
-
-
 Route::get('/capturenew', $controller_path . '\pages\Capture@capturenew')->name('capture-page-new');
+Route::post('/newdonation', $controller_path . '\pages\Capture@NewDonation');
+
 Route::get('/captureexisting', $controller_path . '\pages\Capture@captureexisting')->name('capture-page-existing');
 
 // pages
@@ -51,6 +52,9 @@ Route::post('auth/register-store', $controller_path . '\authentications\Register
 
 Route::get('/app/user-management', [UserManagement::class, 'UserManagement'])->name('app-user')->middleware('auth');
 Route::resource('/user-list', UserManagement::class)->middleware('auth');
+
+Route::get('/managedonation', [DonationManagement::class, 'DonationManagement'])->name('donation-page')->middleware('auth');
+Route::resource('/donation-list', DonationManagement::class)->middleware('auth');
 
 Route::get('/all-companies', $controller_path . '\CompanyController@AllCompanies')->name('all-companies')->middleware('auth');
 

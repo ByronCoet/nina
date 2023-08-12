@@ -37,11 +37,13 @@ $containerNav = $containerNav ?? 'container-fluid';
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
       <!-- Style Switcher -->
+      <!--
       <div class="navbar-nav align-items-center">
         <a class="nav-link style-switcher-toggle hide-arrow" href="javascript:void(0);">
           <i class='bx bx-sm'></i>
         </a>
       </div>
+      -->
       <!--/ Style Switcher -->
 
       <ul class="navbar-nav flex-row align-items-center ms-auto">

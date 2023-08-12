@@ -3,9 +3,14 @@
 * File include item demo only specific css only
 ******************************************************************************/
 
-.bs-body-color {
-  color: red;
-}
+.bc_tc { 
+  color: white; 
+ }
+
+ .bc_menu_tc { 
+  color: #3f4048; 
+  font-weight: normal;
+ }
 
 .light-style .menu .app-brand.demo {
   height: 64px;

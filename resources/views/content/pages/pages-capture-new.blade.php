@@ -11,6 +11,7 @@ $configData = Helper::appClasses();
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.css')}}" />
 @endsection
 
 @section('vendor-script')
@@ -22,16 +23,20 @@ $configData = Helper::appClasses();
 <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.js')}}"></script>
 @endsection
 
 @section('page-script')
-<script src="{{asset('assets/js/form-wizard-validation.js')}}"></script>
+<script src="{{asset('assets/js/form-wizard-donation-new.js')}}"></script>
 <script src="{{asset('js/forms-pickers.js')}}"></script>
 @endsection
+
+
 
 @section('content')
 <h2 style="color:#00264F; font-style: italic;">We save lives</h2>
 <h4 style="color:#CBDA3B; font-style: italic; margin-top:-15px;">One bag at a time</h4>
+<h6>Current Campaign: <span style="color:white; margin-top:-25px; ">{{ $site_settings->campaign_name ?? 'not set' }}</span></h6>
 
 <!-- Default -->
 <div class="row" >
@@ -59,46 +64,35 @@ $configData = Helper::appClasses();
         </div>
       </div>
 
-      <div class="bs-stepper-content"  style="background-color:#00B3DC;">
-        <form id="wizard-validation-form" onSubmit="return false">
+      <div class="bs-stepper-content"  style="background-color:#00B3DC;">      
+        <form id="wizard-donation-new-form" onSubmit="return false">
+         @csrf 
           <!-- Account Details -->
           <div id="account-details-validation" class="content">
             <!-- <div class="content-header mb-3">
               <h6 class="mb-0">Account Details</h6>
               <small>Enter Your Account Details.</small>
             </div> -->
-            <div class="row g-3">              
-            
-              <!--
-              <div class="mb-sm-6">                
-                <div class="form-check mb-2">
-                  <input type="radio" id="bs-validation-radio-new" name="bs-validation-radio" class="form-check-input" required />
-                  <label class="form-check-label" for="bs-validation-radio-new">New user</label>
-                </div>
-                <div class="form-check">
-                  <input type="radio" id="bs-validation-radio-exist" name="bs-validation-radio" class="form-check-input" required />
-                  <label class="form-check-label" for="bs-validation-radio-exist">Existing user</label>
-                </div>
-              </div>
-              -->
+            <div class="row g-3">            
+            <span class="bc_tc" >Accurately fill in the new donor details.</span>  
 
               <div class="col-sm-6">
-                <label class="form-label" for="formValidationFirstname">First name</label>
+                <label class="form-label bc_tc" for="formValidationFirstname">First name</label>
                 <input type="text" name="formValidationFirstname" id="formValidationFirstname" class="form-control" placeholder="John" />
               </div>
 
               <div class="col-sm-6">
-                <label class="form-label" for="formValidationSurname">Surname</label>
+                <label class="form-label bc_tc" for="formValidationSurname">Surname</label>
                 <input type="text" name="formValidationSurname" id="formValidationSurname" class="form-control" placeholder="Doe" />
               </div>
 
               <div class="col-sm-6">
-                <label class="form-label" for="formValidationMobile">Mobile number</label>
+                <label class="form-label bc_tc" for="formValidationMobile">Mobile number</label>
                 <input type="text" name="formValidationMobile" id="formValidationMobile" class="form-control" placeholder="0711234567" />
               </div>
 
               <div class="col-sm-6">
-                <label class="form-label" for="formValidationCompany">Company</label>
+                <label class="form-label bc_tc" for="formValidationCompany">Company</label>
                 <select id="formValidationCompany" name="formValidationCompany" class="select2 form-select">
                   @foreach($companies as $c)
                     <option value="{{ $c->id }}">{{ $c->company_name }}</option>
@@ -109,7 +103,7 @@ $configData = Helper::appClasses();
               <div class="col-12">
                 <label class="switch">
                   
-                  <input type="checkbox" class="switch-input" >
+                  <input type="checkbox" class="switch-input" name="consent">
                   <span class="switch-toggle-slider">
                     <span class="switch-on">
                       <i class="bx bx-check"></i>
@@ -118,7 +112,7 @@ $configData = Helper::appClasses();
                       <i class="bx bx-x"></i>
                     </span>
                   </span>
-                  <span class="switch-label">Do you give consent for your information to be used for the duration of the campaign to receive
+                  <span class="switch-label" style="color:white;">Do you give consent for your information to be used for the duration of the campaign to receive
                   leaderboard information?</span>
                   
                 </label>
@@ -138,19 +132,19 @@ $configData = Helper::appClasses();
             </div>
           </div>
           
-          <!-- Social Links -->
+          <!-- Donation data -->
           <div id="social-links-validation" class="content">            
             <div class="row g-3">
 
               <div class="col-sm-6">
-                <label class="form-label" for="add-event-date">Event date</label>          
-                <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="add-event-date" name="add-event-date" />
+                <label class="form-label bc_tc" for="add-event-date">Event date</label>          
+                <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="add-event-date" name="event-date" />
                 </select>
               </div>
 
               <div class="col-12">
-                <label class="switch">                  
-                  <input type="checkbox" class="switch-input" >
+                <label class="switch  bc_tc">                  
+                  <input type="checkbox" class="switch-input" name="donate" >
                   <span class="switch-toggle-slider">
                     <span class="switch-on">
                       <i class="bx bx-check"></i>
@@ -159,13 +153,13 @@ $configData = Helper::appClasses();
                       <i class="bx bx-x"></i>
                     </span>
                   </span>
-                  <span class="switch-label">Were you able to donate?</span>                  
+                  <span class="switch-label" style="color:white;">Were you able to donate?</span>                  
                 </label>
               </div>
 
               <div class="col-12">
                 <label class="switch">                  
-                  <input type="checkbox" class="switch-input" >
+                  <input type="checkbox" class="switch-input" name="convert" >
                   <span class="switch-toggle-slider">
                     <span class="switch-on">
                       <i class="bx bx-check"></i>
@@ -174,13 +168,13 @@ $configData = Helper::appClasses();
                       <i class="bx bx-x"></i>
                     </span>
                   </span>
-                  <span class="switch-label">Did you convert a colleague?</span>                  
+                  <span class="switch-label" style="color:white;">Did you convert a colleague?</span>                  
                 </label>
               </div>
 
               <div class="col-12">
                 <label class="switch">                  
-                  <input type="checkbox" class="switch-input" >
+                  <input type="checkbox" class="switch-input" name="support" >
                   <span class="switch-toggle-slider">
                     <span class="switch-on">
                       <i class="bx bx-check"></i>
@@ -189,7 +183,7 @@ $configData = Helper::appClasses();
                       <i class="bx bx-x"></i>
                     </span>
                   </span>
-                  <span class="switch-label">Did you support a colleague?</span>                  
+                  <span class="switch-label" style="color:white;">Did you support a colleague?</span>                  
                 </label>
               </div>
 

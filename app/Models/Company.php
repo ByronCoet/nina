@@ -23,4 +23,9 @@ class Company extends Model
     {
         return $this->hasMany(Campaign::class);
     }
+
+    public function donations(): HasMany
+    {
+        return $this->hasMany(Donation::class);
+    }
 }

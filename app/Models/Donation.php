@@ -5,26 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Campaign extends Model
+class Donation extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'campaign_name',
+        'user_id',
+        'campaign_id',
         'company_id',
-        'campaign_start',
-        'campaign_end'
+        'event_date',
+        'donated',
+        'converted',
+        'supported'
     ];
+
+    public function campaign(): BelongsTo
+    {
+        return $this->belongsTo(Campaign::class);
+    }
 
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function users(): HasMany
+    public function user(): BelongsTo
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

@@ -31,6 +31,12 @@
       "slug": "pages-page-2"
     },
     {
+      "url": "/managedonation",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Donations",
+      "slug": "donation-page"
+    },
+    {
       "url": "/app/campaign-management",
       "icon": "menu-icon tf-icons bx bx-file",
       "name": "Campaigns",      

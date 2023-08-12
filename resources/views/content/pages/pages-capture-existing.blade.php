@@ -32,6 +32,7 @@ $configData = Helper::appClasses();
 @section('content')
 <h2 style="color:#00264F; font-style: italic;">We save lives</h2>
 <h4 style="color:#CBDA3B; font-style: italic; margin-top:-15px;">One bag at a time</h4>
+<h6>Current Campaign: <span style="color:white; margin-top:-25px; ">{{ $site_settings->campaign_name ?? 'not set' }}</span></h6>
 
 <!-- Default -->
 <div class="row" >
@@ -81,24 +82,24 @@ $configData = Helper::appClasses();
                 </div>
               </div>
               -->
-
-              <div class="col-sm-6">
-                <label class="form-label" for="formValidationFirstname">First name</label>
+              <span class="bc_tc" >Select company and one or more of the other fields to search for your user.</span>
+              <div class="col-sm-3">
+                <label class="form-label bc_tc" for="formValidationFirstname">First name</label>
                 <input type="text" name="formValidationFirstname" id="formValidationFirstname" class="form-control" placeholder="John" />
               </div>
 
-              <div class="col-sm-6">
-                <label class="form-label" for="formValidationSurname">Surname</label>
+              <div class="col-sm-3">
+                <label class="form-label bc_tc" for="formValidationSurname">Surname</label>
                 <input type="text" name="formValidationSurname" id="formValidationSurname" class="form-control" placeholder="Doe" />
               </div>
 
-              <div class="col-sm-6">
-                <label class="form-label" for="formValidationMobile">Mobile number</label>
+              <div class="col-sm-3">
+                <label class="form-label bc_tc" for="formValidationMobile">Mobile number</label>
                 <input type="text" name="formValidationMobile" id="formValidationMobile" class="form-control" placeholder="0711234567" />
               </div>
 
-              <div class="col-sm-6">
-                <label class="form-label" for="formValidationCompany">Company</label>
+              <div class="col-sm-3">
+                <label class="form-label bc_tc" for="formValidationCompany">Company</label>
                 <select id="formValidationCompany" name="formValidationCompany" class="select2 form-select">
                   @foreach($companies as $c)
                     <option value="{{ $c->id }}">{{ $c->company_name }}</option>
@@ -106,22 +107,8 @@ $configData = Helper::appClasses();
                 </select>
               </div>
 
-              <div class="col-12">
-                <label class="switch">
-                  
-                  <input type="checkbox" class="switch-input" >
-                  <span class="switch-toggle-slider">
-                    <span class="switch-on">
-                      <i class="bx bx-check"></i>
-                    </span>
-                    <span class="switch-off">
-                      <i class="bx bx-x"></i>
-                    </span>
-                  </span>
-                  <span class="switch-label">Do you give consent for your information to be used for the duration of the campaign to receive
-                  leaderboard information?</span>
-                  
-                </label>
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-danger">Search</button>
               </div>
 
               <!--<div class="col-sm-6">

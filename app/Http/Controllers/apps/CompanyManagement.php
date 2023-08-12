@@ -22,9 +22,9 @@ class CompanyManagement extends Controller
     $companies = Company::all();
     $roles = Role::all();
     $companyCount = $companies->count();
-    Log::info('Company lit called');        
+    Log::info('Company list called');        
 
-    return view('content.laravel-example.company-management', [
+    return view('content.laravel.company-management', [
       'totalCompany' => $companyCount,    
       'companies' => $companies,
       'roles' => $roles,

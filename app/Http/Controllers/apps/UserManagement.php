@@ -27,7 +27,7 @@ class UserManagement extends Controller
     $usersUnique = $users->unique(['email']);
     $userDuplicates = $users->diff($usersUnique)->count();
 
-    return view('content.laravel-example.user-management', [
+    return view('content.laravel.user-management', [
       'totalUser' => $userCount,
       'verified' => $verified,
       'notVerified' => $notVerified,

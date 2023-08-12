@@ -6,27 +6,31 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Campaign;
+use App\Models\Donation;
 use App\Models\Company;
 use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
-class CampaignManagement extends Controller
+class DonationManagement extends Controller
 {
+
   /**
-   * Redirect to campaign-management view.
+   * Redirect to donation-management view.
    *
    */
-  public function CampaignManagement()
+  public function DonationManagement()
   {
     $companies = Company::all();
-    $campaigns = Campaign::all();
+    $donations = Donation::all();
+    $campaigns = Donation::all();
     $roles = Role::all();
-    $campaignCount = $campaigns->count();
+    $donationsCount = $donations->count();
     Log::info('campaign list called');        
 
-    return view('content.laravel.campaign-management', [
-      'totalCampaign' => $campaignCount,    
+    return view('content.laravel.donation-management', [
+      'totalDonations' => $donationsCount,    
+      'donations' => $donations,
       'campaigns' => $campaigns,
       'companies' => $companies,
       'roles' => $roles,
@@ -43,22 +47,27 @@ class CampaignManagement extends Controller
     $columns = [
       1 => 'id',
       2 => 'company_name',
-      3 => 'campaign_name', 
-      4 => 'campaign_start', 
-      5 => 'campaign_end', 
+      3 => 'campaign_name',
+      4 => 'user_name',
+      5 => 'user_surname',
+      6 => 'donated',
+      7 => 'converted',
+      8 => 'supported',
+      9 => 'edate',
     ];
 
-    Log::info('campaign index called');        
+    Log::info('donation index called');        
 
     $search = [];
 
-    $totalData = Campaign::count();
+    $totalData = Donation::count();
 
     $totalFiltered = $totalData;
 
     $limit = $request->input('length');
     $start = $request->input('start');
     $order = $columns[$request->input('order.0.column')];
+    Log::info('Order: ' . $order);     
 
     $comp_search = $request->get('extra_search');
 
@@ -74,77 +83,79 @@ class CampaignManagement extends Controller
       if ($order == "company_name")
       { 
         Log::info('2');
-        $query = Campaign::offset($start)
+        
+        $query = Donation::offset($start)
           ->limit($limit)           
-          ->join('companies', 'campaigns.company_id', '=', 'companies.id')             
-          ->select('campaigns.*', 'companies.company_name' )
+          ->join('companies', 'donations.company_id', '=', 'companies.id')
+          ->join('campaigns', 'donations.campaign_id', '=', 'campaigns.id')
+          ->join('users', 'donations.user_id', '=', 'users.id')
+          ->select('donations.*', 'companies.company_name', 'campaigns.campaign_name' )
           ->orderBy('company_name', $dir);
 
           if (!empty($comp_search)) {
             $query->where('company_name', 'LIKE', "%{$comp_search}%");
           }
-
-        $campaigns = $query->get();     
+        $donations = $query->get();     
       }
       else{
         Log::info('1');
-        $campaigns =Campaign::offset($start)
+        $donations =Donation::offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
       }
     } else {
       $search = $request->input('search.value');
-      if ($order == "campaign")
+      if ($order == "donation")
         { 
           Log::info('3');
-          $query = Campaign::where(function ($q) use ($search) {
-            $q->where('campaign_name', 'LIKE', "%{$search}%");
+          $query = Donation::where(function ($q) use ($search) {
+            $q->where('donation_name', 'LIKE', "%{$search}%");
             $q->orWhere('company_name', 'LIKE', "%{$search}%");
-            $q->orWhere('campaigns.id', 'LIKE', "%{$search}%");  
+            $q->orWhere('donations.id', 'LIKE', "%{$search}%");  
           })
           ->offset($start)
           ->limit($limit)          
-          ->join('companies', 'campaigns.company_id', '=', 'companies.id')
-          ->select('campaigns.*', 'companies.company_name' )
-          ->orderBy('campaign_name', $dir);
+          ->join('companies', 'donations.company_id', '=', 'companies.id')
+          ->select('donations.*', 'companies.company_name' )
+          ->orderBy('donation_name', $dir);
 
           if (!empty($comp_search)) {
             $query->where('company_name', 'LIKE', "%{$comp_search}%");
           }
 
-          $campaigns = $query->get();          
+          $donations = $query->get();          
         }
         else
         {
           Log::info('4');
-          $query = Campaign::where(function ($q) use ($search) {
-                $q->where('campaign_name', 'LIKE', "%{$search}%");
+          $query = Donation::where(function ($q) use ($search) {
+                $q->where('donation_name', 'LIKE', "%{$search}%");
                 $q->orWhere('company_name', 'LIKE', "%{$search}%");
-                $q->orWhere('campaigns.id', 'LIKE', "%{$search}%");  
+                $q->orWhere('donations.id', 'LIKE', "%{$search}%");  
               })
             ->offset($start)
             ->limit($limit)
-            ->join('companies', 'campaigns.company_id', '=', 'companies.id')
-            ->select('campaigns.*', 'companies.company_name' )
+            ->join('companies', 'donations.company_id', '=', 'companies.id')
+            ->select('donations.*', 'companies.company_name' )
             ->orderBy($order, $dir);
 
             if (!empty($comp_search)) {
               $query->where('company_name', '=', "{$comp_search}");
             }
 
-            $campaigns = $query->get();
+            $donations = $query->get();
         }
 
       Log::info('5');
 
-      $query = Campaign::where(function ($q) use ($search) {
-              $q->where('campaign_name', 'LIKE', "%{$search}%");
+      $query = Donation::where(function ($q) use ($search) {
+              $q->where('donation_name', 'LIKE', "%{$search}%");
               $q->orWhere('company_name', 'LIKE', "%{$search}%");
-              $q->orWhere('campaigns.id', 'LIKE', "%{$search}%");  
+              $q->orWhere('donations.id', 'LIKE', "%{$search}%");  
             })
-            ->join('companies', 'campaigns.company_id', '=', 'companies.id')
-            ->select('campaigns.*', 'companies.company_name' );
+            ->join('companies', 'donations.company_id', '=', 'companies.id')
+            ->select('donations.*', 'companies.company_name' );
             if (!empty($comp_search)) {
               $query->where('company_name', '=', "{$comp_search}");
             }
@@ -154,20 +165,24 @@ class CampaignManagement extends Controller
 
     $data = [];
 
-    if (!empty($campaigns)) {
+    if (!empty($donations)) {
       // providing a dummy id instead of database ids
       $ids = $start;
 
       Log::info('6');
 
-      foreach ($campaigns as $c) {
+      foreach ($donations as $d) {
         // Log::info('c id: ' . $c);
-        $nestedData['comp_id'] = $c->id;
+        $nestedData['donation_id'] = $d->id;
         $nestedData['fake_id'] = ++$ids;
-        $nestedData['company'] = $c->company->company_name;
-        $nestedData['campaign_name'] = $c->campaign_name;
-        $nestedData['campaign_start'] = $c->campaign_start;
-        $nestedData['campaign_end'] = $c->campaign_end;
+        $nestedData['company_name'] = $d->company->company_name;
+        $nestedData['campaign_name'] = $d->campaign->campaign_name;
+        $nestedData['user_name'] = $d->user->name;
+        $nestedData['user_surname'] = $d->user->surname;
+        $nestedData['donated'] = $d->donated;
+        $nestedData['converted'] = $d->converted;
+        $nestedData['supported'] = $d->supported;
+        $nestedData['edate'] = $d->event_date;
         $data[] = $nestedData;
       }
     }
@@ -208,34 +223,34 @@ class CampaignManagement extends Controller
   public function store(Request $request)
   {
 
-    Log::info('Store campaign called: ');
+    Log::info('Store donation called: ');
 
     $ID = $request->id;
 
     if ($ID) 
     {
       // update the value
-      Log::info('Update campaign called: ');
-      $campaign = Campaign::updateOrCreate(
+      Log::info('Update donation called: ');
+      $donation = Donation::updateOrCreate(
         ['id' => $ID],
-        ['campaign_name' => $request->campaign_name, 
+        ['donation_name' => $request->donation_name, 
          'company_id' => $request->company_id,
-         'campaign_start' => $request->campaign_start,  
-         'campaign_end' => $request->campaign_end,  
+         'donation_start' => $request->donation_start,  
+         'donation_end' => $request->donation_end,  
          ]        
       );
 
-      // campaign updated
+      // donation updated
       return response()->json('Updated');
     } 
     else 
     {
-      Log::info('Create campaign called: ');
-      $campaign = Campaign::updateOrCreate(        
-        ['campaign_name' => $request->campaign_name, 
+      Log::info('Create donation called: ');
+      $donation = Donation::updateOrCreate(        
+        ['donation_name' => $request->donation_name, 
         'company_id' => $request->company_id,
-        'campaign_start' => $request->campaign_start,  
-        'campaign_end' => $request->campaign_end,  ]
+        'donation_start' => $request->donation_start,  
+        'donation_end' => $request->donation_end,  ]
       );
       return response()->json('Created');      
     }
@@ -260,16 +275,16 @@ class CampaignManagement extends Controller
    */
   public function edit($id)
   {
-    Log::info('edit campaign called: ');
+    Log::info('edit donation called: ');
     $where = ['id' => $id];
 
-    Log::info('edit campaign called with id: ' . $id);
+    Log::info('edit donation called with id: ' . $id);
     
-    $campaigns = Campaign::where($where)->first();
+    $donations = Donation::where($where)->first();
     $roles = Role::all();
     $companies = Company::all();
 
-    return response()->json(['campaigns' => $campaigns, 'companies' => $companies, 'roles' => $roles]);
+    return response()->json(['donations' => $donations, 'companies' => $companies, 'roles' => $roles]);
   }
 
   /**
@@ -291,6 +306,6 @@ class CampaignManagement extends Controller
    */
   public function destroy($id)
   {
-    $c = Campaign::where('id', $id)->delete();
+    $c = Donation::where('id', $id)->delete();
   }
 }

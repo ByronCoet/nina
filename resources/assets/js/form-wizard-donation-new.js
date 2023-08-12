@@ -13,7 +13,7 @@
   const wizardValidation = document.querySelector('#wizard-validation');
   if (typeof wizardValidation !== undefined && wizardValidation !== null) {
     // Wizard form
-    const wizardValidationForm = wizardValidation.querySelector('#wizard-validation-form');
+    const wizardValidationForm = wizardValidation.querySelector('#wizard-donation-new-form');
     // Wizard steps
     const wizardValidationFormStep1 = wizardValidationForm.querySelector('#account-details-validation');    
     const wizardValidationFormStep3 = wizardValidationForm.querySelector('#social-links-validation');
@@ -156,8 +156,40 @@
         submitButton: new FormValidation.plugins.SubmitButton()
       }
     }).on('core.form.valid', function () {
-      console.log("submitting");
+      console.log("submitting xxyy");
       // XXX
+      $.ajax({
+        data: $('#wizard-donation-new-form').serialize(),
+        url: `${baseUrl}newdonation`,
+        type: 'POST',
+        success: function (status) {
+          // dt_user.draw();
+          // offCanvasForm.offcanvas('hide');
+          console.log("poof");
+          // sweetalert
+          Swal.fire({
+            icon: 'success',
+            title: `Successfully ${status}!`,
+            text: `Donated ${status} Successfully.`,
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+        },
+        error: function (err) {
+          // offCanvasForm.offcanvas('hide');
+          console.log("poof error");
+          Swal.fire({
+            title: 'Donation Entry!',
+            text: 'some error.',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-success'
+            }
+          });
+        }
+      });
+
 
       alert('Submitted..!!');
     });
