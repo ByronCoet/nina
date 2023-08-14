@@ -28,50 +28,52 @@
     // Account details
     const FormValidation1 = FormValidation.formValidation(wizardValidationFormStep1, {
       fields: {
-        formValidationUsername: {
+        formValidationFirstname: {
           validators: {
             notEmpty: {
-              message: 'The name is required'
+              message: 'The first name is required'
             },
             stringLength: {
-              min: 6,
+              min: 3,
               max: 30,
-              message: 'The name must be more than 6 and less than 30 characters long'
+              message: 'The name must be more than 3 and less than 30 characters long'
             },
             regexp: {
-              regexp: /^[a-zA-Z0-9 ]+$/,
-              message: 'The name can only consist of alphabetical, number and space'
+              regexp: /^[a-zA-Z]+$/,
+              message: 'The name can only consist of alphabetical'
             }
           }
-        },
-        formValidationEmail: {
+        },formValidationSurname: {
           validators: {
             notEmpty: {
-              message: 'The Email is required'
+              message: 'The surname is required'
             },
-            emailAddress: {
-              message: 'The value is not a valid email address'
-            }
-          }
-        },
-        formValidationPass: {
-          validators: {
-            notEmpty: {
-              message: 'The password is required'
-            }
-          }
-        },
-        formValidationConfirmPass: {
-          validators: {
-            notEmpty: {
-              message: 'The Confirm Password is required'
+            stringLength: {
+              min: 3,
+              max: 30,
+              message: 'The name must be more than 3 and less than 30 characters long'
             },
-            identical: {
-              compare: function () {
-                return wizardValidationFormStep1.querySelector('[name="formValidationPass"]').value;
-              },
-              message: 'The password and its confirm are not the same'
+            regexp: {
+              regexp: /^[a-zA-Z]+$/,
+              message: 'The surname can only consist of alphabetical'
             }
+          }
+        },
+        formValidationMobile: {
+          validators: {
+            notEmpty: {
+              message: 'The mobile is required'
+            },
+            stringLength: {
+              min: 3,
+              max: 13,
+              message: 'The name must be more than 9 and less than 30 number long'
+            },
+            regexp: {
+              regexp: /^[0-9]+$/,
+              message: 'The mobile can only consist of numbers'
+            }
+            
           }
         }
       },
@@ -103,43 +105,10 @@
     // donation
     const FormValidation3 = FormValidation.formValidation(wizardValidationFormStep3, {
       fields: {
-        formValidationTwitter: {
+        eventdate: {
           validators: {
             notEmpty: {
-              message: 'The Twitter URL is required'
-            },
-            uri: {
-              message: 'The URL is not proper'
-            }
-          }
-        },
-        formValidationFacebook: {
-          validators: {
-            notEmpty: {
-              message: 'The Facebook URL is required'
-            },
-            uri: {
-              message: 'The URL is not proper'
-            }
-          }
-        },
-        formValidationGoogle: {
-          validators: {
-            notEmpty: {
-              message: 'The Google URL is required'
-            },
-            uri: {
-              message: 'The URL is not proper'
-            }
-          }
-        },
-        formValidationLinkedIn: {
-          validators: {
-            notEmpty: {
-              message: 'The LinkedIn URL is required'
-            },
-            uri: {
-              message: 'The URL is not proper'
+              message: 'Event date is required'
             }
           }
         }
@@ -191,7 +160,7 @@
       });
 
 
-      alert('Submitted..!!');
+      // alert('Submitted..!!');
     });
 
     wizardValidationNext.forEach(item => {

@@ -26,7 +26,7 @@ $configData = Helper::appClasses();
 
 @section('page-script')
 <script src="{{asset('assets/js/form-wizard-validation.js')}}"></script>
-<script src="{{asset('js/forms-pickers.js')}}"></script>
+<script src="{{asset('js/forms-pickers-donation.js')}}"></script>
 @endsection
 
 @section('content')

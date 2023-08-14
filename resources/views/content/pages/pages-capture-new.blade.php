@@ -28,7 +28,7 @@ $configData = Helper::appClasses();
 
 @section('page-script')
 <script src="{{asset('assets/js/form-wizard-donation-new.js')}}"></script>
-<script src="{{asset('js/forms-pickers.js')}}"></script>
+<script src="{{asset('js/forms-pickers-donation.js')}}"></script>
 @endsection
 
 
@@ -137,8 +137,8 @@ $configData = Helper::appClasses();
             <div class="row g-3">
 
               <div class="col-sm-6">
-                <label class="form-label bc_tc" for="add-event-date">Event date</label>          
-                <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="add-event-date" name="event-date" />
+                <label class="form-label bc_tc" for="eventdate">Event date</label>          
+                <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="eventdate" name="eventdate" />
                 </select>
               </div>
 

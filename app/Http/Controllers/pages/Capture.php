@@ -28,7 +28,7 @@ class Capture extends Controller
     $mob = $request->input('formValidationMobile'); 
     $comp = $request->input('formValidationCompany'); 
     $consent = $request->input('consent'); 
-    $edate = $request->input('event-date'); 
+    $edate = $request->input('eventdate'); 
     $don = $request->input('donate'); 
     $conv = $request->input('convert'); 
     $supp = $request->input('support'); 
@@ -65,13 +65,14 @@ class Capture extends Controller
       ]
     );
 
+    // Byron - add a try except around the above lot with suitable json error.
+    $companies = Company::all();
+    return view('content.pages.pages-capture-new', ['companies' => $companies]);
+    
     return response()->json([
-      //'draw' => intval($request->input('draw')),
-      //'recordsTotal' => intval($totalData),
-      //'recordsFiltered' => intval($totalFiltered),
       'code' => 200,
-      //'data' => $data,
     ]);
+
   }
 
   public function captureexisting()
