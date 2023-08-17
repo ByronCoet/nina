@@ -19,10 +19,10 @@
       "slug": "capture-page-new"
     },
     {
-      "url": "/captureexisting",
+      "url": "/app/user-management-existing",
       "icon": "menu-icon tf-icons bx bx-file",
       "name": "Capture - Existing user",
-      "slug": "capture-page-existing"
+      "slug": "usermanagementexisting"
     },    
     {
       "url": "/page-2",

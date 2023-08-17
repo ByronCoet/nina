@@ -130,6 +130,7 @@ mixAssetsDir('js/**/*.js', (src, dest) => mix.scripts(src, dest));
 mixAssetsDir('css/**/*.css', (src, dest) => mix.copy(src, dest));
 // laravel working crud app related js
 mix.js( 'resources/js/laravel-user-management.js', 'public/js/');
+mix.js( 'resources/js/laravel-user-management-existing.js', 'public/js/');
 mix.js( 'resources/js/laravel-company-management.js', 'public/js/');
 mix.js( 'resources/js/laravel-campaign-management.js', 'public/js/');
 mix.js( 'resources/js/laravel-donation-management.js', 'public/js/');

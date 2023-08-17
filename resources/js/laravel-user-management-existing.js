@@ -33,7 +33,7 @@ $(function () {
       processing: true,
       serverSide: true,
       ajax: {
-        url: baseUrl + 'user-list'
+        url: baseUrl + 'user-list-existing'
       },
       columns: [
         // columns according to JSON
@@ -66,40 +66,11 @@ $(function () {
             return `<span>${full.fake_id}</span>`;
           }
         },
-        {
-          // User full name
+        {          
           targets: 2,
-          responsivePriority: 4,
           render: function (data, type, full, meta) {
             var $name = full['name'];
-
-            // For Avatar badge
-            var stateNum = Math.floor(Math.random() * 6);
-            var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-            var $state = states[stateNum],
-              $name = full['name'],
-              $initials = $name.match(/\b\w/g) || [],
-              $output;
-            $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-            $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
-
-            // Creates full output for row
-            var $row_output =
-              '<div class="d-flex justify-content-start align-items-center user-name">' +
-              '<div class="avatar-wrapper">' +
-              '<div class="avatar avatar-sm me-3">' +
-              $output +
-              '</div>' +
-              '</div>' +
-              '<div class="d-flex flex-column">' +
-              '<a href="' +
-              userView +
-              '" class="text-body text-truncate"><span class="fw-semibold">' +
-              $name +
-              '</span></a>' +
-              '</div>' +
-              '</div>';
-            return $row_output;
+            return '<span class="text-body text-truncate">' + $name + '</span>';
           }
         },
         {          
@@ -142,15 +113,16 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="bx bx-edit"></i></button>` +
-              `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="bx bx-trash"></i></button>` +
-              '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>' +
-              '<div class="dropdown-menu dropdown-menu-end m-0">' +
-              '<a href="' +
-              userView +
-              '" class="dropdown-item">View</a>' +
-              '<a href="javascript:;" class="dropdown-item">Suspend</a>' +
-              '</div>' +
+              `<button class="btn btn-sm btn-icodn btn-danger edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="bx bx-edit"></i>Donate</button>` +
+              // `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="bx bx-trash"></i></button>` +
+              // '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"> + 
+              // '<i class="bx bx-dots-vertical-rounded"></i></button>' +
+              // '<div class="dropdown-menu dropdown-menu-end m-0">' +
+              //'<a href="' +
+              //userView +
+              //'" class="dropdown-item">View</a>' +
+              //'<a href="javascript:;" class="dropdown-item">Suspend</a>' +
+              //'</div>' +
               '</div>'
             );
           }
@@ -172,14 +144,17 @@ $(function () {
         searchPlaceholder: 'Search..'
       },
       // Buttons with Dropdown
+      
       buttons: [
-        {
+
+        /*  {
           extend: 'collection',
           className: 'btn btn-outline-secondary dropdown-toggle mx-3',
           text: '<i class="bx bx-export me-2"></i>Export',
           buttons: [
-            {
+  
               extend: 'print',
+              
               title: 'Users',
               text: '<i class="bx bx-printer me-2" ></i>Print',
               className: 'dropdown-item',
@@ -306,8 +281,9 @@ $(function () {
                 }
               }
             }
+            
           ]
-        },
+        },        
         {
           text: '<i class="bx bx-plus me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Add New User</span>',
           className: 'add-new btn btn-primary',
@@ -316,6 +292,7 @@ $(function () {
             'data-bs-target': '#offcanvasAddUser'
           }
         }
+        */
       ],
       // For responsive popup
       responsive: {
@@ -380,7 +357,7 @@ $(function () {
         // delete the data
         $.ajax({
           type: 'DELETE',
-          url: `${baseUrl}user-list/${user_id}`,
+          url: `${baseUrl}user-list-existing/${user_id}`,
           success: function () {
             dt_user.draw();
           },
@@ -425,7 +402,7 @@ $(function () {
     $('#offcanvasAddUserLabel').html('Edit User');
 
     // get data
-    $.get(`${baseUrl}user-list\/${user_id}\/edit`, function (data) {
+    $.get(`${baseUrl}user-list-existing\/${user_id}\/edit`, function (data) {
       $('#user_id').val(data.users.id);
       $('#add-user-name').val(data.users.name);
       $('#add-user-surname').val(data.users.surname);
@@ -586,7 +563,7 @@ $(function () {
     // adding or updating user when form successfully validate
     $.ajax({
       data: $('#addNewUserForm').serialize(),
-      url: `${baseUrl}user-list`,
+      url: `${baseUrl}user-list-existing`,
       type: 'POST',
       success: function (status) {
         dt_user.draw();

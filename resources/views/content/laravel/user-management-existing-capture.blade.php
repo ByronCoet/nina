@@ -25,90 +25,18 @@
 @endsection
 
 @section('page-script')
-<script src="{{asset('js/laravel-user-management.js')}}"></script>
+<script src="{{asset('js/laravel-user-management-existing.js')}}"></script>
 @endsection
 
 @section('content')
 
+<h2 style="color:#00264F; font-style: italic;">We save lives</h2>
+<h4 style="color:#CBDA3B; font-style: italic; margin-top:-15px;">One bag at a time</h4>
+<h6>Current Campaign: <span style="color:white; margin-top:-25px; ">{{ $site_settings->campaign_name ?? 'not set' }}</span></h6>
+
 <div class="row g-4 mb-4">
-  <div class="col-sm-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-start justify-content-between">
-          <div class="content-left">
-            <span>Users</span>
-            <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{$totalUser}}</h3>
-              <small class="text-success">(100%)</small>
-            </div>
-            <small>Total Users</small>
-          </div>
-          <span class="badge bg-label-primary rounded p-2">
-            <i class="bx bx-user bx-sm"></i>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--
-  <div class="col-sm-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-start justify-content-between">
-          <div class="content-left">
-            <span>Verified Users</span>
-            <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{--$verified--}}</h3>
-              <small class="text-success">(+95%)</small>
-            </div>
-            <small>Recent analytics </small>
-          </div>
-          <span class="badge bg-label-success rounded p-2">
-            <i class="bx bx-user-check bx-sm"></i>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-start justify-content-between">
-          <div class="content-left">
-            <span>Duplicate Users</span>
-            <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{--$userDuplicates--}}</h3>
-              <small class="text-success">(0%)</small>
-            </div>
-            <small>Recent analytics</small>
-          </div>
-          <span class="badge bg-label-danger rounded p-2">
-            <i class="bx bx-group bx-sm"></i>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-start justify-content-between">
-          <div class="content-left">
-            <span>Verification Pending</span>
-            <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{--$notVerified--}}</h3>
-              <small class="text-danger">(+6%)</small>
-            </div>
-            <small>Recent analytics</small>
-          </div>
-          <span class="badge bg-label-warning rounded p-2">
-            <i class="bx bx-user-voice bx-sm"></i>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  -->
+  
+
 </div>
 <!-- Users List Table -->
 <div class="card">

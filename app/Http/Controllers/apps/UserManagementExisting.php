@@ -10,13 +10,13 @@ use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
-class UserManagement extends Controller
+class UserManagementExisting extends Controller
 {
   /**
    * Redirect to user-management view.
    *
    */
-  public function UserManagement()
+  public function UserManagementExisting()
   {
     $users = User::all();
     $companies = Company::all();
@@ -27,7 +27,7 @@ class UserManagement extends Controller
     $usersUnique = $users->unique(['email']);
     $userDuplicates = $users->diff($usersUnique)->count();
 
-    return view('content.laravel.user-management', [
+    return view('content.laravel.user-management-existing-capture', [
       'totalUser' => $userCount,
       'verified' => $verified,
       'notVerified' => $notVerified,
