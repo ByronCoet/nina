@@ -49,6 +49,12 @@
       "slug": "app-company"
     },
     {
+      "url": "/app/point-management",
+      "name": "Points",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "slug": "app-point"
+    },
+    {
       "url": "/app/user-management",
       "name": "User Management",
       "icon": "menu-icon tf-icons bx bx-user",

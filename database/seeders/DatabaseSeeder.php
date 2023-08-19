@@ -54,6 +54,28 @@ class DatabaseSeeder extends Seeder
                 'updated_at'        => Carbon::now()->toDateTimeString()
             ]
         );
+
+        $point = \App\Models\Point::create(
+            [
+                'point_name'        => 'Donated',
+                'points'            => 3
+            ]
+        );
+
+        $point = \App\Models\Point::create(
+            [
+                'point_name'        => 'Converted',
+                'points'            => 1
+            ]
+        );
+
+        $point = \App\Models\Point::create(
+            [
+                'point_name'        => 'Supported',
+                'points'            => 1
+            ]
+        );
+
         //assign role
         // $user->assignRole('Administrator');
     }

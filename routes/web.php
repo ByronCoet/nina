@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\apps\UserManagement;
+use App\Http\Controllers\apps\PointManagement;
 use App\Http\Controllers\apps\UserManagementExisting;
 use App\Http\Controllers\apps\CompanyManagement;
 use App\Http\Controllers\apps\CampaignManagement;
@@ -62,6 +63,9 @@ Route::get('/all-companies', $controller_path . '\CompanyController@AllCompanies
 
 Route::get('/app/company-management', [CompanyManagement::class, 'CompanyManagement'])->name('app-company')->middleware('auth');
 Route::resource('/company-list', CompanyManagement::class)->middleware('auth');
+
+Route::get('/app/point-management', [PointManagement::class, 'PointManagement'])->name('app-point')->middleware('auth');
+Route::resource('/point-list', PointManagement::class)->middleware('auth');
 
 
 Route::get('/app/campaign-management', [CampaignManagement::class, 'CampaignManagement'])->name('app-campaign')->middleware('auth');
