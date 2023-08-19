@@ -179,50 +179,34 @@ class UserManagementExisting extends Controller
   public function store(Request $request)
   {
 
-    Log::info('Store called: ' );
-
+    Log::info('Store donation called: ' );
 
     $userID = $request->id;
 
-    if ($userID) {
-      // update the value
-      $users = User::updateOrCreate(
-        ['id' => $userID],
-        [
-          'name' => $request->name, 
-          'surname' => $request->surname, 
-          'email' => $request->email, 
-          'mobile' => $request->mobile, 
-          'role' => $request->role,
-          'company_id' => $request->company_id]
-      );
+    $user = User::where('id', $userID)->first();
 
-      // user updated
-      return response()->json('Updated');
-    } else {
-      // create new one if email is unique
-      $userEmail = User::where('email', $request->email)->first();
+    Log::info('User name is: ' . $user->surname);
 
-      if (empty($userEmail)) {
+    $edate = $request->input('eventdate'); 
+    $don = $request->input('donate'); 
+    $conv = $request->input('convert'); 
+    $supp = $request->input('support'); 
 
-        $users = User::updateOrCreate(
-          ['id' => $userID],
-          ['name' => $request->name,
-          'surname' => $request->surname,
-          'company_id' => $request->company_id,
-          'email' => $request->email,
-          'mobile' => $request->mobile,
-          'role' => $request->role,
-          'password' => bcrypt(Str::random(10))]
-        );
 
-        // user created
-        return response()->json('Created');
-      } else {
-        // user already exist
-        return response()->json(['message' => "already exits"], 422);
-      }
-    }
+    $donation = \App\Models\Donation::create(
+      [
+          'user_id'        => $user->id,
+          'campaign_id'    => $this->site_settings->campaign_id,
+          'company_id'     => $user->company->id,
+          'event_date'     => $edate,
+          'donated'        => $don == 'on' ? 1 : 0,
+          'converted'      => $conv == 'on' ? 1 : 0,
+          'supported'      => $supp == 'on' ? 1 : 0,
+      ]
+    );
+    
+    return response()->json('Created');    
+    //  return response()->json(['message' => "already exits"], 422);
   }
 
   /**

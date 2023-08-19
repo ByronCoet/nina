@@ -67,6 +67,7 @@ Route::resource('/company-list', CompanyManagement::class)->middleware('auth');
 Route::get('/app/campaign-management', [CampaignManagement::class, 'CampaignManagement'])->name('app-campaign')->middleware('auth');
 Route::resource('/campaign-list', CampaignManagement::class)->middleware('auth');
 
+// Donations for existing user
 Route::get('/app/user-management-existing', [UserManagementExisting::class, 'UserManagementExisting'])->name('usermanagementexisting')->middleware('auth');
 Route::resource('/user-list-existing', UserManagementExisting::class)->middleware('auth');
 

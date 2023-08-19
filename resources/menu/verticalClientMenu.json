@@ -13,20 +13,32 @@
       "slug": "pages-page-2"
     },
     {
-      "url": "/app/campaign-management",
-      "name": "Campaigns",
+      "url": "/setcurrentcampaign",
       "icon": "menu-icon tf-icons bx bx-file",
-      "slug": "app-campaign"
+      "name": "Set current campaign",
+      "slug": "setcurrentcampaign-page"
     },
     {
-      "url": "/app/company-management",
-      "name": "Companies",
+      "url": "/capturenew",
       "icon": "menu-icon tf-icons bx bx-file",
-      "slug": "app-company"
+      "name": "Capture - New User",
+      "slug": "capture-page-new"
+    },
+    {
+      "url": "/app/user-management-existing",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Capture - Existing user",
+      "slug": "usermanagementexisting"
+    },    
+    {
+      "url": "/managedonation",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Donations",
+      "slug": "donation-page"
     },
     {
       "url": "/app/user-management",
-      "name": "Users",
+      "name": "User Management",
       "icon": "menu-icon tf-icons bx bx-user",
       "slug": "app-user"
     },

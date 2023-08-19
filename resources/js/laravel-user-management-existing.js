@@ -4,6 +4,20 @@
 
 'use strict';
 
+(function () {
+  // Flat Picker
+  // --------------------------------------------------------------------
+
+  const eventdate = document.querySelector('#eventdate');
+
+  // Date
+  if (eventdate) {
+    eventdate.flatpickr({
+      monthSelectorType: 'static',      
+    });
+  }
+})();
+
 // Datatable (jquery)
 $(function () {
   // Variable declaration for table
@@ -70,14 +84,14 @@ $(function () {
           targets: 2,
           render: function (data, type, full, meta) {
             var $name = full['name'];
-            return '<span class="text-body text-truncate">' + $name + '</span>';
+            return '<span class="text-body text-truncate"  style="color:white;">' + $name + '</span>';
           }
         },
         {          
           targets: 3,
           render: function (data, type, full, meta) {
             var $surname = full['surname'];
-            return '<span class="text-body text-truncate">' + $surname + '</span>';
+            return '<span class="text-body text-truncate" style="color:white;" >' + $surname + '</span>';
           }
         },
         {
@@ -113,7 +127,7 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icodn btn-danger edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="bx bx-edit"></i>Donate</button>` +
+              `<button class="btn btn-sm btn-icodn btn-danger edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="bx bx-donate-blood"></i>Donate</button>` +
               // `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="bx bx-trash"></i></button>` +
               // '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"> + 
               // '<i class="bx bx-dots-vertical-rounded"></i></button>' +
@@ -392,26 +406,31 @@ $(function () {
   $(document).on('click', '.edit-record', function () {
     var user_id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
-
+    
+    $('#eventdate').val('');
     // hide responsive modal in small screen
     if (dtrModal.length) {
       dtrModal.modal('hide');
     }
 
     // changing the title of offcanvas
-    $('#offcanvasAddUserLabel').html('Edit User');
+    $('#offcanvasAddUserLabel').html('Capture Donation');
 
     // get data
     $.get(`${baseUrl}user-list-existing\/${user_id}\/edit`, function (data) {
       $('#user_id').val(data.users.id);
-      $('#add-user-name').val(data.users.name);
-      $('#add-user-surname').val(data.users.surname);
-      $('#add-user-contact').val(data.users.mobile);
-      $('#add-user-email').val(data.users.email);
-      $('#add-user-role').val(data.users.role);
+      // $('#eventdate').val('');
+      
+      console.log("set event date nullxxx");
+      //$('#add-user-name').val(data.users.name);
+      //$('#add-user-surname').val(data.users.surname);
+      //$('#add-user-contact').val(data.users.mobile);
+      //$('#add-user-email').val(data.users.email);
+      //$('#add-user-role').val(data.users.role);
 
+      /*
       var model = $('#company-id');
-      model.empty();
+      model.empty();  
       $.each(data.companies, function(index, element) {
         var option = document.createElement("option");
         option.value = element.id;
@@ -426,7 +445,8 @@ $(function () {
         }
         model.append(option);
       });      
-
+      */
+      /*
       var model = $('#user-role');
       model.empty();
       console.log("roles");
@@ -444,6 +464,7 @@ $(function () {
         
         model.append(option);
       });
+      */
     });
   });
 
@@ -493,56 +514,18 @@ $(function () {
   }, 300);
 
   // validating form and updating user's data
-  const addNewUserForm = document.getElementById('addNewUserForm');
+  const addDonationForm = document.getElementById('addDonationForm');
 
   // user form validation
-  const fv = FormValidation.formValidation(addNewUserForm, {
+  const fv = FormValidation.formValidation(addDonationForm, {
     fields: {
-      name: {
+      eventdate: {
         validators: {
           notEmpty: {
-            message: 'Please enter first name'
+            message: 'Please enter event date'
           }
         }
-      },
-      surname: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter surname'
-          }
-        }
-      },
-      mobile: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter valid mobile number'
-          }
-        }
-      },
-      email: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your email'
-          },
-          emailAddress: {
-            message: 'The value is not a valid email address'
-          }
-        }
-      },
-      userContact: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your contact'
-          }
-        }
-      },
-      company: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your company'
-          }
-        }
-      }
+      }      
     },
     plugins: {
       trigger: new FormValidation.plugins.Trigger(),
@@ -562,18 +545,19 @@ $(function () {
   }).on('core.form.valid', function () {
     // adding or updating user when form successfully validate
     $.ajax({
-      data: $('#addNewUserForm').serialize(),
+      data: $('#addDonationForm').serialize(),
       url: `${baseUrl}user-list-existing`,
       type: 'POST',
       success: function (status) {
         dt_user.draw();
         offCanvasForm.offcanvas('hide');
+        fv.resetForm(true);
 
         // sweetalert
         Swal.fire({
           icon: 'success',
           title: `Successfully ${status}!`,
-          text: `User ${status} Successfully.`,
+          text: `Donation captured.`,
           customClass: {
             confirmButton: 'btn btn-success'
           }
@@ -582,8 +566,8 @@ $(function () {
       error: function (err) {
         offCanvasForm.offcanvas('hide');
         Swal.fire({
-          title: 'Duplicate Entry!',
-          text: 'Your email should be unique.',
+          title: 'Error!',
+          text: 'Error occured.',
           icon: 'error',
           customClass: {
             confirmButton: 'btn btn-success'
@@ -596,17 +580,9 @@ $(function () {
   // clearing form data when offcanvas hidden
   offCanvasForm.on('hidden.bs.offcanvas', function () {
     fv.resetForm(true);
+    $('#eventdate').val('');
+
   });
 
-  const phoneMaskList = document.querySelectorAll('.phone-mask');
-
-  // Phone Number
-  if (phoneMaskList) {
-    phoneMaskList.forEach(function (phoneMask) {
-      new Cleave(phoneMask, {
-        phone: true,
-        phoneRegionCode: 'US'
-      });
-    });
-  }
+  
 });

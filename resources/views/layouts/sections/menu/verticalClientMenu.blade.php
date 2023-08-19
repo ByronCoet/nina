@@ -73,7 +73,7 @@ $configData = Helper::appClasses();
         @isset($menu->icon)
           <i class="{{ $menu->icon }}"></i>
         @endisset
-        <div class="bc_menu_tc">>{{ isset($menu->name) ? __($menu->name) : '' }}</div>
+        <div class="bc_menu_tc">{{ isset($menu->name) ? __($menu->name) : '' }}</div>
       </a>
 
       {{-- submenu --}}

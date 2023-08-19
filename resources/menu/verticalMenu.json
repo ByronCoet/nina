@@ -50,7 +50,7 @@
     },
     {
       "url": "/app/user-management",
-      "name": "Users",
+      "name": "User Management",
       "icon": "menu-icon tf-icons bx bx-user",
       "slug": "app-user"
     },

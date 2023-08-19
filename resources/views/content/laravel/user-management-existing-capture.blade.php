@@ -22,6 +22,8 @@
 <script src="{{asset('assets/vendor/libs/cleavejs/cleave.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/flatpickr/flatpickr.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
 @endsection
 
 @section('page-script')
@@ -39,9 +41,9 @@
 
 </div>
 <!-- Users List Table -->
-<div class="card">
-  <div class="card-header">
-    <h5 class="card-title mb-0">Search Filter</h5>
+<div class="card"  style="background-color:#00B3DC;">
+  <div class="card-header  bc_tc">
+    <h5 class="card-title mb-0">Search existing user and click donate</h5>
   </div>
   <div class="card-datatable table-responsive">
     <table class="datatables-users table border-top">
@@ -60,14 +62,72 @@
     </table>
   </div>
   <!-- Offcanvas to add new user -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
+  <div class="offcanvas offcanvas-end" style="background-color:#00B3DC;"  tabindex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
     <div class="offcanvas-header">
-      <h5 id="offcanvasAddUserLabel" class="offcanvas-title">Add User</h5>
+      <h5 id="offcanvasAddUserLabel" class="offcanvas-title">Capture Donation</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body mx-0 flex-grow-0">
-      <form class="add-new-user pt-0" id="addNewUserForm">
+      <form class="add-new-user pt-0" id="addDonationForm">
         <input type="hidden" name="id" id="user_id">
+
+        <!-- donation -->
+        
+        <div class="mb-3">
+          <label class="form-label bc_tc" for="eventdate">Event date</label>          
+          <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="eventdate" name="eventdate" />
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="switch  bc_tc">                  
+            <input type="checkbox" class="switch-input" name="donate" >
+            <span class="switch-toggle-slider">
+              <span class="switch-on">
+                <i class="bx bx-check"></i>
+              </span>
+              <span class="switch-off">
+                <i class="bx bx-x"></i>
+              </span>
+            </span>
+            <span class="switch-label" style="color:white;">Were you able to donate?</span>                  
+          </label>
+        </div>
+
+        <div class="mb-3">
+          <label class="switch">                  
+            <input type="checkbox" class="switch-input" name="convert" >
+            <span class="switch-toggle-slider">
+              <span class="switch-on">
+                <i class="bx bx-check"></i>
+              </span>
+              <span class="switch-off">
+                <i class="bx bx-x"></i>
+              </span>
+            </span>
+            <span class="switch-label" style="color:white;">Did you convert a colleague?</span>                  
+          </label>
+        </div>
+
+        <div class="mb-3">
+          <label class="switch">                  
+            <input type="checkbox" class="switch-input" name="support" >
+            <span class="switch-toggle-slider">
+              <span class="switch-on">
+                <i class="bx bx-check"></i>
+              </span>
+              <span class="switch-off">
+                <i class="bx bx-x"></i>
+              </span>
+            </span>
+            <span class="switch-label" style="color:white;">Did you support a colleague?</span>                  
+          </label>
+        </div>
+
+        <!-- end donation -->
+
+        <!--         
+
         <div class="mb-3">
           <label class="form-label" for="add-user-name">First Name</label>
           <input type="text" class="form-control" id="add-user-name" placeholder="John" name="name" aria-label="John" />
@@ -77,23 +137,6 @@
           <label class="form-label" for="add-user-surname">Surname</label>
           <input type="text" class="form-control" id="add-user-surname" placeholder="Doe" name="surname" aria-label="Doe" />
         </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="add-user-email">Email</label>
-          <input type="text" id="add-user-email" class="form-control" placeholder="john.doe@example.com" aria-label="john.doe@example.com" name="email" />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label" for="add-user-contact">Mobile</label>
-          <input type="text" id="add-user-contact" class="form-control phone-mask" placeholder="0712345678" name="mobile" aria-label="0712345678" />
-        </div>        
-
-        <div class="mb-3">
-          <label class="form-label" for="add-user-company-id">Company</label>
-          <select id="company-id" name="company_id" class="select2 form-select">            
-            
-          </select>
-        </div>
         
         <div class="mb-3">
           <label class="form-label" for="user-role">User Role</label>
@@ -101,6 +144,7 @@
             
           </select>
         </div>
+        -->
         <!--
         <div class="mb-4">
           <label class="form-label" for="user-plan">Select Plan</label>
