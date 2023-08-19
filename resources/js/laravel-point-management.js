@@ -57,7 +57,7 @@ $(function () {
           }
         },
         {          
-          targets: 2,
+          targets: 2,          
           render: function (data, type, full, meta) {
             var $point_name = full['point_name'];
             return '<span class="text-body text-truncate">' + $point_name + '</span>';

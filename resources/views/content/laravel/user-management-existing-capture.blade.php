@@ -43,7 +43,7 @@
 <!-- Users List Table -->
 <div class="card"  style="background-color:#00B3DC;">
   <div class="card-header  bc_tc">
-    <h5 class="card-title mb-0">Search existing user and click donate</h5>
+    <h5 class="card-title mb-0 bc_tc" >Search for existing user and click donate</h5>
   </div>
   <div class="card-datatable table-responsive">
     <table class="datatables-users table border-top">
