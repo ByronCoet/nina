@@ -6,6 +6,7 @@ use App\Http\Controllers\apps\PointManagement;
 use App\Http\Controllers\apps\UserManagementExisting;
 use App\Http\Controllers\apps\CompanyManagement;
 use App\Http\Controllers\apps\CampaignManagement;
+use App\Http\Controllers\apps\LeaderManagement;
 use App\Http\Controllers\apps\DonationManagement;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\CompanyController;
@@ -57,6 +58,9 @@ Route::resource('/user-list', UserManagement::class)->middleware('auth');
 
 Route::get('/managedonation', [DonationManagement::class, 'DonationManagement'])->name('donation-page')->middleware('auth');
 Route::resource('/donation-list', DonationManagement::class)->middleware('auth');
+
+Route::get('/leaderboard', [LeaderManagement::class, 'LeaderManagement'])->name('leaderboard-page')->middleware('auth');
+Route::resource('/leaderboard-list', LeaderManagement::class)->middleware('auth');
 
 Route::get('/all-companies', $controller_path . '\CompanyController@AllCompanies')->name('all-companies')->middleware('auth');
 

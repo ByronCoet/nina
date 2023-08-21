@@ -5,12 +5,12 @@
       "name": "Home",
       "icon": "menu-icon tf-icons bx bx-home-circle",
       "slug": "pages-home"
-    },
+    },    
     {
-      "url": "/page-2",
+      "url": "/leaderboard",
       "icon": "menu-icon tf-icons bx bx-file",
-      "name": "Leader Board Client",
-      "slug": "pages-page-2"
+      "name": "Leader Board",
+      "slug": "leader-page"
     },
     {
       "url": "/setcurrentcampaign",
