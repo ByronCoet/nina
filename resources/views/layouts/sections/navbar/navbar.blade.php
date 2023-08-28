@@ -3,7 +3,8 @@ $containerNav = $containerNav ?? 'container-fluid';
 @endphp
 
 <!-- Navbar -->
-<nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
+<nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbadr-theme" id="layout-navbar"  style="background-color: transparent;">
+
   <div class="{{$containerNav}}">
 
     <!--  Brand demo (display only for navbar-full and hide on below xl) -->
@@ -54,7 +55,7 @@ $containerNav = $containerNav ?? 'container-fluid';
             <div class="avatar avatar-online">
 
                 <div class="flex-grow-1">
-                  <span class="fw-semibold d-block">
+                  <span class="fw-semibold d-block" style="color: black;">
                     @if (Auth::check())
                       {{ Auth::user()->name }}                    
                     @endif

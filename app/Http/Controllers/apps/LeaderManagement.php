@@ -88,7 +88,7 @@ class LeaderManagement extends Controller
 
     $comp_search = $request->get('extra_search');
 
-    Log::info('EXTRAAAA: ' . $comp_search);     
+    // Log::info('EXTRAAAA: ' . $comp_search);     
     
     // Log::info('Order: ' . $order);
     $dir = $request->input('order.0.dir');
@@ -244,7 +244,7 @@ class LeaderManagement extends Controller
       $data[] = $d;
     }
 
-    Log::info($data);
+    // Log::info($data);
 
     if ($data) {
       return response()->json([

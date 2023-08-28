@@ -6,9 +6,9 @@ $configData = Helper::appClasses();
 
   <!-- ! Hide app brand if navbar-full -->
   @if(!isset($navbarFull))
-  <div class="app-brand demo">
+  <div class="app-brand demo" style="background-color: #bae2f3;">
     <a href="{{url('/')}}" class="app-brand-link">
-      <span class="app-brand-logo demo">
+      <span class="app-brand-logo demo" style="width:30px;">
         @include('_partials.macros')
       </span>
       <span class="app-brand-text demo menu-text fw-bold ms-2">{{config('variables.templateName')}}</span>
@@ -23,13 +23,13 @@ $configData = Helper::appClasses();
 
   <!-- ! Hide menu divider if navbar-full -->
   @if(!isset($navbarFull))
-  <div class="menu-divider mt-0 ">
+  <div class="menu-divider mt-0 " style="background-color: #bae2f3;">
   </div>
   @endif
 
-  <div class="menu-inner-shadow"></div>
+  <div class="menu-inner-shadow" style="background-color: #bae2f3;"></div>
 
-  <ul class="menu-inner py-1">
+  <ul class="menu-inner py-1" style="background-color: #bae2f3;">
     @foreach ($menuData[0]->menu as $menu)
 
     {{-- adding active and open class if child is active --}}

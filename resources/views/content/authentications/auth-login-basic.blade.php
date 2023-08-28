@@ -27,7 +27,7 @@ $customizerHidden = 'customizer-hide';
 @endsection
 
 @section('content')
-<div class="container-xxl">
+<div class="contaidner-xxl" style="background-image: url("gradient_bg.png");">
   <div class="authentication-wrapper authentication-basic container-p-y">
     <div class="authentication-inner py-4">
 
@@ -35,19 +35,21 @@ $customizerHidden = 'customizer-hide';
       <div class="card">
         <div class="card-body">
           <!-- Logo -->
-          <div class="app-brand justify-content-center">
-            <a href="{{url('/')}}" class="app-brand-link gap-2">
+          <div class="app-brand justify-content-center mb-2">
+            <a href="{{url('/')}}" class="app-brand-link gap-1">
               <span class="app-brand-logo demo">
-                @include('_partials.macros')
+                @include('_partials.macroslogin')
               </span>
-              <span class="app-brand-text demo h3 mb-0 fw-bold">{{config('variables.templateName')}}</span>
+              <!-- <span class="app-brand-text demo h3 mb-0 fw-bold">{{--config('variables.templateName')--}}</span> -->
             </a>
           </div>
           <!-- /Logo -->
+          <!--
           <h4 class="mb-2">Welcome to BloodDrive! 👋</h4>
           <p class="mb-4">Please sign-in to your account</p>
+          -->
 
-          <form id="formAuthentication" class="mb-3" action="{{url('authenticate')}}" method="POST">
+          <form id="formAuthentication" class="mb-2" action="{{url('authenticate')}}" method="POST">
            @csrf
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
@@ -97,10 +99,23 @@ $customizerHidden = 'customizer-hide';
             </a>
           </p>
 
+          <!--
           <div class="divider my-4">
             <div class="divider-text">or</div>
           </div>
+          -->
 
+
+          <div class="container-fluid d-flex flex-wrap justify-content-between pt-3 flex-md-row flex-column px-0" >
+            <div class="smb-0 smb-md-0" >              
+                @include('_partials.macrossanbs')
+            </div>
+            <div  style="padding-top: 45px;">
+              @include('_partials.macrosadcock')
+            </div>
+          </div>
+
+          <!--
           <div class="d-flex justify-content-center">
             <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">
               <i class="tf-icons bx bxl-facebook"></i>
@@ -114,6 +129,7 @@ $customizerHidden = 'customizer-hide';
               <i class="tf-icons bx bxl-twitter"></i>
             </a>
           </div>
+          -->
         </div>
       </div>
       <!-- /Register -->

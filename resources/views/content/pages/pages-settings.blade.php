@@ -26,7 +26,7 @@ $configData = Helper::appClasses();
 
 @section('content')
 <h4>Set campaign in use</h4>
-<h5>Campaign in use is set to: <span style="color:white">{{ $site_settings->campaign_name ?? 'not set'}}</span></h5>
+<h5>Campaign in use is set to: <span style="color:blue">{{ $site_settings->campaign_name ?? 'not set'}}</span></h5>
 
 <div class="row">
     <div class="col-xl">

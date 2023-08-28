@@ -27,13 +27,38 @@
   justify-content: center;
   display: -ms-flexbox;
   display: flex;
-  width: 30px;
-  height: 30px;
+  width: 100px;
+  height: 140px;
+}
+
+.app-sanbs-logo.demo {
+  float: left;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -ms-flexbox;
+  display: flex;
+  width: 70px;
+  height: 100px;
+}
+
+.app-adcock-logo.demo {
+  float: right;
+  vertical-align: bottom;
+  -ms-flex-align: end;
+  align-items: bottom;
+  -ms-flex-pack: bottom;
+  justify-content: bottom;
+  display: -ms-flexbox;
+  display: flex;
+  width: 190px;
+  height: 80px;
 }
 
 .app-brand-logo.demo svg {
-  width: 1.7rem;
-  height: 1.7rem;
+  width: 10.7rem;
+  height: 10.7rem;
 }
 
 .app-brand-text.demo {

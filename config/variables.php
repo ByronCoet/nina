@@ -3,7 +3,7 @@
   return [
     "creatorName" => "WEB-GUY",
     "creatorUrl" => "https://web-guy.net",
-    "templateName" => "Drive",
+    "templateName" => "Blood Drive",
     "templateSuffix" => "Bootstrap Admin Template",
     "templateVersion" => "1.0.0",
     "templateFree" => false,
