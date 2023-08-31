@@ -32,7 +32,7 @@ $container = ($container ?? 'container-xxl');
   <div class="layout-container">
    
     @if ($isMenu)     
-      @if (Auth::user()->role === "client")        
+      @if (Auth::user()->role === "receptionist")        
         @include('layouts/sections/menu/verticalClientMenu')
       @else      
         @include('layouts/sections/menu/verticalMenu')

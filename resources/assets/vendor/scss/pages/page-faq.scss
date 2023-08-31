@@ -20,7 +20,7 @@ $faq-header-min-height: 270px !default;
     content: ' ';
     position: absolute;
     top: -151px;
-    background: url('../../../img/pages/auth-top-left.png');
+    // background: url('../../../img/pages/auth-top-left.png');
     background-size: contain;
     background-repeat: no-repeat;
     @include app-ltr() {
@@ -37,7 +37,7 @@ $faq-header-min-height: 270px !default;
     content: ' ';
     position: absolute;
     bottom: -100px;
-    background-image: url('../../../img/pages/auth-right-bottom.png');
+    // background-image: url('../../../img/pages/auth-right-bottom.png');
     background-size: contain;
     background-repeat: no-repeat;
     @include app-ltr() {

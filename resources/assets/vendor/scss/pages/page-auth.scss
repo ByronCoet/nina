@@ -39,7 +39,7 @@ $authentication-1-inner-max-width: 25rem !default;
       content: ' ';
       position: fixed;
       top: -100px;
-      background: url('../../../img/pages/auth-top-left.png');
+      // background: url('../../../img/pages/auth-top-left.png');
       background-size: contain;
       @include app-ltr() {
         left: -100px;
@@ -55,7 +55,7 @@ $authentication-1-inner-max-width: 25rem !default;
       content: ' ';
       position: fixed;
       bottom: 0;
-      background-image: url('../../../img/pages/auth-right-bottom.png');
+      // background-image: url('../../../img/pages/auth-right-bottom.png');
       background-size: contain;
       @include app-ltr() {
         right: 0;

@@ -78,21 +78,21 @@ $(function () {
           orderable: false,
           targets: 1,
           render: function (data, type, full, meta) {
-            return `<span style="color: white !important;">${full.fake_id}</span>`;
+            return `<span style="colsr: white !important;">${full.fake_id}</span>`;
           }
         },
         {          
           targets: 2,
           render: function (data, type, full, meta) {
             var $name = full['name'];
-            return '<span class="text-body text-truncate bc_tc" style="color: white !important;">' + $name + '</span>';
+            return '<span class="text-body text-truncate bc_tc" style="colsor: white !important;">' + $name + '</span>';
           }
         },
         {          
           targets: 3,
           render: function (data, type, full, meta) {
             var $surname = full['surname'];
-            return '<span class="text-body text-truncate" style="color: white !important;">' + $surname + '</span>';
+            return '<span class="text-body text-truncate" style="coslor: white !important;">' + $surname + '</span>';
           }
         },
         {
@@ -100,7 +100,7 @@ $(function () {
           targets: 4,
           render: function (data, type, full, meta) {
             var $company = full['company'];
-            return '<span class="text-body text-truncate" style="color: white !important;">' + $company + '</span>';
+            return '<span class="text-body text-truncate" style="colsor: white !important;">' + $company + '</span>';
           }
         },
         {
@@ -108,7 +108,7 @@ $(function () {
           targets: 5,
           render: function (data, type, full, meta) {
             var $mobile = full['mobile'];
-            return '<span class="user-mobile" style="color: white !important;">' + $mobile + '</span>';
+            return '<span class="user-mobile" style="coslor: white !important;">' + $mobile + '</span>';
           }
         },
         {
@@ -116,7 +116,7 @@ $(function () {
           targets: 6,
           render: function (data, type, full, meta) {
             var $email = full['email'];
-            return '<span class="user-email" style="color: white !important;">' + $email + '</span>';
+            return '<span class="user-email" style="coslor: white !important;">' + $email + '</span>';
           }
         },
         {

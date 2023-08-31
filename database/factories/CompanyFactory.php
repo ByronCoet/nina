@@ -15,11 +15,8 @@ class CompanyFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition()
-    {
-        $a = ['Wiilards', 'Nestle', 'Netflix', 'GSE', 'Microsoft'];
+    {        
         return [
-            // 'name' => $this->faker->company(),
-            'company_name' => $a[array_rand($a)]
         ];
     }        
 }

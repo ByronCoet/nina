@@ -30,8 +30,8 @@ $configData = Helper::appClasses();
 @endsection
 
 @section('content')
-<h2 style="color:#00264F; font-style: italic;">We save lives</h2>
-<h4 style="color:#CBDA3B; font-style: italic; margin-top:-15px;">One bag at a time</h4>
+<h2 style="color: darkblue; font-style: italic;">We save lives. One bag at a time.</h2>
+ <!-- <h4 style="color:#919d1a; font-style: italic; margin-top:-15px;">One bag at a time</h4> -->
 <h6>Current Campaign: <span style="color:blue; margin-top:-25px; ">{{ $site_settings->campaign_name ?? 'not set' }}</span></h6>
 
 <!-- Default -->

@@ -25,7 +25,7 @@
   @include('layouts/sections/scriptsIncludes')
 </head>
 
-<body style="background-image: url('{{asset('assets/img/smallpattern.png')}}');">
+<body style="background-image: url('{{asset('assets/img/largepattern.png')}}');">
 
   <!-- Layout Content -->
   @yield('layoutContent')

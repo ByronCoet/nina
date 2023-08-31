@@ -37,9 +37,8 @@ $customizerHidden = 'customizer-hide';
           <div class="app-brand justify-content-center">
             <a href="{{url('/')}}" class="app-brand-link gap-2">
               <span class="app-brand-logo demo">
-                @include('_partials.macros')
+                @include('_partials.macroslogin')
               </span>
-              <span class="app-brand-text demo h3 mb-0 fw-bold">{{config('variables.templateName')}}</span>
             </a>
           </div>
           <!-- /Logo -->
@@ -107,24 +106,16 @@ $customizerHidden = 'customizer-hide';
             </a>
           </p>
 
-          <div class="divider my-4">
-            <div class="divider-text">or</div>
+          <div class="container-fluid d-flex flex-wrap justify-content-between pt-3 flex-md-row flex-column px-0" >
+            <div class="smb-0 smb-md-0" >              
+                @include('_partials.macrossanbs')
+            </div>
+            <div  style="padding-top: 45px;">
+              @include('_partials.macrosadcock')
+            </div>
           </div>
 
-          <div class="d-flex justify-content-center">
-            <a href="javascript:;" class="btn btn-icon btn-label-facebook me-3">
-              <i class="tf-icons bx bxl-facebook"></i>
-            </a>
-
-            <a href="javascript:;" class="btn btn-icon btn-label-google-plus me-3">
-              <i class="tf-icons bx bxl-google-plus"></i>
-            </a>
-
-            <a href="javascript:;" class="btn btn-icon btn-label-twitter">
-              <i class="tf-icons bx bxl-twitter"></i>
-            </a>
-          </div>
-        </div>
+          
       </div>
       <!-- Register Card -->
     </div>

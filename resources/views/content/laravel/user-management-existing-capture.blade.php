@@ -32,8 +32,8 @@
 
 @section('content')
 
-<h2 style="color:#00264F; font-style: italic;">We save lives</h2>
-<h4 style="color:#CBDA3B; font-style: italic; margin-top:-15px;">One bag at a time</h4>
+<h2 style="color: darkblue; font-style: italic;">We save lives. One bag at a time.</h2>
+ <!-- <h4 style="color:#919d1a; font-style: italic; margin-top:-15px;">One bag at a time</h4> -->
 <h6>Current Campaign: <span style="color:blue; margin-top:-25px; ">{{ $site_settings->campaign_name ?? 'not set' }}</span></h6>
 
 <div class="row g-4 mb-4">
@@ -41,9 +41,9 @@
 
 </div>
 <!-- Users List Table -->
-<div class="card"  style="background-color:#00B3DC;">
-  <div class="card-header  bc_tc">
-    <h5 class="card-title mb-0 bc_tc" >Search for existing user and click donate</h5>
+<div class="card"  style="bacdkground-color:#00B3DC;">
+  <div class="card-header  bsc_tc">
+    <h5 class="card-title mb-0 bsc_tc" >Search for existing user and click donate</h5>
   </div>
   <div class="card-datatable table-responsive">
     <table class="datatables-users table border-top">
@@ -62,7 +62,7 @@
     </table>
   </div>
   <!-- Offcanvas to add new user -->
-  <div class="offcanvas offcanvas-end" style="background-color:#00B3DC;"  tabindex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
+  <div class="offcanvas offcanvas-end" style="background-color:#bae2f3;"  tabindex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
     <div class="offcanvas-header">
       <h5 id="offcanvasAddUserLabel" class="offcanvas-title">Capture Donation</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -74,13 +74,13 @@
         <!-- donation -->
         
         <div class="mb-3">
-          <label class="form-label bc_tc" for="eventdate">Event date</label>          
+          <label class="form-label bxc_tc" for="eventdate">Event date</label>          
           <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="eventdate" name="eventdate" />
           </select>
         </div>
 
         <div class="mb-3">
-          <label class="switch  bc_tc">                  
+          <label class="switch  bxc_tc">                  
             <input type="checkbox" class="switch-input" name="donate" >
             <span class="switch-toggle-slider">
               <span class="switch-on">
@@ -90,7 +90,7 @@
                 <i class="bx bx-x"></i>
               </span>
             </span>
-            <span class="switch-label" style="color:white;">Were you able to donate?</span>                  
+            <span class="switch-label" style="coxlor:white;">Were you able to donate?</span>                  
           </label>
         </div>
 
@@ -105,7 +105,7 @@
                 <i class="bx bx-x"></i>
               </span>
             </span>
-            <span class="switch-label" style="color:white;">Did you convert a colleague?</span>                  
+            <span class="switch-label" style="coloxr:white;">Did you convert a colleague?</span>                  
           </label>
         </div>
 
@@ -120,7 +120,7 @@
                 <i class="bx bx-x"></i>
               </span>
             </span>
-            <span class="switch-label" style="color:white;">Did you support a colleague?</span>                  
+            <span class="switch-label" style="colosr:white;">Did you support a colleague?</span>                  
           </label>
         </div>
 

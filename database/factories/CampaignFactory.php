@@ -17,12 +17,8 @@ class CampaignFactory extends Factory
      */
     public function definition()
     {
-        $a = ['Red', 'Blue', 'Green', 'Orange', 'Green'];
-        return [
-            // 'name' => $this->faker->name(),            
-            'campaign_name' => $a[array_rand($a, 1)], 
-            'campaign_start' => Carbon::create('2023', '08', '01'),
-            'campaign_end' => Carbon::create('2023', '10', '30'),
+        
+        return [            
         ];
     }
 }
