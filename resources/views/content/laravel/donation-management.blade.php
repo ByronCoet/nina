@@ -95,27 +95,68 @@
     <div class="offcanvas-body mx-0 flex-grow-0">
       <form class="add-new-donation pt-0" id="addNewDonationForm">
         <input type="hidden" name="id" id="donation-id">
-
-        <div class="mb-3">
-          <label class="form-label" for="add-donation-name">Donation Name</label>
-          <input type="text" class="form-control" id="add-donation-name" placeholder="Adcock" name="donation_name" aria-label="Adcock" />
-        </div>
-
+        <!-- 
         <div class="mb-3">
           <label class="form-label" for="add-donation-company-id">Company</label>
           <select id="company-id" name="company_id" class="select2 form-select">                        
           </select>
         </div>
-        
+
         <div class="mb-3">
-          <label class="form-label" for="add-donation-start">Start date</label>          
-          <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="add-donation-start" name="donation_start" />
+          <label class="form-label" for="add-donation-campaign-id">Campaign</label>
+          <select id="campaign-id" name="campaign_id" class="select2 form-select">                        
           </select>
         </div>
-        
+        -->
+
         <div class="mb-3">
-          <label class="form-label" for="add-donation-end">End date</label>          
-          <input type="text" class="form-control" placeholder="YYYY-MM-DD"  id="add-donation-end" name="donation_end" />
+          <label class="switch">
+            <input type="checkbox" class="switch-input" name="donate" id="donate" />
+            <span class="switch-toggle-slider">
+              <span class="switch-on">
+                <i class="bx bx-check"></i>
+              </span>
+              <span class="switch-off">
+                <i class="bx bx-x"></i>
+              </span>
+            </span>
+            <span class="switch-label" style="coxlor:white;">Were you able to donate?</span>                  
+          </label>
+        </div>
+
+        <div class="mb-3">
+          <label class="switch">                  
+            <input type="checkbox" class="switch-input" name="convert" id="convert" />
+            <span class="switch-toggle-slider">
+              <span class="switch-on">
+                <i class="bx bx-check"></i>
+              </span>
+              <span class="switch-off">
+                <i class="bx bx-x"></i>
+              </span>
+            </span>
+            <span class="switch-label" style="coloxr:white;">Did you convert a colleague?</span>                  
+          </label>
+        </div>
+
+        <div class="mb-3">
+          <label class="switch">                  
+            <input type="checkbox" class="switch-input" name="support" id="support" />
+            <span class="switch-toggle-slider">
+              <span class="switch-on">
+                <i class="bx bx-check"></i>
+              </span>
+              <span class="switch-off">
+                <i class="bx bx-x"></i>
+              </span>
+            </span>
+            <span class="switch-label" style="colosr:white;">Did you support a colleague?</span>                  
+          </label>
+        </div>
+               
+        <div class="mb-3">
+          <label class="form-label" for="add-event-date">Event date</label>          
+          <input type="text" class="form-control" placeholder="YYYY-MM-DD"  id="add-event-date" name="event_date" />
           </select>
         </div>
 

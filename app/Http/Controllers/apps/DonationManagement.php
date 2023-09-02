@@ -231,12 +231,19 @@ class DonationManagement extends Controller
     {
       // update the value
       Log::info('Update donation called: ');
-      $donation = Donation::updateOrCreate(
-        ['id' => $ID],
-        ['donation_name' => $request->donation_name, 
-         'company_id' => $request->company_id,
-         'donation_start' => $request->donation_start,  
-         'donation_end' => $request->donation_end,  
+
+      $edate = $request->input('event_date'); 
+      $don = $request->input('donate'); 
+      $conv = $request->input('convert'); 
+      $supp = $request->input('support'); 
+
+      $donation = Donation::find($ID);      
+      $donation->update(
+        [
+         'donated'        => $don == 'on' ? 1 : 0,
+         'converted'      => $conv == 'on' ? 1 : 0,
+         'supported'      => $supp == 'on' ? 1 : 0,
+         'event_date'     => $edate
          ]        
       );
 
@@ -246,11 +253,17 @@ class DonationManagement extends Controller
     else 
     {
       Log::info('Create donation called: ');
+
+
       $donation = Donation::updateOrCreate(        
         ['donation_name' => $request->donation_name, 
         'company_id' => $request->company_id,
-        'donation_start' => $request->donation_start,  
-        'donation_end' => $request->donation_end,  ]
+        
+        'donated'        => $don == 'on' ? 1 : 0,
+        'converted'      => $conv == 'on' ? 1 : 0,
+        'supported'      => $supp == 'on' ? 1 : 0,
+        'event_date'     => $edate
+        ]
       );
       return response()->json('Created');      
     }

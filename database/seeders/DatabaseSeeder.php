@@ -17,6 +17,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
+        $r = \App\Models\Role::create(['role_name' => 'superadmin']);
+        $r = \App\Models\Role::create(['role_name' => 'companyadmin']);
+        $r = \App\Models\Role::create(['role_name' => 'receptionist']);
+        $r = \App\Models\Role::create(['role_name' => 'donor']);
+
         $c1 = \App\Models\Company::create( ['company_name' => "AICC"]);
         $c2 = \App\Models\Company::create( ['company_name' => "Company A"]);
         $c3 = \App\Models\company::create( ['company_name' => "Company B"]);

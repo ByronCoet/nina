@@ -144,13 +144,13 @@ $(function () {
               '<div class="d-inline-block text-nowrap">' +
               `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="bx bx-edit"></i></button>` +
               `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="bx bx-trash"></i></button>` +
-              '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>' +
-              '<div class="dropdown-menu dropdown-menu-end m-0">' +
-              '<a href="' +
-              userView +
-              '" class="dropdown-item">View</a>' +
-              '<a href="javascript:;" class="dropdown-item">Suspend</a>' +
-              '</div>' +
+              // '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>' +
+              //'<div class="dropdown-menu dropdown-menu-end m-0">' +
+              //'<a href="' +
+              //userView +
+              //'" class="dropdown-item">View</a>' +
+              //'<a href="javascript:;" class="dropdown-item">Suspend</a>' +
+              //'</div>' +
               '</div>'
             );
           }
@@ -452,13 +452,14 @@ $(function () {
 
       var model = $('#user-role');
       model.empty();
-      console.log("roles");
+      console.log("roledd");
       $.each(data.roles, function(index, element) {
         var option = document.createElement("option");
         option.value = element.role_name;
         option.text = element.role_name;
 
-        console.log(element.role_name);
+        console.log(element);
+        console.log(data.users);
 
         if (element.role_name === data.users.role)
         {

@@ -10,8 +10,7 @@
   // const flatpickrDate = document.querySelector('#flatpickr-date'),
     // flatpickrTime = document.querySelector('#flatpickr-time'),
 
-    const cstart = document.querySelector('#add-donation-start')
-    const cend = document.querySelector('#add-donation-end'); 
+    const cstart = document.querySelector('#add-event-date')    
     
     // flatpickrDateTime = document.querySelector('#flatpickr-datetime'),
     // flatpickrMulti = document.querySelector('#flatpickr-multi'),
@@ -25,7 +24,7 @@
   //  flatpickrDate.flatpickr({
   //    monthSelectorType: 'static'
   //  });
- // }
+  // }
 
   // Date
   if (cstart) {
@@ -33,13 +32,7 @@
       monthSelectorType: 'static'
     });
   }
-
-  // Date
-  if (cend) {
-    cend.flatpickr({
-      monthSelectorType: 'static'
-    });
-  }
+  
 
   /*
   // Time

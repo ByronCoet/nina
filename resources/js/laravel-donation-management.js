@@ -4,6 +4,34 @@
 
 'use strict';
 
+// this grabs campaigns depending on company selected
+/*
+$(document).ready(function() {
+  $('#company-id').on('change', function(e) {
+      console.log("on change company-id");
+      var comp_id = e.target.value;
+      $.ajax({          
+          url: baseUrl + 'subcamp',
+          type: "POST",
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          data: {
+              comp_id: comp_id
+          },
+          success: function(data) {
+              $('#campaign-id').empty();
+              // console.log(data);
+              $.each(data.camps, function(index,camp) {
+                  $('#campaign-id').append('<option value="' + camp
+                      .id + '">' + camp.campaign_name + '</option>');
+              })
+          }
+      })
+  });
+});
+*/
+
 // Datatable (jquery)
 $(function () {
   // Variable declaration for table
@@ -290,7 +318,8 @@ $(function () {
               }
             }
           ]
-        },
+        }
+        /*,
         {
           text: '<i class="bx bx-plus me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Add New Donation</span>',
           className: 'add-new btn btn-primary',
@@ -299,6 +328,7 @@ $(function () {
             'data-bs-target': '#offcanvasAddDonation'
           }
         }
+        */
       ],
       // For responsive popup
       responsive: {
@@ -444,10 +474,24 @@ $(function () {
     $.get(`${baseUrl}donation-list\/${donation_id}\/edit`, function (data) {
       console.log(data);
       $('#donation-id').val(data.donations.id);
-      $('#add-donation-name').val(data.donations.donation_name);    
-      $('#add-donation-start').val(data.donations.donation_start);    
-      $('#add-donation-end').val(data.donations.donation_end);    
-      
+      //$('#company-id').val(data.donations.company_id);    
+      //$('#campaign-id').val(data.donations.campaign_id);    
+      console.log("helooo33");
+
+      // $("#checkbox").prop("checked", true);
+      $('#donate').prop("checked", data.donations.donated == 1);    
+      $('#convert').prop("checked", data.donations.converted == 1) ;    
+      $('#support').prop("checked", data.donations.supported == 1);    
+      const myFlatpickrInstance = $("#add-event-date").flatpickr({
+        enableTime: false,
+        altInput: true,
+        allowInput: true,
+      });
+      myFlatpickrInstance.setDate(data.donations.event_date, true);
+
+
+      // $('#add-event-date').flatpickr.defaultDate = data.donations.event_date;   // val(data.donations.event_date);    
+      /*
       var model = $('#company-id');
       model.empty();
       $.each(data.companies, function(index, element) {
@@ -463,7 +507,8 @@ $(function () {
           option.selected = true;
         }
         model.append(option);
-      });    
+      });
+      */    
     });
   });
 
@@ -504,17 +549,17 @@ $(function () {
   // donation form validation
   const fv = FormValidation.formValidation(addNewDonationForm, {
     fields: {
-      name: {
+      company_id: {
         validators: {
           notEmpty: {
-            message: 'Please enter donation name'
+            message: 'Please select company'
           }
         }
       },
-      company: {
+      campaign_id: {
         validators: {
           notEmpty: {
-            message: 'Please enter your company'
+            message: 'Please select campaign'
           }
         }
       }

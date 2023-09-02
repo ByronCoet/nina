@@ -137,7 +137,7 @@
       <h5 id="offcanvasAddUserLabel" class="offcanvas-title">Add User</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body mx-0 flex-grow-0">
+    <div class="offcanvas-bodyz mx-0 flex-grow-0" style="padding: 5px;">
       <form class="add-new-user pt-0" id="addNewUserForm">
         <input type="hidden" name="id" id="user_id">
         <div class="mb-3">
@@ -158,19 +158,17 @@
         <div class="mb-3">
           <label class="form-label" for="add-user-contact">Mobile</label>
           <input type="text" id="add-user-contact" class="form-control phone-mask" placeholder="0712345678" name="mobile" aria-label="0712345678" />
-        </div>        
+        </div>
 
         <div class="mb-3">
           <label class="form-label" for="add-user-company-id">Company</label>
-          <select id="company-id" name="company_id" class="select2 form-select">            
-            
+          <select id="company-id" name="company_id" class="select2 form-select">
           </select>
         </div>
         
         <div class="mb-3">
           <label class="form-label" for="user-role">User Role</label>
           <select id="user-role" class="form-select" name="role">
-            
           </select>
         </div>
         <!--

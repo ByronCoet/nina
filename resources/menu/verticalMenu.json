@@ -15,13 +15,13 @@
     {
       "url": "/capturenew",
       "icon": "menu-icon tf-icons bx bx-file",
-      "name": "Capture - New User",
+      "name": "Donation - New User",
       "slug": "capture-page-new"
     },
     {
       "url": "/app/user-management-existing",
       "icon": "menu-icon tf-icons bx bx-file",
-      "name": "Capture - Existing user",
+      "name": "Donation - Existing user",
       "slug": "usermanagementexisting"
     },    
     {
