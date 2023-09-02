@@ -10,8 +10,8 @@
   // const flatpickrDate = document.querySelector('#flatpickr-date'),
     // flatpickrTime = document.querySelector('#flatpickr-time'),
 
-    const cstart = document.querySelector('#add-campaign-start')
-    const cend = document.querySelector('#add-campaign-end'); 
+    const cstart = document.querySelector('#add-donation-start')
+    const cend = document.querySelector('#add-donation-end'); 
     
     // flatpickrDateTime = document.querySelector('#flatpickr-datetime'),
     // flatpickrMulti = document.querySelector('#flatpickr-multi'),

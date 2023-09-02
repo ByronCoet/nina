@@ -137,6 +137,8 @@ mix.js( 'resources/js/laravel-campaign-management.js', 'public/js/');
 mix.js( 'resources/js/laravel-donation-management.js', 'public/js/');
 mix.js( 'resources/js/laravel-leader-management.js', 'public/js/');
 mix.js( 'resources/js/forms-pickers.js', 'public/js/');
+mix.js( 'resources/js/campaign-forms-pickers.js', 'public/js/');
+mix.js( 'resources/js/donation-forms-pickers.js', 'public/js/');
 mix.js( 'resources/js/forms-pickers-donation.js', 'public/js/');
 
 mix.copy('node_modules/boxicons/fonts/*', 'public/assets/vendor/fonts/boxicons');

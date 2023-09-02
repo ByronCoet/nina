@@ -33,8 +33,28 @@ class LoginBasic extends Controller
       if(Auth::attempt($credentials))
       {
           // Log::info('authenticate ok');
-          $request->session()->regenerate();
-          return redirect()->route('pages-page-2')->withSuccess('You have successfully logged in!');
+
+          $user = Auth::user();
+
+          
+
+          if ($user->role === "superadmin" || $user->role === "companyadmin" || $user->role === "receptionist")
+          {
+            Log::info('valid role');
+            $request->session()->regenerate();
+            return redirect()->route('pages-page-2')->withSuccess('You have successfully logged in!');
+          }
+          else{
+            Log::info('not alid role');
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return back()->withErrors([
+                'role' => 'Your role does not allow login',
+            ])->onlyInput('role');
+
+          }
       }
 
       //Log::info('authenticate error');

@@ -31,7 +31,7 @@
 
 @section('page-script')
 <script src="{{asset('js/laravel-campaign-management.js')}}"></script>
-<script src="{{asset('js/forms-pickers.js')}}"></script>
+<script src="{{asset('js/campaign-forms-pickers.js')}}"></script>
 @endsection
 
 @section('content')

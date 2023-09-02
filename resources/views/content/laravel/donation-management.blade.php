@@ -31,7 +31,7 @@
 
 @section('page-script')
 <script src="{{asset('js/laravel-donation-management.js')}}"></script>
-<script src="{{asset('js/forms-pickers.js')}}"></script>
+<script src="{{asset('js/donation-forms-pickers.js')}}"></script>
 @endsection
 
 @section('content')
