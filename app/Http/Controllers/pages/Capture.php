@@ -5,6 +5,7 @@ namespace App\Http\Controllers\pages;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
@@ -23,6 +24,11 @@ class Capture extends Controller
   { 
     Log::info('new donation');
 
+    if ($this->site_settings == null)
+    {
+        return response()->json(['message' => "Please set current campaign before capturing donations."], 422);
+    }
+
     $name = $request->input('formValidationFirstname'); 
     $sur = $request->input('formValidationSurname'); 
     $mob = $request->input('formValidationMobile'); 
@@ -33,9 +39,18 @@ class Capture extends Controller
     $conv = $request->input('convert'); 
     $supp = $request->input('support'); 
 
-    Log::info($don);
-    Log::info($conv);
-    Log::info($supp);
+    $u = User::where(['mobile' => $mob, 'company_id' => $comp])->first();
+
+    if ($u)
+    {
+      return response()->json(['message' => "User with that mobile number already exists."], 422);
+    }
+
+
+
+    //Log::info($don);
+    //Log::info($conv);
+    //Log::info($supp);
 
     $user = \App\Models\User::create(
       [

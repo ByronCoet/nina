@@ -407,8 +407,14 @@ $(function () {
   $(document).on('click', '.edit-record', function () {
     var user_id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
-    
-    $('#eventdate').val('');
+
+      const myFlatpickrInstance = $("#eventdate").flatpickr({
+        enableTime: false,
+        altInput: true,
+        allowInput: true,
+      });
+      myFlatpickrInstance.setDate(new Date(), true);
+
     // hide responsive modal in small screen
     if (dtrModal.length) {
       dtrModal.modal('hide');
@@ -422,7 +428,7 @@ $(function () {
       $('#user_id').val(data.users.id);
       // $('#eventdate').val('');
       
-      console.log("set event date nullxxx");
+      console.log("set event date nullyy");
       //$('#add-user-name').val(data.users.name);
       //$('#add-user-surname').val(data.users.surname);
       //$('#add-user-contact').val(data.users.mobile);
@@ -471,8 +477,16 @@ $(function () {
 
   // changing the title and grabbing company details - this is for the admin
   $('.add-new').on('click', function () {
-    $('#user_id').val(''); //resetting input field
-    $('#offcanvasAddUserLabel').html('Add User');
+      $('#user_id').val(''); //resetting input field
+      $('#offcanvasAddUserLabel').html('Add User');
+
+      const myFlatpickrInstance = $("#eventdate").flatpickr({
+        enableTime: false,
+        altInput: true,
+        allowInput: true,
+      });
+      myFlatpickrInstance.setDate(new Date(), true);
+
 
       console.log("get companies");
       // get data
@@ -564,11 +578,12 @@ $(function () {
           }
         });
       },
-      error: function (err) {
+      error: function (err) {        
         offCanvasForm.offcanvas('hide');
+        const obj = JSON.parse(err.responseText);
         Swal.fire({
-          title: 'Error!',
-          text: 'Error occured.',
+          title: 'Donation capture failed',
+          text: obj.message,
           icon: 'error',
           customClass: {
             confirmButton: 'btn btn-success'

@@ -348,7 +348,7 @@ $(function () {
               .appendTo('.user_company')
               .on('change', function () {
                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                console.log("got here : " + val);                
+                // console.log("got here : " + val);                
                 column.search(val ? '^' + val + '$' : '', true, false).draw();                
               });
 
@@ -427,6 +427,9 @@ $(function () {
     var user_id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
 
+    console.log('user id: ' + user_id);
+    console.log($(this).data);
+
     // hide responsive modal in small screen
     if (dtrModal.length) {
       dtrModal.modal('hide');
@@ -463,14 +466,14 @@ $(function () {
 
       var model = $('#user-role');
       model.empty();
-      console.log("roledd");
+      // console.log("roledd");
       $.each(data.roles, function(index, element) {
         var option = document.createElement("option");
         option.value = element.role_name;
         option.text = element.role_name;
 
-        console.log(element);
-        console.log(data.users);
+        // console.log(element);
+        // console.log(data.users);
 
         if (element.role_name === data.users.role)
         {
@@ -487,32 +490,32 @@ $(function () {
     $('#user_id').val(''); //resetting input field
     $('#offcanvasAddUserLabel').html('Add User');
 
-      console.log("get companies");
+      // console.log("get companies");
       // get data
       $.get(`${baseUrl}all-companies`, function (data) {      
 
         var model = $('#company-id');
         model.empty();
-        console.log("get companies 1");
+        // console.log("get companies 1");
         $.each(data.companies, function(index, element) {
           var option = document.createElement("option");
           option.value = element.id;
           option.text = element.company_name;
 
-          console.log(element.company_name);
+          // console.log(element.company_name);
           
           model.append(option);
         });
 
         var model = $('#user-role');
         model.empty();
-        console.log("roles");
+        // console.log("roles");
         $.each(data.roles, function(index, element) {
           var option = document.createElement("option");
           option.value = element.role_name;
           option.text = element.role_name;
 
-          console.log(element.role_name);
+          // console.log(element.role_name);
           
           model.append(option);
         });

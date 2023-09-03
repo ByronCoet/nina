@@ -87,15 +87,16 @@ $containerNav = $containerNav ?? 'container-fluid';
                 </div>
               </a>
             </li>
+            <!--
             <li>
               <div class="dropdown-divider"></div>
             </li>
-            <li>
-              <a class="dropdown-item" href="{{ Route::has('profile.show') ? route('profile.show') : 'javascript:void(0);' }}">
+             <li>
+              <a class="dropdown-item" href="{{-- Route::has('profile.show') ? route('profile.show') : 'javascript:void(0);' --}}">
                 <i class="bx bx-user me-2"></i>
                 <span class="align-middle">My Profile</span>
               </a>
-            </li>
+            </li> -->
             @if (Auth::check() )
             
             @endif
@@ -118,20 +119,20 @@ $containerNav = $containerNav ?? 'container-fluid';
             
             <li>
               <div class="dropdown-divider"></div>
-            </li> -->
+            </li> 
             <lI>
               <h6 class="dropdown-header">Switch Company</h6>
             </lI>
             <li>
               <div class="dropdown-divider"></div>
-            </li>
+            </li>-->
             @if (Auth::user())
             
             @endif
             @endif
-            <li>
+            <!-- <li>
               <div class="dropdown-divider"></div>
-            </li>
+            </li> -->
             @if (Auth::check())
             <li>
               <a class="dropdown-item" href="{{ route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

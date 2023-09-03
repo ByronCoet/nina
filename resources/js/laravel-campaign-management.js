@@ -22,7 +22,7 @@ $(function () {
   
 
   // campaign datatable
-  if (dt_campaign_htable.lengt) {
+  if (dt_campaign_table.length) {
     var dt_campaign = dt_campaign_table.DataTable({
       processing: true,
       serverSide: true,

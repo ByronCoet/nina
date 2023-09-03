@@ -89,6 +89,14 @@
         submitButton: new FormValidation.plugins.SubmitButton()
       },
       init: instance => {
+
+        const myFlatpickrInstance = $("#eventdate").flatpickr({
+          enableTime: false,
+          altInput: true,
+          allowInput: true,
+        });
+
+        myFlatpickrInstance.setDate(new Date(), true);
         instance.on('plugins.message.placed', function (e) {
           //* Move the error message out of the `input-group` element
           if (e.element.parentElement.classList.contains('input-group')) {
@@ -125,8 +133,7 @@
         submitButton: new FormValidation.plugins.SubmitButton()
       }
     }).on('core.form.valid', function () {
-      console.log("submitting xxyy");
-      // XXX
+      console.log("submitting xxyy");      
       $.ajax({
         data: $('#wizard-donation-new-form').serialize(),
         url: `${baseUrl}newdonation`,
@@ -138,8 +145,8 @@
           // sweetalert
           Swal.fire({
             icon: 'success',
-            title: `Successfully ${status}!`,
-            text: `Donated ${status} Successfully.`,
+            title: `Saved`,
+            text: `Donation data saved.`,
             customClass: {
               confirmButton: 'btn btn-success'
             }
@@ -147,10 +154,10 @@
         },
         error: function (err) {
           // offCanvasForm.offcanvas('hide');
-          console.log("poof error");
+          const obj = JSON.parse(err.responseText);
           Swal.fire({
-            title: 'Donation Entry!',
-            text: 'some error.',
+            title: 'Donation capture failed.',
+            text: obj.message,
             icon: 'error',
             customClass: {
               confirmButton: 'btn btn-success'

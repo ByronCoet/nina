@@ -193,6 +193,12 @@ class UserManagementExisting extends Controller
     $supp = $request->input('support'); 
 
 
+    if ($this->site_settings == null)
+    {
+        return response()->json(['message' => "Please set current campaign before capturing donations."], 422);
+    }
+
+
     $donation = \App\Models\Donation::create(
       [
           'user_id'        => $user->id,

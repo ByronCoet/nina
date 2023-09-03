@@ -79,6 +79,7 @@ class UserManagement extends Controller
         $query = User::offset($start)
           ->limit($limit)
           ->join('companies', 'users.company_id', '=', 'companies.id')
+          ->select('users.*', 'companies.company_name' )
           ->orderBy('companies.company_name', $dir);
 
         if (!empty($comp_search)) {
@@ -92,6 +93,7 @@ class UserManagement extends Controller
         $query = User::offset($start)
           ->limit($limit)
           ->join('companies', 'users.company_id', '=', 'companies.id')
+          ->select('users.*', 'companies.company_name' )
           ->orderBy($order, $dir);          
 
         if (!empty($comp_search)) {
@@ -114,6 +116,7 @@ class UserManagement extends Controller
           ->offset($start)
           ->limit($limit)
           ->join('companies', 'users.company_id', '=', 'companies.id')
+          ->select('users.*', 'companies.company_name' )
           ->orderBy('companies.company_name', $dir);
 
           if (!empty($comp_search)) {
@@ -135,6 +138,7 @@ class UserManagement extends Controller
             ->offset($start)
             ->limit($limit)
             ->join('companies', 'users.company_id', '=', 'companies.id')
+            ->select('users.*', 'companies.company_name' )
             ->orderBy($order, $dir);
 
             if (!empty($comp_search)) {

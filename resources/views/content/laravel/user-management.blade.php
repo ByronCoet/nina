@@ -25,7 +25,8 @@
 @endsection
 
 @section('page-script')
-<script src="{{asset('js/laravel-user-management.js')}}"></script>
+   <script src="{{asset('js/laravel-user-management.js')}}"></script>
+  
 @endsection
 
 @section('content')
@@ -144,7 +145,7 @@
     </div>
     <div class="offcanvas-bodyz mx-0 flex-grow-0" style="padding: 5px;">
       <form class="add-new-user pt-0" id="addNewUserForm">
-        <input type="hidden" name="id" id="user_id">
+        <input type="hidden" name="userid" id="userid">
         <div class="mb-3">
           <label class="form-label" for="add-user-name">First Name</label>
           <input type="text" class="form-control" id="add-user-name" placeholder="John" name="name" aria-label="John" />
