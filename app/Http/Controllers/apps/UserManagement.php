@@ -50,13 +50,16 @@ class UserManagement extends Controller
       3 => 'surname',
       4 => 'company',
       5 => 'mobile',
-      6 => 'email',
+      6 => 'role',
+      7 => 'email',
       
     ];
 
     $search = [];
 
     $totalData = User::count();
+
+    $comp_search = $request->get('extra_search');
 
     $totalFiltered = $totalData;
 
@@ -65,6 +68,7 @@ class UserManagement extends Controller
     $order = $columns[$request->input('order.0.column')];
     
     // Log::info('Order: ' . $order);
+
     $dir = $request->input('order.0.dir');
 
     // Log::info('Dir: ' . $dir);        
@@ -72,55 +76,88 @@ class UserManagement extends Controller
     if (empty($request->input('search.value'))) {
       if ($order == "company")
       { 
-        $users = User::offset($start)
+        $query = User::offset($start)
           ->limit($limit)
           ->join('companies', 'users.company_id', '=', 'companies.id')
-          ->orderBy('companies.company_name', $dir)
-          ->get();     
+          ->orderBy('companies.company_name', $dir);
+
+        if (!empty($comp_search)) {
+          $query->where('companies.company_name', 'LIKE', "%{$comp_search}%");
+        }  
+        
+        $users = $query->get();     
       }
       else{
-        $users = User::offset($start)
+        // Log::info('straight');        
+        $query = User::offset($start)
           ->limit($limit)
-          ->orderBy($order, $dir)
-          ->get();
+          ->join('companies', 'users.company_id', '=', 'companies.id')
+          ->orderBy($order, $dir);          
+
+        if (!empty($comp_search)) {
+          $query->where('companies.company_name', 'LIKE', "%{$comp_search}%");
+        } 
+
+        $users = $query->get();     
       }
     } else {
       $search = $request->input('search.value');
       if ($order == "company")
         { 
-          $users = User::where('users.id', 'LIKE', "%{$search}%")
+          $query = User::where('users.id', 'LIKE', "%{$search}%")
           ->orWhere('users.name', 'LIKE', "%{$search}%")
           ->orWhere('users.surname', 'LIKE', "%{$search}%")
           ->orWhere('users.email', 'LIKE', "%{$search}%")
           ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
+          ->orWhere('role', 'LIKE', "%{$search}%")
+          ->orWhere('mobile', 'LIKE', "%{$search}%")
           ->offset($start)
           ->limit($limit)
           ->join('companies', 'users.company_id', '=', 'companies.id')
-          ->orderBy('companies.company_name', $dir)          
-          ->get();          
+          ->orderBy('companies.company_name', $dir);
+
+          if (!empty($comp_search)) {
+            $query->where('companies.company_name', 'LIKE', "%{$comp_search}%");
+          }
+
+          $users = $query->get();                    
         }
         else
         {
 
-          $users = User::where('users.id', 'LIKE', "%{$search}%")          
+          $query = User::where('users.id', 'LIKE', "%{$search}%")          
             ->orWhere('name', 'LIKE', "%{$search}%")
             ->orWhere('surname', 'LIKE', "%{$search}%")
             ->orWhere('email', 'LIKE', "%{$search}%")
             ->orWhere('company_name', 'LIKE', "%{$search}%")
+            ->orWhere('role', 'LIKE', "%{$search}%")
+            ->orWhere('mobile', 'LIKE', "%{$search}%")
             ->offset($start)
             ->limit($limit)
             ->join('companies', 'users.company_id', '=', 'companies.id')
-            ->orderBy($order, $dir)
-            ->get();
+            ->orderBy($order, $dir);
+
+            if (!empty($comp_search)) {
+              $query->where('companies.company_name', 'LIKE', "%{$comp_search}%");
+            }
+  
+            $users = $query->get();                    
         }
 
-      $totalFiltered = User::where('users.id', 'LIKE', "%{$search}%")
+      $query = User::where('users.id', 'LIKE', "%{$search}%")
         ->orWhere('name', 'LIKE', "%{$search}%")
         ->orWhere('surname', 'LIKE', "%{$search}%")
         ->orWhere('email', 'LIKE', "%{$search}%")
+        ->orWhere('role', 'LIKE', "%{$search}%")
         ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
-        ->join('companies', 'users.company_id', '=', 'companies.id')
-        ->count();
+        ->orWhere('mobile', 'LIKE', "%{$search}%")
+        ->join('companies', 'users.company_id', '=', 'companies.id');
+
+        if (!empty($comp_search)) {
+          $query->where('companies.company_name', 'LIKE', "%{$comp_search}%");
+        }
+
+        $totalFiltered = $query->count();
     }
 
     $data = [];
@@ -135,7 +172,8 @@ class UserManagement extends Controller
         $nestedData['name'] = $user->name;
         $nestedData['surname'] = $user->surname;
         $nestedData['company'] = $user->company->company_name;
-        $nestedData['mobile'] = $user->mobile;        
+        $nestedData['mobile'] = $user->mobile;
+        $nestedData['role'] = $user->role;
         $nestedData['email'] = $user->email;        
         
 
@@ -178,9 +216,7 @@ class UserManagement extends Controller
    */
   public function store(Request $request)
   {
-
     Log::info('Store called: ' );
-
 
     $userID = $request->id;
 

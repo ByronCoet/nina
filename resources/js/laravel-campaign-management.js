@@ -22,7 +22,7 @@ $(function () {
   
 
   // campaign datatable
-  if (dt_campaign_table.length) {
+  if (dt_campaign_htable.lengt) {
     var dt_campaign = dt_campaign_table.DataTable({
       processing: true,
       serverSide: true,
@@ -62,8 +62,7 @@ $(function () {
             return `<span>${full.fake_id}</span>`;
           }
         },
-        {          
-           // company
+        {         
            targets: 2,           
            render: function (data, type, full, meta) {
              var $company = full['company'];
@@ -314,13 +313,8 @@ $(function () {
               .appendTo('.campaign_company')
               .on('change', function () {
                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                console.log("got here : " + val);
-                
-                column.search(val ? '^' + val + '$' : '', true, false).draw();
-                //column.search(val ? val  : '').draw();
-                // $('#datatables-campaigns').DataTable().search(val).draw();
-
-                // this.search(val);
+                console.log("got here : " + val);                
+                column.search(val ? '^' + val + '$' : '', true, false).draw();                
               });
 
             column

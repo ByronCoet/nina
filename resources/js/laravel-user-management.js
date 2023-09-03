@@ -33,7 +33,10 @@ $(function () {
       processing: true,
       serverSide: true,
       ajax: {
-        url: baseUrl + 'user-list'
+        url: baseUrl + 'user-list',
+        data: function(d){          
+          d.extra_search = $('#usercompany').val();
+        }
       },
       columns: [
         // columns according to JSON
@@ -42,8 +45,9 @@ $(function () {
         { data: 'name' },
         { data: 'surname' },
         { data: 'company' },
-        { data: 'mobile' },        
-        { data: 'email' },                
+        { data: 'mobile' },
+        { data: 'role' },
+        { data: 'email' },
         { data: 'action' }
       ],
       columnDefs: [
@@ -72,34 +76,7 @@ $(function () {
           responsivePriority: 4,
           render: function (data, type, full, meta) {
             var $name = full['name'];
-
-            // For Avatar badge
-            var stateNum = Math.floor(Math.random() * 6);
-            var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-            var $state = states[stateNum],
-              $name = full['name'],
-              $initials = $name.match(/\b\w/g) || [],
-              $output;
-            $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-            $output = '<span class="avatar-initial rounded-circle bg-label-' + $state + '">' + $initials + '</span>';
-
-            // Creates full output for row
-            var $row_output =
-              '<div class="d-flex justify-content-start align-items-center user-name">' +
-              '<div class="avatar-wrapper">' +
-              '<div class="avatar avatar-sm me-3">' +
-              $output +
-              '</div>' +
-              '</div>' +
-              '<div class="d-flex flex-column">' +
-              '<a href="' +
-              userView +
-              '" class="text-body text-truncate"><span class="fw-semibold">' +
-              $name +
-              '</span></a>' +
-              '</div>' +
-              '</div>';
-            return $row_output;
+            return '<span class="text-body text-truncate">' + $name + '</span>';
           }
         },
         {          
@@ -126,8 +103,16 @@ $(function () {
           }
         },
         {
-          // emial
+          // role
           targets: 6,
+          render: function (data, type, full, meta) {
+            var $role = full['role'];
+            return '<span class="user-mobile">' + $role + '</span>';
+          }
+        },
+        {
+          // email
+          targets: 7,
           render: function (data, type, full, meta) {
             var $email = full['email'];
             return '<span class="user-email">' + $email + '</span>';
@@ -349,6 +334,32 @@ $(function () {
             return data ? $('<table class="table"/><tbody />').append(data) : false;
           }
         }
+      },
+      initComplete: function () {
+        // Adding company filter once table initialized
+        
+        this.api()
+          .columns(4)
+          .every(function () {
+            var column = this;
+            var select = $(
+              '<select id="usercompany" class="form-select text-capitalize"><option value=""> Select Company </option></select>'
+            )
+              .appendTo('.user_company')
+              .on('change', function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                console.log("got here : " + val);                
+                column.search(val ? '^' + val + '$' : '', true, false).draw();                
+              });
+
+            column
+              .data()
+              .unique()
+              .sort()
+              .each(function (d, j) {
+                select.append('<option value="' + d + '">' + d + '</option>');
+              });
+          });
       }
     });
   }

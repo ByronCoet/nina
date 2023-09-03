@@ -110,10 +110,14 @@
   </div>
   -->
 </div>
+
 <!-- Users List Table -->
 <div class="card">
   <div class="card-header">
     <h5 class="card-title mb-0">Search Filter</h5>
+    <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">      
+      <div class="col-md-4 user_company"></div>
+    </div>
   </div>
   <div class="card-datatable table-responsive">
     <table class="datatables-users table border-top">
@@ -124,7 +128,8 @@
           <th>Name</th>
           <th>Surname</th>
           <th>Company</th>
-          <th>Mobile</th>          
+          <th>Mobile</th>
+          <th>Role</th>
           <th>Email</th>
           <th>Actions</th>
         </tr>
