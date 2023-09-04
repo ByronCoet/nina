@@ -26,7 +26,7 @@ $configData = Helper::appClasses();
 
 @section('content')
 <h4>Set campaign in use</h4>
-<h5>Campaign in use is set to: <span style="color:blue">{{ $site_settings->campaign_name ?? 'not set'}}</span></h5>
+<h5>Campaign in use is set to: <span style="color:#00263E">{{ $site_settings->campaign_name ?? 'not set'}}</span></h5>
 
 <div class="row">
     <div class="col-xl">
@@ -42,23 +42,44 @@ $configData = Helper::appClasses();
 
             <form method="post" action="/storecampaign" enctype="multipart/form-data">
             {{ csrf_field() }}
-                <div class="mb-3">    
-                    <div class="col-sm-6">
-                        <label class="form-label" for="formValidationCompany">Company</label>
-                        <select id="formValidationCompany" name="formValidationCompany" class="select2 form-select">
-                            <option value="0">Select company</option>
-                            @foreach($companies as $c)
-                                <option value="{{ $c->id }}">{{ $c->company_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
 
-                <div class="mb-3">    
+                @if (Auth::user()->role == "receptionist" || Auth::user()->role == "companyadmin")
+                    <div class="mb-3"  hidden="hidden">    
+                        <div class="col-sm-6">
+                            <label class="form-label" for="formValidationCompany">Company</label>
+                            <select id="formValidationCompany" name="formValidationCompany" class="select2 form-select">                                
+                                <option value="0">Select company</option>                                
+                                @foreach($companies as $c)
+                                    <option value="{{ $c->id }}">{{ $c->company_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @else
+                    <div class="mb-3">    
+                        <div class="col-sm-6">
+                            <label class="form-label" for="formValidationCompany">Company</label>
+                            <select id="formValidationCompany" name="formValidationCompany" class="select2 form-select">                                
+                                <option value="0">Select company</option>
+                                @foreach($companies as $c)
+                                    <option value="{{ $c->id }}">{{ $c->company_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="mb-3">
                     <div class="col-sm-6">
                         <label class="form-label" for="formValidationCampaign">Campaign</label>
                         <select id="formValidationCampaign" name="formValidationCampaign" class="select2 form-select">
-                            <option value="0">Select campaign</option>                  
+                            <option value="0">Select campaign</option>
+                            @if (Auth::user()->role == "receptionist" || Auth::user()->role == "companyadmin")
+                                @foreach($campaigns as $c)
+                                    <option value="{{ $c->id }}">{{ $c->campaign_name }}</option>
+                                @endforeach
+                            @endif      
+                            
                         </select>
                     </div>
                 </div>

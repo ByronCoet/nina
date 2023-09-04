@@ -7,13 +7,25 @@ use App\Models\SiteSetting;
 use App\Models\Campaign;
 use App\Models\Company;
 use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
 
 class SiteSettingsController extends Controller
 {
     public function setcampaign()
     {
-        $companies = Company::all();      
-        $campaigns = Campaign::all();      
+        $user = Auth::user();
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+            $companies = Company::where(['id' => $user->company->id ])->get();
+            $campaigns = Campaign::where(['company_id' => $user->company->id ])->get();
+        }
+        else
+        {
+            $companies = Company::all();
+            $campaigns = Campaign::all();      
+        }
+
         return view('content.pages.pages-settings', ['companies' => $companies, 'campaigns' => $campaigns,]);
     }
 

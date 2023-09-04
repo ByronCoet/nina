@@ -9,6 +9,7 @@ use App\Models\Company;
 use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class UserManagementExisting extends Controller
 {
@@ -18,7 +19,19 @@ class UserManagementExisting extends Controller
    */
   public function UserManagementExisting()
   {
-    $users = User::all();
+
+    $user = Auth::user();
+
+    if ($user->role == "receptionist" || $user->role == "companyadmin" )
+    {
+       $users = User::where(['company_id' => $user->company->id])->get();
+    }
+    else
+    {
+       $users = User::all();
+    }
+
+    
     $companies = Company::all();
     $roles = Role::all();
     $userCount = $users->count();
@@ -49,10 +62,10 @@ class UserManagementExisting extends Controller
       2 => 'name',
       3 => 'surname',
       4 => 'company',
-      5 => 'mobile',
-      6 => 'email',
-      
+      5 => 'mobile'
     ];
+
+    $user = Auth::user();
 
     $search = [];
 
@@ -72,55 +85,69 @@ class UserManagementExisting extends Controller
     if (empty($request->input('search.value'))) {
       if ($order == "company")
       { 
-        $users = User::offset($start)
+        $query = User::offset($start)
           ->limit($limit)
           ->join('companies', 'users.company_id', '=', 'companies.id')
-          ->orderBy('companies.company_name', $dir)
-          ->get();     
+          ->orderBy('companies.company_name', $dir);
+
+          if ($user->role == "receptionist" || $user->role == "companyadmin" )
+          {
+            $query->where(['users.company_id' => $user->company->id ]);
+          }
+          
+         $users = $query->get();     
       }
       else{
-        $users = User::offset($start)
+        $query = User::offset($start)
           ->limit($limit)
-          ->orderBy($order, $dir)
-          ->get();
+          ->orderBy($order, $dir);
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['users.company_id' => $user->company->id ]);
+        }
+
+        $users = $query->get();     
       }
     } else {
       $search = $request->input('search.value');
       if ($order == "company")
         { 
-          $users = User::where('users.id', 'LIKE', "%{$search}%")
+          $query = User::where('users.id', 'LIKE', "%{$search}%")
           ->orWhere('users.name', 'LIKE', "%{$search}%")
-          ->orWhere('users.surname', 'LIKE', "%{$search}%")
-          ->orWhere('users.email', 'LIKE', "%{$search}%")
+          ->orWhere('users.surname', 'LIKE', "%{$search}%")          
           ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
           ->offset($start)
           ->limit($limit)
           ->join('companies', 'users.company_id', '=', 'companies.id')
-          ->orderBy('companies.company_name', $dir)          
-          ->get();          
+          ->orderBy('companies.company_name', $dir);
+
+          if ($user->role == "receptionist" || $user->role == "companyadmin" )
+          {
+            $query->where(['users.company_id' => $user->company->id ]);
+          }
+
+          $users = $query->get();     
         }
         else
         {
-
-          $users = User::where('users.id', 'LIKE', "%{$search}%")          
+          $query = User::where('users.id', 'LIKE', "%{$search}%")          
             ->orWhere('name', 'LIKE', "%{$search}%")
-            ->orWhere('surname', 'LIKE', "%{$search}%")
-            ->orWhere('email', 'LIKE', "%{$search}%")
+            ->orWhere('surname', 'LIKE', "%{$search}%")            
             ->orWhere('company_name', 'LIKE', "%{$search}%")
             ->offset($start)
             ->limit($limit)
             ->join('companies', 'users.company_id', '=', 'companies.id')
-            ->orderBy($order, $dir)
-            ->get();
+            ->orderBy($order, $dir);
+
+          if ($user->role == "receptionist" || $user->role == "companyadmin" )
+          {
+            $query->where(['users.company_id' => $user->company->id ]);
+          }
+          $users = $query->get();     
         }
 
-      $totalFiltered = User::where('users.id', 'LIKE', "%{$search}%")
-        ->orWhere('name', 'LIKE', "%{$search}%")
-        ->orWhere('surname', 'LIKE', "%{$search}%")
-        ->orWhere('email', 'LIKE', "%{$search}%")
-        ->orWhere('companies.company_name', 'LIKE', "%{$search}%")
-        ->join('companies', 'users.company_id', '=', 'companies.id')
-        ->count();
+      $totalFiltered = $users->count();
     }
 
     $data = [];
@@ -135,10 +162,7 @@ class UserManagementExisting extends Controller
         $nestedData['name'] = $user->name;
         $nestedData['surname'] = $user->surname;
         $nestedData['company'] = $user->company->company_name;
-        $nestedData['mobile'] = $user->mobile;        
-        $nestedData['email'] = $user->email;        
-        
-
+        $nestedData['mobile'] = $user->mobile;
         $data[] = $nestedData;
       }
     }

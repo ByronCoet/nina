@@ -25,7 +25,7 @@ $configData = Helper::appClasses();
 @endsection
 
 @section('content')
-<h4>Campaign in use is set to: <span style="color:blue">{{ $setting->campaign_name }}</span></h4>
+<h4>Campaign in use is set to: <span style="color:#00263E">{{ $setting->campaign_name }}</span></h4>
 
 
 

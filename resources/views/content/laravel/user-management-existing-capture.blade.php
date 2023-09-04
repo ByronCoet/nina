@@ -32,9 +32,9 @@
 
 @section('content')
 
-<h2 style="color: darkblue; font-style: italic;">We save lives. One bag at a time.</h2>
+<h2 style="color: #00263E; font-style: italic;">We save lives. One bag at a time.</h2>
  <!-- <h4 style="color:#919d1a; font-style: italic; margin-top:-15px;">One bag at a time</h4> -->
-<h6>Current Campaign: <span style="color:blue; margin-top:-25px; ">{{ $site_settings->campaign_name ?? 'not set' }}</span></h6>
+<h6>Current Campaign: <span style="color:#00263E; margin-top:-25px; ">{{ $site_settings->campaign_name ?? 'not set' }}</span></h6>
 
 <div class="row g-4 mb-4">
   
@@ -54,8 +54,7 @@
           <th>Name</th>
           <th>Surname</th>
           <th>Company</th>
-          <th>Mobile</th>          
-          <th>Email</th>
+          <th>Mobile</th>                    
           <th>Actions</th>
         </tr>
       </thead>
