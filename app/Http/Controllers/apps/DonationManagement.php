@@ -11,6 +11,7 @@ use App\Models\Company;
 use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class DonationManagement extends Controller
 {
@@ -21,8 +22,19 @@ class DonationManagement extends Controller
    */
   public function DonationManagement()
   {
+
+    $user = Auth::user();
+    if ($user->role == "receptionist" || $user->role == "companyadmin" )
+    {
+       $donations = Donation::where(['company_id' => $user->company->id])->get();
+    }
+    else
+    {
+       $donations = Donation::all();
+    }
+
     $companies = Company::all();
-    $donations = Donation::all();
+    
     $campaigns = Donation::all();
     $roles = Role::all();
     $donationsCount = $donations->count();
@@ -55,12 +67,15 @@ class DonationManagement extends Controller
       8 => 'supported',
       9 => 'edate',
     ];
+    
 
     Log::info('donation index called');        
 
+    $user = Auth::user();
+
     $search = [];
 
-    $totalData = Donation::count();
+    $totalData = Donation::where(['company_id' => $user->company->id ])->count();    
 
     $totalFiltered = $totalData;
 
@@ -88,40 +103,74 @@ class DonationManagement extends Controller
           ->limit($limit)           
           ->join('companies', 'donations.company_id', '=', 'companies.id')
           ->join('campaigns', 'donations.campaign_id', '=', 'campaigns.id')
-          ->join('users', 'donations.user_id', '=', 'users.id')
-          ->select('donations.*', 'companies.company_name', 'campaigns.campaign_name' )
+          ->join('users', 'donations.user_id', '=', 'users.id')          
+          ->select('donations.*', 'companies.company_name', 'campaigns.campaign_name','users.name as user_name', 'users.surname' )
           ->orderBy('company_name', $dir);
 
-          if (!empty($comp_search)) {
-            $query->where('company_name', 'LIKE', "%{$comp_search}%");
-          }
+        if (!empty($comp_search)) {
+          $query->where('company_name', 'LIKE', "%{$comp_search}%");
+        }
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['donations.company_id' => $user->company->id ]);
+        }
+
         $donations = $query->get();     
       }
       else{
         Log::info('1');
-        $donations =Donation::offset($start)
+        $query = Donation::offset($start)
           ->limit($limit)
-          ->orderBy($order, $dir)
-          ->get();
+          ->join('companies', 'donations.company_id', '=', 'companies.id')
+          ->join('campaigns', 'donations.campaign_id', '=', 'campaigns.id')
+          ->join('users', 'donations.user_id', '=', 'users.id')          
+          ->select('donations.*', 'companies.company_name', 'campaigns.campaign_name','users.name', 'users.surname' );
+        
+        if ($order == 'user_name')
+        {
+          $query->orderBy('users.name', $dir);
+        }
+        elseif ($order == 'user_surname')
+        {
+          $query->orderBy('users.surname', $dir);
+        }
+        else
+        {
+          $query->orderBy($order, $dir);
+        }
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['donations.company_id' => $user->company->id ]);
+        }
+
+        $donations = $query->get();
       }
     } else {
       $search = $request->input('search.value');
-      if ($order == "donation")
+      if ($order == "surname")
         { 
           Log::info('3');
-          $query = Donation::where(function ($q) use ($search) {
-            $q->where('donation_name', 'LIKE', "%{$search}%");
+          $query = Donation::where(function ($q) use ($search) {            
             $q->orWhere('company_name', 'LIKE', "%{$search}%");
             $q->orWhere('donations.id', 'LIKE', "%{$search}%");  
           })
           ->offset($start)
           ->limit($limit)          
           ->join('companies', 'donations.company_id', '=', 'companies.id')
-          ->select('donations.*', 'companies.company_name' )
-          ->orderBy('donation_name', $dir);
+          ->join('users', 'donations.user_id', '=', 'users.id')
+          ->where('users.name', 'LIKE', "%{$search}%")
+          ->where('users.surname', 'LIKE', "%{$search}%")
+          ->select('donations.*', 'companies.company_name')
+          ->orderBy('users.surname', $dir);
 
           if (!empty($comp_search)) {
             $query->where('company_name', 'LIKE', "%{$comp_search}%");
+          }
+          if ($user->role == "receptionist" || $user->role == "companyadmin" )
+          {
+            $query->where(['donations.company_id' => $user->company->id ]);
           }
 
           $donations = $query->get();          
@@ -129,36 +178,64 @@ class DonationManagement extends Controller
         else
         {
           Log::info('4');
-          $query = Donation::where(function ($q) use ($search) {
-                $q->where('donation_name', 'LIKE', "%{$search}%");
+          $query = Donation::where(function ($q) use ($search) {                
                 $q->orWhere('company_name', 'LIKE', "%{$search}%");
                 $q->orWhere('donations.id', 'LIKE', "%{$search}%");  
+                $q->join('users', 'donations.user_id', '=', 'users.id');
+                $q->orWhere('users.name', 'LIKE', "%{$search}%");
+                $q->orWhere('users.surname', 'LIKE', "%{$search}%");
+                $q->select('donations.*', 'companies.company_name', 'users.*');
               })
             ->offset($start)
             ->limit($limit)
             ->join('companies', 'donations.company_id', '=', 'companies.id')
-            ->select('donations.*', 'companies.company_name' )
-            ->orderBy($order, $dir);
+            ->join('users', 'donations.user_id', '=', 'users.id')            
+            ->select('donations.*', 'companies.company_name', 'users.*' );
+            
+          if ($order == 'user_name')
+          {
+            $query->orderBy('users.name', $dir);
+          }
+          elseif ($order == 'user_surname')
+          {
+            $query->orderBy('users.surname', $dir);
+          }
+          else
+          {
+            $query->orderBy($order, $dir);
+          }
 
-            if (!empty($comp_search)) {
-              $query->where('company_name', '=', "{$comp_search}");
-            }
+          if (!empty($comp_search)) {
+            $query->where('company_name', '=', "{$comp_search}");
+          }
 
-            $donations = $query->get();
+          if ($user->role == "receptionist" || $user->role == "companyadmin" )
+          {
+            $query->where(['donations.company_id' => $user->company->id ]);
+          }
+
+          $donations = $query->get();
         }
 
       Log::info('5');
 
       $query = Donation::where(function ($q) use ($search) {
-              $q->where('donation_name', 'LIKE', "%{$search}%");
+              $q->where('users.name', 'LIKE', "%{$search}%");
+              $q->where('users.surname', 'LIKE', "%{$search}%");
               $q->orWhere('company_name', 'LIKE', "%{$search}%");
               $q->orWhere('donations.id', 'LIKE', "%{$search}%");  
             })
             ->join('companies', 'donations.company_id', '=', 'companies.id')
+            ->join('users', 'donations.user_id', '=', 'users.id')
             ->select('donations.*', 'companies.company_name' );
-            if (!empty($comp_search)) {
-              $query->where('company_name', '=', "{$comp_search}");
-            }
+        if (!empty($comp_search)) {
+          $query->where('company_name', '=', "{$comp_search}");
+        }
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['donations.company_id' => $user->company->id ]);
+        }
 
         $totalFiltered = $query->count();
     }
@@ -256,9 +333,8 @@ class DonationManagement extends Controller
 
 
       $donation = Donation::updateOrCreate(        
-        ['donation_name' => $request->donation_name, 
-        'company_id' => $request->company_id,
-        
+        [
+        'company_id' => $request->company_id,        
         'donated'        => $don == 'on' ? 1 : 0,
         'converted'      => $conv == 'on' ? 1 : 0,
         'supported'      => $supp == 'on' ? 1 : 0,

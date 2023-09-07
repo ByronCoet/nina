@@ -44,10 +44,8 @@
           <div class="content-left">
             <span>Leader Board</span>
             <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{$totalDonations}}</h3>
-              <small class="text-success">(100%)</small>
-            </div>
-            <small>Total users</small>
+              <h3 class="mb-0 me-2">{{$totalDonations}}</h3>            
+            </div>            
           </div>
           <span class="badge bg-label-primary rounded p-2">
             <i class="bx bx-user bx-sm"></i>
@@ -60,13 +58,14 @@
 </div>
 <!-- donations List Table -->
 <div class="card">
-
-  <div class="card-header border-bottom">
-    <h5 class="card-title">Search Filter</h5>
-    <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">      
-      <div class="col-md-4 donation_company"></div>
+  @if (Auth::user()->role != "receptionist" && Auth::user()->role != "companyadmin")
+    <div class="card-header border-bottom">
+      <h5 class="card-title">Search Filter</h5>
+      <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">      
+        <div class="col-md-4 donation_company"></div>
+      </div>
     </div>
-  </div>
+  @endif
   <div class="card-datatable table-responsive">
     <table class="datatables-donations table border-top">
       <thead>

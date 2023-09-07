@@ -36,10 +36,8 @@
           <div class="content-left">
             <span>Session</span>
             <div class="d-flex align-items-end mt-2">
-              <h4 class="mb-0 me-2">21,459</h4>
-              <small class="text-success">(+29%)</small>
+              <h4 class="mb-0 me-2">21,459</h4>            
             </div>
-            <small>Total Users</small>
           </div>
           <span class="badge bg-label-primary rounded p-2">
             <i class="bx bx-user bx-sm"></i>

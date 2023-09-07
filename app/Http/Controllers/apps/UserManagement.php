@@ -9,6 +9,7 @@ use App\Models\Company;
 use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class UserManagement extends Controller
 {
@@ -18,7 +19,17 @@ class UserManagement extends Controller
    */
   public function UserManagement()
   {
-    $users = User::all();
+
+    $user = Auth::user();
+    if ($user->role == "receptionist" || $user->role == "companyadmin" )
+    {
+       $users = User::where(['company_id' => $user->company->id])->get();
+    }
+    else
+    {
+       $users = User::all();
+    }
+
     $companies = Company::all();
     $roles = Role::all();
     $userCount = $users->count();
@@ -51,13 +62,13 @@ class UserManagement extends Controller
       4 => 'company',
       5 => 'mobile',
       6 => 'role',
-      7 => 'email',
-      
     ];
 
     $search = [];
 
-    $totalData = User::count();
+    $user = Auth::user();
+
+    $totalData = User::where(['users.company_id' => $user->company->id])->count();
 
     $comp_search = $request->get('extra_search');
 
@@ -84,7 +95,17 @@ class UserManagement extends Controller
 
         if (!empty($comp_search)) {
           $query->where('companies.company_name', 'LIKE', "%{$comp_search}%");
-        }  
+        }
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['users.company_id' => $user->company->id ]);
+        }
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['users.company_id' => $user->company->id ]);
+        }
         
         $users = $query->get();     
       }
@@ -98,7 +119,12 @@ class UserManagement extends Controller
 
         if (!empty($comp_search)) {
           $query->where('companies.company_name', 'LIKE', "%{$comp_search}%");
-        } 
+        }
+        
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['users.company_id' => $user->company->id ]);
+        }
 
         $users = $query->get();     
       }
@@ -123,6 +149,11 @@ class UserManagement extends Controller
             $query->where('companies.company_name', 'LIKE', "%{$comp_search}%");
           }
 
+          if ($user->role == "receptionist" || $user->role == "companyadmin" )
+          {
+            $query->where(['users.company_id' => $user->company->id ]);
+          }
+
           $users = $query->get();                    
         }
         else
@@ -144,6 +175,11 @@ class UserManagement extends Controller
             if (!empty($comp_search)) {
               $query->where('companies.company_name', 'LIKE', "%{$comp_search}%");
             }
+
+            if ($user->role == "receptionist" || $user->role == "companyadmin" )
+            {
+              $query->where(['users.company_id' => $user->company->id ]);
+            }
   
             $users = $query->get();                    
         }
@@ -159,6 +195,11 @@ class UserManagement extends Controller
 
         if (!empty($comp_search)) {
           $query->where('companies.company_name', 'LIKE', "%{$comp_search}%");
+        }
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['users.company_id' => $user->company->id ]);
         }
 
         $totalFiltered = $query->count();
@@ -178,9 +219,6 @@ class UserManagement extends Controller
         $nestedData['company'] = $user->company->company_name;
         $nestedData['mobile'] = $user->mobile;
         $nestedData['role'] = $user->role;
-        $nestedData['email'] = $user->email;        
-        
-
         $data[] = $nestedData;
       }
     }

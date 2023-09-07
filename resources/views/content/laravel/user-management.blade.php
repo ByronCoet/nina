@@ -39,10 +39,9 @@
           <div class="content-left">
             <span>Users</span>
             <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{$totalUser}}</h3>
-              <small class="text-success">(100%)</small>
+              <h3 class="mb-0 me-2">{{$totalUser}}</h3>            
             </div>
-            <small>Total Users</small>
+            
           </div>
           <span class="badge bg-label-primary rounded p-2">
             <i class="bx bx-user bx-sm"></i>
@@ -114,12 +113,14 @@
 
 <!-- Users List Table -->
 <div class="card">
-  <div class="card-header">
-    <h5 class="card-title mb-0">Search Filter</h5>
-    <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">      
-      <div class="col-md-4 user_company"></div>
+  @if (Auth::user()->role != "receptionist" && Auth::user()->role != "companyadmin")
+    <div class="card-header">
+      <h5 class="card-title mb-0">Search Filter</h5>
+      <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">            
+          <div class="col-md-4 user_company"></div>   
+      </div>
     </div>
-  </div>
+  @endif
   <div class="card-datatable table-responsive">
     <table class="datatables-users table border-top">
       <thead>
@@ -130,8 +131,7 @@
           <th>Surname</th>
           <th>Company</th>
           <th>Mobile</th>
-          <th>Role</th>
-          <th>Email</th>
+          <th>Role</th>          
           <th>Actions</th>
         </tr>
       </thead>

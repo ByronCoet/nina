@@ -46,8 +46,7 @@ $(function () {
         { data: 'surname' },
         { data: 'company' },
         { data: 'mobile' },
-        { data: 'role' },
-        { data: 'email' },
+        { data: 'role' },        
         { data: 'action' }
       ],
       columnDefs: [
@@ -108,14 +107,6 @@ $(function () {
           render: function (data, type, full, meta) {
             var $role = full['role'];
             return '<span class="user-mobile">' + $role + '</span>';
-          }
-        },
-        {
-          // email
-          targets: 7,
-          render: function (data, type, full, meta) {
-            var $email = full['email'];
-            return '<span class="user-email">' + $email + '</span>';
           }
         },
         {

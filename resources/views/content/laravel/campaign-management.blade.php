@@ -44,10 +44,8 @@
           <div class="content-left">
             <span>Campaigns</span>
             <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{$totalCampaign}}</h3>
-              <small class="text-success">(100%)</small>
-            </div>
-            <small>Total Campaigns</small>
+              <h3 class="mb-0 me-2">{{$totalCampaign}}</h3>              
+            </div>            
           </div>
           <span class="badge bg-label-primary rounded p-2">
             <i class="bx bx-user bx-sm"></i>

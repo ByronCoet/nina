@@ -12,7 +12,7 @@ use App\Models\Role;
 use App\Models\Point;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Auth;
 
 class LeaderManagement extends Controller
 {
@@ -23,6 +23,7 @@ class LeaderManagement extends Controller
    */
   public function LeaderManagement()
   {
+    
 
     $companies = Company::all();
     $donations = Donation::all();
@@ -75,9 +76,11 @@ class LeaderManagement extends Controller
 
     Log::info('leader index called');        
 
+    $user = Auth::user();
+
     $search = [];
 
-    $totalData = Donation::count();
+    $totalData = Donation::where(['company_id' => $user->company->id ])->count();    
 
     $totalFiltered = $totalData;
 
@@ -109,17 +112,45 @@ class LeaderManagement extends Controller
           ->select('donations.*', 'companies.company_name', 'campaigns.campaign_name' )
           ->orderBy('company_name', $dir);
 
-          if (!empty($comp_search)) {
-            $query->where('company_name', 'LIKE', "%{$comp_search}%");
-          }
+        if (!empty($comp_search)) {
+          $query->where('company_name', 'LIKE', "%{$comp_search}%");
+        }
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['donations.company_id' => $user->company->id ]);
+        }
+
         $donations = $query->get();     
       }
       else{
         Log::info('1');
-        $donations =Donation::offset($start)
+        $query =Donation::offset($start)
           ->limit($limit)
-          ->orderBy($order, $dir)
-          ->get();
+          ->join('companies', 'donations.company_id', '=', 'companies.id')
+          ->join('campaigns', 'donations.campaign_id', '=', 'campaigns.id')
+          ->join('users', 'donations.user_id', '=', 'users.id')          
+          ->select('donations.*', 'companies.company_name', 'campaigns.campaign_name','users.name', 'users.surname' );
+
+        if ($order == 'user_name')
+        {
+          $query->orderBy('users.name', $dir);
+        }
+        elseif ($order == 'user_surname')
+        {
+          $query->orderBy('users.surname', $dir);
+        }
+        else
+        {
+          $query->orderBy($order, $dir);
+        }
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['donations.company_id' => $user->company->id ]);
+        }  
+
+        $donations = $query->get();
       }
     } else {
       $search = $request->input('search.value');
@@ -141,6 +172,11 @@ class LeaderManagement extends Controller
             $query->where('company_name', 'LIKE', "%{$comp_search}%");
           }
 
+          if ($user->role == "receptionist" || $user->role == "companyadmin" )
+          {
+            $query->where(['donations.company_id' => $user->company->id ]);
+          }  
+
           $donations = $query->get();          
         }
         else
@@ -161,6 +197,11 @@ class LeaderManagement extends Controller
               $query->where('company_name', '=', "{$comp_search}");
             }
 
+            if ($user->role == "receptionist" || $user->role == "companyadmin" )
+            {
+              $query->where(['donations.company_id' => $user->company->id ]);
+            }  
+
             $donations = $query->get();
         }
 
@@ -176,6 +217,11 @@ class LeaderManagement extends Controller
             if (!empty($comp_search)) {
               $query->where('company_name', '=', "{$comp_search}");
             }
+
+            if ($user->role == "receptionist" || $user->role == "companyadmin" )
+            {
+              $query->where(['donations.company_id' => $user->company->id ]);
+            }  
 
         $totalFiltered = $query->count();
     }
