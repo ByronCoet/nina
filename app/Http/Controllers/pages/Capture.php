@@ -8,8 +8,8 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
-
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class Capture extends Controller
 {
@@ -31,30 +31,40 @@ class Capture extends Controller
 
     $name = $request->input('formValidationFirstname'); 
     $sur = $request->input('formValidationSurname'); 
-    $mob = $request->input('formValidationMobile'); 
-    $comp = $request->input('formValidationCompany'); 
+    $mob = $request->input('formValidationMobile');     
     $consent = $request->input('consent'); 
     $edate = $request->input('eventdate'); 
     $don = $request->input('donate'); 
     $conv = $request->input('convert'); 
     $supp = $request->input('support'); 
 
-    $u = User::where(['mobile' => $mob, 'company_id' => $comp])->first();
+
+    $user = Auth::user();
+
+    if ($user->role == "receptionist" || $user->role == "companyadmin")
+    {
+      $cid = $user->company_id;
+    }
+    else
+    {
+      // $cid = $request->company_id;
+      $cid = $request->input('formValidationCompany');
+    }
+
+    $u = User::where(['mobile' => $mob, 'company_id' => $cid])->first();
 
     if ($u)
     {
       return response()->json(['message' => "User with that mobile number already exists."], 422);
     }
 
-
-
     //Log::info($don);
     //Log::info($conv);
     //Log::info($supp);
 
-    $user = \App\Models\User::create(
+    $u = \App\Models\User::create(
       [
-          'company_id'        => $comp,
+          'company_id'        => $cid,
           'name'              => $name,
           'surname'           => $sur,
           'mobile'            => $mob,
@@ -70,9 +80,9 @@ class Capture extends Controller
 
     $donation = \App\Models\Donation::create(
       [
-          'user_id'        => $user->id,
+          'user_id'        => $u->id,
           'campaign_id'    => $this->site_settings->campaign_id,
-          'company_id'     => $comp,
+          'company_id'     => $cid,
           'event_date'     => $edate,
           'donated'        => $don == 'on' ? 1 : 0,
           'converted'      => $conv == 'on' ? 1 : 0,

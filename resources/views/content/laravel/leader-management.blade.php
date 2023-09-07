@@ -71,16 +71,15 @@
       <thead>
         <tr>
           <th></th>
-          <th>Id</th>
-          <th>Company</th>
+          <th>Id</th>          
+          <th>Company</th>          
           <th>Campaign</th>
           <th>Name</th>
           <th>Surname</th>
           <th>Donated</th>
           <th>Converted</th>
           <th>Supported</th>
-          <th>Total</th>
-          <th>Actions</th>
+          <th>Total</th>          
         </tr>
       </thead>
     </table>

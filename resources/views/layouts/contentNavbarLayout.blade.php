@@ -34,11 +34,12 @@ $container = ($container ?? 'container-xxl');
     @if ($isMenu)     
       @if (Auth::user()->role === "receptionist")
         @include('layouts/sections/menu/verticalClientMenu')
+      @elseif (Auth::user()->role === "companyadmin")
+        @include('layouts/sections/menu/verticalCompanyAdminMenu')
       @else      
         @include('layouts/sections/menu/verticalMenu')
       @endif
     @endif
-
 
     <!-- Layout page -->
     <div class="layout-page">

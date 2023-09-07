@@ -418,7 +418,7 @@ $(function () {
     var user_id = $(this).data('id'),
       dtrModal = $('.dtr-bs-modal.show');
 
-    console.log('user id: ' + user_id);
+    console.log('user id c: ' + user_id);
     console.log($(this).data);
 
     // hide responsive modal in small screen
@@ -431,7 +431,8 @@ $(function () {
 
     // get data
     $.get(`${baseUrl}user-list\/${user_id}\/edit`, function (data) {
-      $('#user_id').val(data.users.id);
+      console.log('returned user id: ' + data.users.id);
+      $('#userid').val(data.users.id);
       $('#add-user-name').val(data.users.name);
       $('#add-user-surname').val(data.users.surname);
       $('#add-user-contact').val(data.users.mobile);
@@ -555,13 +556,6 @@ $(function () {
           },
           emailAddress: {
             message: 'The value is not a valid email address'
-          }
-        }
-      },
-      userContact: {
-        validators: {
-          notEmpty: {
-            message: 'Please enter your contact'
           }
         }
       },

@@ -151,13 +151,14 @@ class UserManagementExisting extends Controller
     }
 
     $data = [];
+    $nestedData = [];
 
     if (!empty($users)) {
       // providing a dummy id instead of database ids
       $ids = $start;
 
       foreach ($users as $user) {
-        $nestedData['id'] = $user->id;
+        $nestedData['userid'] = $user->id;
         $nestedData['fake_id'] = ++$ids;
         $nestedData['name'] = $user->name;
         $nestedData['surname'] = $user->surname;
@@ -205,7 +206,11 @@ class UserManagementExisting extends Controller
 
     Log::info('Store donation called: ' );
 
-    $userID = $request->id;
+    Log::info($request);
+
+    $userID = $request->input('userid'); 
+
+    Log::info('User id requested is: ' . $userID);
 
     $user = User::where('id', $userID)->first();
 
@@ -258,6 +263,9 @@ class UserManagementExisting extends Controller
    */
   public function edit($id)
   {
+
+    Log::info('User Id requested is: ' . $id );
+
     $where = ['id' => $id];
 
     $users = User::where($where)->first();

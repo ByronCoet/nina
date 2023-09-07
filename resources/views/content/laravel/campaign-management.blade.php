@@ -59,13 +59,15 @@
 <!-- camapaigns List Table -->
 <div class="card">
   
-
-  <div class="card-header border-bottom">
-    <h5 class="card-title">Search Filter</h5>
-    <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">      
-      <div class="col-md-4 campaign_company"></div>
+  @if (Auth::user()->role != "receptionist" && Auth::user()->role != "companyadmin")
+    <div class="card-header border-bottom">
+      <h5 class="card-title">Search Filter</h5>
+      <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">      
+        <div class="col-md-4 campaign_company"></div>
+      </div>
     </div>
-  </div>
+  @endif
+
   <div class="card-datatable table-responsive">
     <table class="datatables-campaigns table border-top">
       <thead>
@@ -96,11 +98,13 @@
           <input type="text" class="form-control" id="add-campaign-name" placeholder="Adcock" name="campaign_name" aria-label="Adcock" />
         </div>
 
-        <div class="mb-3">
-          <label class="form-label" for="add-campaign-company-id">Company</label>
-          <select id="company-id" name="company_id" class="select2 form-select">                        
-          </select>
-        </div>
+        @if (Auth::user()->role != "receptionist" && Auth::user()->role != "companyadmin")
+          <div class="mb-3">
+            <label class="form-label" for="add-campaign-company-id">Company</label>
+            <select id="company-id" name="company_id" class="select2 form-select">                        
+            </select>
+          </div>
+        @endif
         
         <div class="mb-3">
           <label class="form-label" for="add-campaign-start">Start date</label>          

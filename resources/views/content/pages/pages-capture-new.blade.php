@@ -91,14 +91,16 @@ $configData = Helper::appClasses();
                 <input type="text" name="formValidationMobile" id="formValidationMobile" class="form-control" placeholder="0711234567" />
               </div>
 
-              <div class="col-sm-6">
-                <label class="form-label" for="formValidationCompany">Company</label>
-                <select id="formValidationCompany" name="formValidationCompany" class="select2 form-select">
-                  @foreach($companies as $c)
-                    <option value="{{ $c->id }}">{{ $c->company_name }}</option>
-                  @endforeach
-                </select>
-              </div>
+              @if (Auth::user()->role != "receptionist" && Auth::user()->role != "companyadmin")
+                <div class="col-sm-6">
+                  <label class="form-label" for="formValidationCompany">Company</label>
+                  <select id="formValidationCompany" name="formValidationCompany" class="select2 form-select">
+                    @foreach($companies as $c)
+                      <option value="{{ $c->id }}">{{ $c->company_name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              @endif
 
               <div class="col-12">
                 <label class="switch">

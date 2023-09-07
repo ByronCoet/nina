@@ -1,0 +1,58 @@
+{  
+  "menu": [
+    {
+      "url": "/",
+      "name": "Home",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "slug": "pages-home"
+    },
+    {
+      "url": "/setcurrentcampaign",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Set current campaign",
+      "slug": "setcurrentcampaign-page"
+    },
+    {
+      "url": "/capturenew",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Donation - New User",
+      "slug": "capture-page-new"
+    },
+    {
+      "url": "/app/user-management-existing",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Donation - Existing user",
+      "slug": "usermanagementexisting"
+    },    
+    {
+      "url": "/leaderboard",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Leader Board",
+      "slug": "leader-page"
+    },
+    {
+      "url": "/managedonation",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Donations",
+      "slug": "donation-page"
+    },
+    {
+      "url": "/app/campaign-management",
+      "icon": "menu-icon tf-icons bx bx-file",
+      "name": "Campaigns",      
+      "slug": "app-campaign"
+    },
+    {
+      "url": "/app/user-management",
+      "name": "User Management",
+      "icon": "menu-icon tf-icons bx bx-user",
+      "slug": "app-user"
+    },
+    {
+      "url": "/logout",
+      "name": "Log out",
+      "icon": "menu-icon tf-icons bx bx-power-off",
+      "slug": "logout"      
+    }
+  ]
+}

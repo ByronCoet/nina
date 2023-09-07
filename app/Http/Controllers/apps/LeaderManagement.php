@@ -284,6 +284,10 @@ class LeaderManagement extends Controller
       }
     }
 
+    $totalFiltered = count($predata);
+
+    $totalData = count($predata); // probably wrong
+
     usort($predata, array($this, "comparePoints"));    
 
     foreach ($predata as $d) {

@@ -466,14 +466,14 @@ $(function () {
   // campaign form validation
   const fv = FormValidation.formValidation(addNewCampaignForm, {
     fields: {
-      name: {
+      campaign_name: {
         validators: {
           notEmpty: {
             message: 'Please enter campaign name'
           }
         }
       },
-      company: {
+      company_id: {
         validators: {
           notEmpty: {
             message: 'Please enter your company'
@@ -481,7 +481,7 @@ $(function () {
         }
       }
       ,
-      company_start: {
+      campaign_start: {
         validators: {
           notEmpty: {
             message: 'Please enter start date'
@@ -489,7 +489,7 @@ $(function () {
         }
       }
       ,
-      company_end: {
+      campaign_end: {
         validators: {
           notEmpty: {
             message: 'Please enter end date'
@@ -535,8 +535,8 @@ $(function () {
       error: function (err) {
         offCanvasForm.offcanvas('hide');
         Swal.fire({
-          title: 'Duplicate Entry!',
-          text: 'Your email should be unique.',
+          title: 'Unable to save',
+          text: 'Please check your data and try again',
           icon: 'error',
           customClass: {
             confirmButton: 'btn btn-success'

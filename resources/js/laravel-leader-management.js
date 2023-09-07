@@ -41,8 +41,9 @@ $(function () {
         { data: 'donated' },
         { data: 'converted' },
         { data: 'supported' },
-        { data: 'total' },        
-        { data: 'action' }
+        { data: 'total' }
+        //,        
+        // { data: 'action' }
       ],
       columnDefs: [
         {
@@ -122,7 +123,9 @@ $(function () {
             var $total = full['total'];
             return '<span class="text-body text-truncate">' + $total + '</span>';
           }
-        },        
+        }
+        /*
+        ,        
         {
           // Actions
           targets: -1,
@@ -131,13 +134,16 @@ $(function () {
           orderable: false,
           render: function (data, type, full, meta) {
             return (
+              
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icon edit-record" data-id="${full['donation_id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDonation"><i class="bx bx-edit"></i></button>` +
-              `<button class="btn btn-sm btn-icon delete-record" data-id="${full['donation_id']}"><i class="bx bx-trash"></i></button>` +
+              //`<button class="btn btn-sm btn-icon edit-record" data-id="${full['donation_id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDonation"><i class="bx bx-edit"></i></button>` +
+              //`<button class="btn btn-sm btn-icon delete-record" data-id="${full['donation_id']}"><i class="bx bx-trash"></i></button>` +
               '</div>'
+              
             );
           }
         }
+        */
       ],
       order: [[2, 'desc']],
       dom:
@@ -152,7 +158,7 @@ $(function () {
       language: {
         sLengthMenu: '_MENU_',
         search: '',
-        searchPlaceholder: 'Searchhh..'
+        searchPlaceholder: 'Search..'
       },
       // Buttons with Dropdown
       buttons: [

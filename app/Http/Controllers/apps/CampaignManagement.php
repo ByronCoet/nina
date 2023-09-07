@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class CampaignManagement extends Controller
 {
@@ -19,8 +20,20 @@ class CampaignManagement extends Controller
    */
   public function CampaignManagement()
   {
+
+    $user = Auth::user();
+
+    if ($user->role == "receptionist" || $user->role == "companyadmin" )
+    {
+       $campaigns = Campaign::where(['company_id' => $user->company->id])->get();
+    }
+    else
+    {
+       $campaigns = Campaign::all();
+    }
+
     $companies = Company::all();
-    $campaigns = Campaign::all();
+    
     $roles = Role::all();
     $campaignCount = $campaigns->count();
     Log::info('campaign list called');        
@@ -48,11 +61,13 @@ class CampaignManagement extends Controller
       5 => 'campaign_end', 
     ];
 
+    $user = Auth::user();
+
     Log::info('campaign index called');        
 
     $search = [];
 
-    $totalData = Campaign::count();
+    $totalData =  Campaign::where(['company_id' => $user->company->id ])->count();
 
     $totalFiltered = $totalData;
 
@@ -80,18 +95,30 @@ class CampaignManagement extends Controller
           ->select('campaigns.*', 'companies.company_name' )
           ->orderBy('company_name', $dir);
 
-          if (!empty($comp_search)) {
-            $query->where('company_name', 'LIKE', "%{$comp_search}%");
-          }
+        if (!empty($comp_search)) {
+          $query->where('company_name', 'LIKE', "%{$comp_search}%");
+        }
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin")
+        {
+          $query->where(['campaigns.company_id' => $user->company->id ]);
+        }
 
         $campaigns = $query->get();     
       }
-      else{
+      else
+      {
         Log::info('1');
-        $campaigns =Campaign::offset($start)
+        $query =Campaign::offset($start)
           ->limit($limit)
-          ->orderBy($order, $dir)
-          ->get();
+          ->orderBy($order, $dir);
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['campaigns.company_id' => $user->company->id ]);
+        } 
+
+        $campaigns = $query->get();
       }
     } else {
       $search = $request->input('search.value');
@@ -108,6 +135,11 @@ class CampaignManagement extends Controller
           ->join('companies', 'campaigns.company_id', '=', 'companies.id')
           ->select('campaigns.*', 'companies.company_name' )
           ->orderBy('campaign_name', $dir);
+
+          if ($user->role == "receptionist" || $user->role == "companyadmin" )
+          {
+            $query->where(['campaigns.company_id' => $user->company->id ]);
+          } 
 
           if (!empty($comp_search)) {
             $query->where('company_name', 'LIKE', "%{$comp_search}%");
@@ -133,6 +165,11 @@ class CampaignManagement extends Controller
               $query->where('company_name', '=', "{$comp_search}");
             }
 
+            if ($user->role == "receptionist" || $user->role == "companyadmin" )
+            {
+              $query->where(['campaigns.company_id' => $user->company->id ]);
+            } 
+
             $campaigns = $query->get();
         }
 
@@ -145,9 +182,15 @@ class CampaignManagement extends Controller
             })
             ->join('companies', 'campaigns.company_id', '=', 'companies.id')
             ->select('campaigns.*', 'companies.company_name' );
-            if (!empty($comp_search)) {
-              $query->where('company_name', '=', "{$comp_search}");
-            }
+
+        if (!empty($comp_search)) {
+          $query->where('company_name', '=', "{$comp_search}");
+        }
+
+        if ($user->role == "receptionist" || $user->role == "companyadmin" )
+        {
+          $query->where(['campaigns.company_id' => $user->company->id ]);
+        } 
 
         $totalFiltered = $query->count();
     }
@@ -212,14 +255,26 @@ class CampaignManagement extends Controller
 
     $ID = $request->id;
 
+    $user = Auth::user();
+
+    if ($user->role == "receptionist" || $user->role == "companyadmin")
+    {
+      $cid = $user->company_id;
+    }
+    else
+    {
+      // $cid = $request->company_id;
+      $cid = $request->input('company_id');        
+    }
+
     if ($ID) 
     {
-      // update the value
+      // update the campaign
       Log::info('Update campaign called: ');
       $campaign = Campaign::updateOrCreate(
         ['id' => $ID],
         ['campaign_name' => $request->campaign_name, 
-         'company_id' => $request->company_id,
+         'company_id' => $cid,
          'campaign_start' => $request->campaign_start,  
          'campaign_end' => $request->campaign_end,  
          ]        
@@ -231,9 +286,11 @@ class CampaignManagement extends Controller
     else 
     {
       Log::info('Create campaign called: ');
+      //Log::info("$request");
+      //Log::info($request);
       $campaign = Campaign::updateOrCreate(        
         ['campaign_name' => $request->campaign_name, 
-        'company_id' => $request->company_id,
+        'company_id' => $cid,
         'campaign_start' => $request->campaign_start,  
         'campaign_end' => $request->campaign_end,  ]
       );

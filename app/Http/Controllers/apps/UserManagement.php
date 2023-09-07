@@ -260,10 +260,30 @@ class UserManagement extends Controller
   {
     Log::info('Store called: ' );
 
-    $userID = $request->id;
+    Log::info("$request");
+      Log::info($request);
+
+    $userID = $request->input('userid');
+
+    $user = Auth::user();
+
+    if ($user->role == "receptionist" || $user->role == "companyadmin")
+    {
+      $cid = $user->company_id;
+    }
+    else
+    {
+      // $cid = $request->company_id;
+      $cid = $request->input('company_id');
+    }
 
     if ($userID) {
       // update the value
+
+      Log::info('upd user called: ' );
+
+      //Log::info("$request");
+      //Log::info($request);
       $users = User::updateOrCreate(
         ['id' => $userID],
         [
@@ -272,7 +292,7 @@ class UserManagement extends Controller
           'email' => $request->email, 
           'mobile' => $request->mobile, 
           'role' => $request->role,
-          'company_id' => $request->company_id]
+          'company_id' => $cid]
       );
 
       // user updated
@@ -287,7 +307,7 @@ class UserManagement extends Controller
           ['id' => $userID],
           ['name' => $request->name,
           'surname' => $request->surname,
-          'company_id' => $request->company_id,
+          'company_id' => $cid,
           'email' => $request->email,
           'mobile' => $request->mobile,
           'role' => $request->role,

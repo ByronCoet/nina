@@ -180,7 +180,7 @@ $(function () {
       language: {
         sLengthMenu: '_MENU_',
         search: '',
-        searchPlaceholder: 'Searchhh..'
+        searchPlaceholder: 'Search..'
       },
       // Buttons with Dropdown
       buttons: [

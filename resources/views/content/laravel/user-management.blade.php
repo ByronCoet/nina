@@ -49,66 +49,7 @@
         </div>
       </div>
     </div>
-  </div>
-  <!--
-  <div class="col-sm-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-start justify-content-between">
-          <div class="content-left">
-            <span>Verified Users</span>
-            <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{--$verified--}}</h3>
-              <small class="text-success">(+95%)</small>
-            </div>
-            <small>Recent analytics </small>
-          </div>
-          <span class="badge bg-label-success rounded p-2">
-            <i class="bx bx-user-check bx-sm"></i>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-start justify-content-between">
-          <div class="content-left">
-            <span>Duplicate Users</span>
-            <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{--$userDuplicates--}}</h3>
-              <small class="text-success">(0%)</small>
-            </div>
-            <small>Recent analytics</small>
-          </div>
-          <span class="badge bg-label-danger rounded p-2">
-            <i class="bx bx-group bx-sm"></i>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-start justify-content-between">
-          <div class="content-left">
-            <span>Verification Pending</span>
-            <div class="d-flex align-items-end mt-2">
-              <h3 class="mb-0 me-2">{{--$notVerified--}}</h3>
-              <small class="text-danger">(+6%)</small>
-            </div>
-            <small>Recent analytics</small>
-          </div>
-          <span class="badge bg-label-warning rounded p-2">
-            <i class="bx bx-user-voice bx-sm"></i>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  -->
+  </div>  
 </div>
 
 <!-- Users List Table -->
@@ -166,28 +107,20 @@
           <input type="text" id="add-user-contact" class="form-control phone-mask" placeholder="0712345678" name="mobile" aria-label="0712345678" />
         </div>
 
-        <div class="mb-3">
-          <label class="form-label" for="add-user-company-id">Company</label>
-          <select id="company-id" name="company_id" class="select2 form-select">
-          </select>
-        </div>
+        @if (Auth::user()->role != "receptionist" && Auth::user()->role != "companyadmin")
+          <div class="mb-3">
+            <label class="form-label" for="add-user-company-id">Company</label>
+            <select id="company-id" name="company_id" class="select2 form-select">
+            </select>
+          </div>
+        @endif  
         
         <div class="mb-3">
           <label class="form-label" for="user-role">User Role</label>
           <select id="user-role" class="form-select" name="role">
           </select>
         </div>
-        <!--
-        <div class="mb-4">
-          <label class="form-label" for="user-plan">Select Plan</label>
-          <select id="user-plan" class="form-select">
-            <option value="basic">Basic</option>
-            <option value="enterprise">Enterprise</option>
-            <option value="company">Company</option>
-            <option value="team">Team</option>
-          </select>
-        </div>
-        -->
+        
         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
       </form>

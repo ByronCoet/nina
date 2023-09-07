@@ -29,10 +29,13 @@ class MenuServiceProvider extends ServiceProvider
     $verticalClientMenuJson = file_get_contents(base_path('resources/menu/verticalClientMenu.json'));
     $verticalClientMenuData = json_decode($verticalClientMenuJson);
 
+    $verticalCompanyAdminMenuJson = file_get_contents(base_path('resources/menu/verticalCompanyAdminMenu.json'));
+    $verticalCompanyAdminMenuData = json_decode($verticalCompanyAdminMenuJson);
+
     $horizontalMenuJson = file_get_contents(base_path('resources/menu/horizontalMenu.json'));
     $horizontalMenuData = json_decode($horizontalMenuJson);
 
     // Share all menuData to all the views
-    \View::share('menuData', [$verticalMenuData, $horizontalMenuData, $verticalClientMenuData]);
+    \View::share('menuData', [$verticalMenuData, $horizontalMenuData, $verticalClientMenuData, $verticalCompanyAdminMenuData]);
   }
 }

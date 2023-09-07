@@ -34,6 +34,7 @@ Route::get('/setcurrentcampaign', $controller_path . '\SiteSettingsController@se
 Route::post('/subcamp', $controller_path . '\SiteSettingsController@subcamp')->name('subcamp');
 Route::post('/storecampaign', $controller_path . '\SiteSettingsController@storecampaign')->name('storecampaign');
 
+// new donation new user
 Route::get('/capturenew', $controller_path . '\pages\Capture@capturenew')->name('capture-page-new');
 Route::post('/newdonation', $controller_path . '\pages\Capture@NewDonation');
 

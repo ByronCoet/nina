@@ -52,7 +52,7 @@ $(function () {
       columns: [
         // columns according to JSON
         { data: '' },
-        { data: 'id' },
+        { data: 'userid' },
         { data: 'name' },
         { data: 'surname' },
         { data: 'company' },
@@ -119,16 +119,7 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-block text-nowrap">' +
-              `<button class="btn btn-sm btn-icodn btn-danger edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="bx bx-donate-blood"></i>Donate</button>` +
-              // `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="bx bx-trash"></i></button>` +
-              // '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"> + 
-              // '<i class="bx bx-dots-vertical-rounded"></i></button>' +
-              // '<div class="dropdown-menu dropdown-menu-end m-0">' +
-              //'<a href="' +
-              //userView +
-              //'" class="dropdown-item">View</a>' +
-              //'<a href="javascript:;" class="dropdown-item">Suspend</a>' +
-              //'</div>' +
+              `<button class="btn btn-sm btn-icodn btn-danger edit-record" data-userid="${full['userid']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><i class="bx bx-donate-blood"></i>Donate</button>` +              
               '</div>'
             );
           }
@@ -153,152 +144,7 @@ $(function () {
       
       buttons: [
 
-        /*  {
-          extend: 'collection',
-          className: 'btn btn-outline-secondary dropdown-toggle mx-3',
-          text: '<i class="bx bx-export me-2"></i>Export',
-          buttons: [
-  
-              extend: 'print',
-              
-              title: 'Users',
-              text: '<i class="bx bx-printer me-2" ></i>Print',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3],
-                // prevent avatar to be print
-                format: {
-                  body: function (inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList !== undefined && item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              },
-              customize: function (win) {
-                //customize print view for dark
-                $(win.document.body)
-                  .css('color', config.colors.headingColor)
-                  .css('border-color', config.colors.borderColor)
-                  .css('background-color', config.colors.body);
-                $(win.document.body)
-                  .find('table')
-                  .addClass('compact')
-                  .css('color', 'inherit')
-                  .css('border-color', 'inherit')
-                  .css('background-color', 'inherit');
-              }
-            },
-            {
-              extend: 'csv',
-              title: 'Users',
-              text: '<i class="bx bx-file me-2" ></i>Csv',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3],
-                // prevent avatar to be print
-                format: {
-                  body: function (inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
-            },
-            {
-              extend: 'excel',
-              title: 'Users',
-              text: '<i class="bx bxs-file-export me-2"></i>Excel',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3],
-                // prevent avatar to be display
-                format: {
-                  body: function (inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
-            },
-            {
-              extend: 'pdf',
-              title: 'Users',
-              text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3],
-                // prevent avatar to be display
-                format: {
-                  body: function (inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
-            },
-            {
-              extend: 'copy',
-              title: 'Users',
-              text: '<i class="bx bx-copy me-2" ></i>Copy',
-              className: 'dropdown-item',
-              exportOptions: {
-                columns: [2, 3],
-                // prevent avatar to be copy
-                format: {
-                  body: function (inner, coldex, rowdex) {
-                    if (inner.length <= 0) return inner;
-                    var el = $.parseHTML(inner);
-                    var result = '';
-                    $.each(el, function (index, item) {
-                      if (item.classList.contains('user-name')) {
-                        result = result + item.lastChild.textContent;
-                      } else result = result + item.innerText;
-                    });
-                    return result;
-                  }
-                }
-              }
-            }
-            
-          ]
-        },        
-        {
-          text: '<i class="bx bx-plus me-0 me-sm-2"></i><span class="d-none d-sm-inline-block">Add New User</span>',
-          className: 'add-new btn btn-primary',
-          attr: {
-            'data-bs-toggle': 'offcanvas',
-            'data-bs-target': '#offcanvasAddUser'
-          }
-        }
-        */
+
       ],
       // For responsive popup
       responsive: {
@@ -336,68 +182,13 @@ $(function () {
     });
   }
 
-  // Delete Record
-  $(document).on('click', '.delete-record', function () {
-    var user_id = $(this).data('id'),
-      dtrModal = $('.dtr-bs-modal.show');
 
-    // hide responsive modal in small screen
-    if (dtrModal.length) {
-      dtrModal.modal('hide');
-    }
-
-    // sweetalert for confirmation of delete
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      customClass: {
-        confirmButton: 'btn btn-primary me-3',
-        cancelButton: 'btn btn-label-secondary'
-      },
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.value) {
-        // delete the data
-        $.ajax({
-          type: 'DELETE',
-          url: `${baseUrl}user-list-existing/${user_id}`,
-          success: function () {
-            dt_user.draw();
-          },
-          error: function (error) {
-            console.log(error);
-          }
-        });
-
-        // success sweetalert
-        Swal.fire({
-          icon: 'success',
-          title: 'Deleted!',
-          text: 'The user has been deleted!',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire({
-          title: 'Cancelled',
-          text: 'The User is not deleted!',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        });
-      }
-    });
-  });
-
-  // edit record
+  // edit new donation record
   $(document).on('click', '.edit-record', function () {
-    var user_id = $(this).data('id'),
+    var userid = $(this).data('userid'),
       dtrModal = $('.dtr-bs-modal.show');
+      console.log("userid");
+      console.log(userid);  
 
       const myFlatpickrInstance = $("#eventdate").flatpickr({
         enableTime: false,
@@ -415,103 +206,18 @@ $(function () {
     $('#offcanvasAddUserLabel').html('Capture Donation');
 
     // get data
-    $.get(`${baseUrl}user-list-existing\/${user_id}\/edit`, function (data) {
-      $('#user_id').val(data.users.id);
+    $.get(`${baseUrl}user-list-existing\/${userid}\/edit`, function (data) {
+      $('#userid').val(data.users.userid);
+
       // $('#eventdate').val('');
       
-      console.log("set event date nullyy");
-      //$('#add-user-name').val(data.users.name);
-      //$('#add-user-surname').val(data.users.surname);
-      //$('#add-user-contact').val(data.users.mobile);
-      //$('#add-user-email').val(data.users.email);
-      //$('#add-user-role').val(data.users.role);
+      console.log("received ");
+      console.log(data);
 
-      /*
-      var model = $('#company-id');
-      model.empty();  
-      $.each(data.companies, function(index, element) {
-        var option = document.createElement("option");
-        option.value = element.id;
-        option.text = element.company_name;
-
-        //console.log(element.id);
-        //aconsole.log(data.users.company_id);
-
-        if (element.id === data.users.company_id)
-        {
-          option.selected = true;
-        }
-        model.append(option);
-      });      
-      */
-      /*
-      var model = $('#user-role');
-      model.empty();
-      console.log("roles");
-      $.each(data.roles, function(index, element) {
-        var option = document.createElement("option");
-        option.value = element.role_name;
-        option.text = element.role_name;
-
-        console.log(element.role_name);
-
-        if (element.role_name === data.users.role)
-        {
-          option.selected = true;
-        }
-        
-        model.append(option);
-      });
-      */
     });
   });
 
-  // changing the title and grabbing company details - this is for the admin
-  $('.add-new').on('click', function () {
-      $('#user_id').val(''); //resetting input field
-      $('#offcanvasAddUserLabel').html('Add User');
-
-      const myFlatpickrInstance = $("#eventdate").flatpickr({
-        enableTime: false,
-        altInput: true,
-        allowInput: true,
-      });
-      myFlatpickrInstance.setDate(new Date(), true);
-
-
-      console.log("get companies");
-      // get data
-      $.get(`${baseUrl}all-companies`, function (data) {      
-
-        var model = $('#company-id');
-        model.empty();
-        console.log("get companies 1");
-        $.each(data.companies, function(index, element) {
-          var option = document.createElement("option");
-          option.value = element.id;
-          option.text = element.company_name;
-
-          console.log(element.company_name);
-          
-          model.append(option);
-        });
-
-        var model = $('#user-role');
-        model.empty();
-        console.log("roles");
-        $.each(data.roles, function(index, element) {
-          var option = document.createElement("option");
-          option.value = element.role_name;
-          option.text = element.role_name;
-
-          console.log(element.role_name);
-          
-          model.append(option);
-        });
-        
-      });
-  });
-
+  
   // Filter form control to default size
   // ? setTimeout used for multilingual table initialization
   setTimeout(() => {
@@ -519,7 +225,7 @@ $(function () {
     $('.dataTables_length .form-select').removeClass('form-select-sm');
   }, 300);
 
-  // validating form and updating user's data
+  // validating form and updating donation's data - saving new donation
   const addDonationForm = document.getElementById('addDonationForm');
 
   // user form validation
