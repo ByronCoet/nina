@@ -89,9 +89,11 @@ class LeaderManagement extends Controller
     $order = $columns[$request->input('order.0.column')];
     Log::info('Order: ' . $order);     
 
-    $comp_search = $request->get('extra_search');
+    $comp_search = $request->get('donation_search');
+    $camp_search = $request->get('campaign_search');
 
-    // Log::info('EXTRAAAA: ' . $comp_search);     
+    Log::info('company search: ' . $comp_search);     
+    Log::info('campaign search: ' . $camp_search);     
     
     // Log::info('Order: ' . $order);
     $dir = $request->input('order.0.dir');
@@ -114,6 +116,10 @@ class LeaderManagement extends Controller
 
         if (!empty($comp_search)) {
           $query->where('company_name', 'LIKE', "%{$comp_search}%");
+        }
+
+        if (!empty($camp_search)) {
+          $query->where('campaign_name', 'LIKE', "%{$camp_search}%");
         }
 
         if ($user->role == "receptionist" || $user->role == "companyadmin" )
@@ -172,6 +178,10 @@ class LeaderManagement extends Controller
             $query->where('company_name', 'LIKE', "%{$comp_search}%");
           }
 
+          if (!empty($camp_search)) {
+            $query->where('campaign_name', 'LIKE', "%{$camp_search}%");
+          }
+
           if ($user->role == "receptionist" || $user->role == "companyadmin" )
           {
             $query->where(['donations.company_id' => $user->company->id ]);
@@ -197,6 +207,10 @@ class LeaderManagement extends Controller
               $query->where('company_name', '=', "{$comp_search}");
             }
 
+            if (!empty($camp_search)) {
+              $query->where('campaign_name', 'LIKE', "%{$camp_search}%");
+            }
+
             if ($user->role == "receptionist" || $user->role == "companyadmin" )
             {
               $query->where(['donations.company_id' => $user->company->id ]);
@@ -216,6 +230,9 @@ class LeaderManagement extends Controller
             ->select('donations.*', 'companies.company_name' );
             if (!empty($comp_search)) {
               $query->where('company_name', '=', "{$comp_search}");
+            }
+            if (!empty($camp_search)) {
+              $query->where('campaign_name', 'LIKE', "%{$camp_search}%");
             }
 
             if ($user->role == "receptionist" || $user->role == "companyadmin" )
@@ -241,9 +258,9 @@ class LeaderManagement extends Controller
 
       foreach ($donations as $d) {
         
-        if(isset($predata[$d->user->id])){
-           Log::info('found');
-           $item = $predata[$d->user->id];
+        if(isset($predata[$d->user->id . "|" . $d->campaign_id])){
+           // Log::info('found');
+           $item = $predata[$d->user->id . "|" . $d->campaign_id];
 
            // Log::info($item);
            if ($d->donated == 1) { $dd = $pd; } else { $dd = 0;}          
@@ -255,12 +272,12 @@ class LeaderManagement extends Controller
            $item['total'] = $item['donated_points'] + $item['converted_points'] + $item['supported_points'];
 
            // Log::info($item);
-           $predata[$d->user->id] = $item;
+           $predata[$d->user->id . "|" . $d->campaign_id ] = $item;
         }
         else
         {
 
-          Log::info('not found');
+          // Log::info('not found');
           $nestedData['donation_id'] = $d->id;
           $nestedData['fake_id'] = ++$ids;
           $nestedData['company_name'] = $d->company->company_name;
@@ -279,7 +296,7 @@ class LeaderManagement extends Controller
           $nestedData['supported_points'] = $ss;
           $nestedData['total'] = $nestedData['donated_points'] + $nestedData['converted_points'] + $nestedData['supported_points'];
           // $nestedData['edate'] = $d->event_date;
-          $predata[$d->user->id] = $nestedData;
+          $predata[$d->user->id . "|" . $d->campaign_id] = $nestedData;
         }
       }
     }
@@ -290,11 +307,16 @@ class LeaderManagement extends Controller
 
     usort($predata, array($this, "comparePoints"));    
 
+    $companies = Company::all();    
+    $campaigns = Donation::all();
+
+
     foreach ($predata as $d) {
       $data[] = $d;
     }
 
     // Log::info($data);
+
 
     if ($data) {
       return response()->json([

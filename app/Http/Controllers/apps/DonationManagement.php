@@ -84,9 +84,10 @@ class DonationManagement extends Controller
     $order = $columns[$request->input('order.0.column')];
     Log::info('Order: ' . $order);     
 
-    $comp_search = $request->get('extra_search');
+    $comp_search = $request->get('company_search');
+    $camp_search = $request->get('campaign_search');
 
-    Log::info('EXTRAAAA: ' . $comp_search);     
+    // Log::info('EXTRAAAA: ' . $comp_search);     
     
     // Log::info('Order: ' . $order);
     $dir = $request->input('order.0.dir');
@@ -109,6 +110,10 @@ class DonationManagement extends Controller
 
         if (!empty($comp_search)) {
           $query->where('company_name', 'LIKE', "%{$comp_search}%");
+        }
+
+        if (!empty($camp_search)) {
+          $query->where('campaign_name', 'LIKE', "%{$camp_search}%");
         }
 
         if ($user->role == "receptionist" || $user->role == "companyadmin" )
@@ -168,6 +173,11 @@ class DonationManagement extends Controller
           if (!empty($comp_search)) {
             $query->where('company_name', 'LIKE', "%{$comp_search}%");
           }
+
+          if (!empty($camp_search)) {
+            $query->where('campaign_name', 'LIKE', "%{$camp_search}%");
+          }
+
           if ($user->role == "receptionist" || $user->role == "companyadmin" )
           {
             $query->where(['donations.company_id' => $user->company->id ]);
@@ -209,6 +219,10 @@ class DonationManagement extends Controller
             $query->where('company_name', '=', "{$comp_search}");
           }
 
+          if (!empty($camp_search)) {
+            $query->where('campaign_name', 'LIKE', "%{$camp_search}%");
+          }
+
           if ($user->role == "receptionist" || $user->role == "companyadmin" )
           {
             $query->where(['donations.company_id' => $user->company->id ]);
@@ -230,6 +244,10 @@ class DonationManagement extends Controller
             ->select('donations.*', 'companies.company_name' );
         if (!empty($comp_search)) {
           $query->where('company_name', '=', "{$comp_search}");
+        }
+
+        if (!empty($camp_search)) {
+          $query->where('campaign_name', 'LIKE', "%{$camp_search}%");
         }
 
         if ($user->role == "receptionist" || $user->role == "companyadmin" )

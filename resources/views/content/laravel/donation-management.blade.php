@@ -61,8 +61,16 @@
   @if (Auth::user()->role != "receptionist" && Auth::user()->role != "companyadmin")
     <div class="card-header border-bottom">  
       <h5 class="card-title">Search Filter</h5>
-      <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">      
+      <div class="d-flex justify-content-betweenX align-items-center row py-3 gap-3 gap-md-0">      
         <div class="col-md-4 donation_company"></div>
+        <div class="col-md-4 donation_campaign"></div>
+      </div>
+    </div>
+  @else
+    <div class="card-header border-bottom">  
+      <h5 class="card-title">Search Filter</h5>
+      <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">              
+        <div class="col-md-4 donation_campaign"></div>
       </div>
     </div>
   @endif

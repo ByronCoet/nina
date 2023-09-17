@@ -27,7 +27,8 @@ $(function () {
       ajax: {
         url: baseUrl + 'leaderboard-list',
         data: function(d){          
-          d.extra_search = $('#donationcompany').val();
+          d.donation_search = $('#donationcompany').val();
+          d.campaign_search = $('#donationcampaign').val();
         }
       },      
       columns: [
@@ -352,6 +353,34 @@ $(function () {
               '<select id="donationcompany" class="form-select text-capitalize"><option value=""> Select Company </option></select>'
             )
               .appendTo('.donation_company')
+              .on('change', function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                console.log("got here : " + val);
+                
+                column.search(val ? '^' + val + '$' : '', true, false).draw();
+                //column.search(val ? val  : '').draw();
+                // $('#datatables-donations').DataTable().search(val).draw();
+
+                // this.search(val);
+              });
+
+            column
+              .data()
+              .unique()
+              .sort()
+              .each(function (d, j) {
+                select.append('<option value="' + d + '">' + d + '</option>');
+              });
+          });
+
+          this.api()
+          .columns(3)
+          .every(function () {
+            var column = this;
+            var select = $(
+              '<select id="donationcampaign" class="form-select text-capitalize"><option value=""> Select Campaign </option></select>'
+            )
+              .appendTo('.donation_campaign')
               .on('change', function () {
                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
                 console.log("got here : " + val);
